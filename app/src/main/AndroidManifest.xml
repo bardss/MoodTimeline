@@ -3,19 +3,21 @@
     package="com.jemiola.moodtimeline">
 
   <application
+      android:name="com.jemiola.moodtimeline.base.BaseApplication"
       android:allowBackup="true"
       android:icon="@mipmap/app_round_logo"
       android:label="@string/app_name"
       android:roundIcon="@mipmap/app_round_logo"
       android:supportsRtl="true"
-      android:theme="@style/AppTheme">
-    <activity android:name=".SplashActivity">
+      android:theme="@style/Theme.AppCompat.NoActionBar">
+    <activity android:name=".splash.SplashActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
+    <activity android:name=".timeline.TimelineActivity"/>
   </application>
 
 </manifest>
