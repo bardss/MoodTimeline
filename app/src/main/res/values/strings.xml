@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Mood Timeline</string>
+    <string name="timeline">Timeline</string>
 </resources>

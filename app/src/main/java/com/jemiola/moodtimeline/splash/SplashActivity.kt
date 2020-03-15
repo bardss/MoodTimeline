@@ -8,7 +8,7 @@ import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
 import com.jemiola.moodtimeline.timeline.TimelineActivity
 
-const val splashDelayMilis = 5000L
+const val splashDelayMilis = 2000L
 
 class SplashActivity : BaseActivity() {
 

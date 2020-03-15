@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal">
+
+    <com.jemiola.moodtimeline.customviews.MoodCircle
+        android:id="@+id/moodCircle"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:id="@+id/lineView"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorMoodGood"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moodCircle"
+        app:layout_constraintEnd_toStartOf="@id/noteTextView"
+        app:layout_constraintBottom_toBottomOf="@id/noteTextView"
+        android:elevation="1dp"
+        android:translationY="2dp"/>
+
+    <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/text_size_large"
+        app:layout_constraintBottom_toTopOf="@id/noteTextView"
+        app:layout_constraintStart_toEndOf="@id/moodCircle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+        android:id="@+id/noteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:minLines="2"
+        android:maxLines="4"
+        android:paddingBottom="12dp"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size_medium"
+        android:ellipsize="end"
+        app:layout_constraintStart_toEndOf="@id/moodCircle"
+        app:layout_constraintTop_toBottomOf="@id/moodCircle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
