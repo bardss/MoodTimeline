@@ -10,16 +10,16 @@ import com.jemiola.moodtimeline.data.CircleMood
 import com.jemiola.moodtimeline.data.CircleMood.NONE
 import com.jemiola.moodtimeline.data.CircleState
 import com.jemiola.moodtimeline.data.CircleState.*
-import com.jemiola.moodtimeline.data.MoodCircleState
 import com.jemiola.moodtimeline.utils.ResUtil
 import kotlin.properties.Delegates
 
 class MoodCircle : FrameLayout {
 
-    var state: MoodCircleState by Delegates.observable(
-        MoodCircleState(NONE, DEFAULT)
-    ) { _, _, state ->
-        changeMoodCircleState(state)
+    var state: CircleState by Delegates.observable(DEFAULT) { _, _, state ->
+        changeState(state)
+    }
+    var mood: CircleMood by Delegates.observable(NONE) { _, _, mood ->
+        changeBackground(mood)
     }
     private val stateImageView: ImageView
     private val moodImageView: ImageView
@@ -38,11 +38,6 @@ class MoodCircle : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_mood_circle, this)
         moodImageView = findViewById(R.id.moodImageView)
         stateImageView = findViewById(R.id.stateImageView)
-    }
-
-    private fun changeMoodCircleState(moodCircleState: MoodCircleState) {
-        changeState(moodCircleState.circleState)
-        changeBackground(moodCircleState.mood)
     }
 
     private fun changeBackground(mood: CircleMood) {

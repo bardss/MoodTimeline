@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" 
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    
+
     <ImageView
         android:id="@+id/moodImageView"
         android:layout_width="43dp"
         android:layout_height="43dp"
-        android:src="@drawable/mood_circle_none"
         android:background="@drawable/mood_circle_none"
-        android:elevation="3dp" />
+        android:elevation="3dp"
+        android:src="@drawable/mood_circle_none" />
 
     <ImageView
         android:id="@+id/stateImageView"
         android:layout_width="43dp"
         android:layout_height="43dp"
-        android:src="@drawable/ic_pen"
-        android:padding="10dp"
-        android:visibility="gone"/>
+        android:elevation="4dp"
+        android:padding="12dp" />
 
 </FrameLayout>

@@ -8,7 +8,7 @@ import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
 import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-import com.jemiola.moodtimeline.data.MoodCircleState
+import com.jemiola.moodtimeline.data.CircleState
 import com.jemiola.moodtimeline.data.TimelineItem
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -41,10 +41,23 @@ class TimelineAdapter : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
         holder: ViewHolder
     ) {
         val item = items[position]
-        holder.moodCircle.state = MoodCircleState(item.mood)
+        setupMoodCircle(holder, item)
         holder.dateTextView.text = getFormattedDate(item.date)
         holder.noteTextView.text = item.note
-        holder.lineView.setBackgroundColor(item.mood.color)
+    }
+
+    private fun setupMoodCircle(
+        holder: ViewHolder,
+        item: TimelineItem
+    ) {
+        holder.moodCircle.state = item.state
+        holder.moodCircle.mood = item.mood
+        if (item.state == CircleState.ADD) {
+            holder.lineView.visibility = View.GONE
+        } else {
+            holder.lineView.setBackgroundColor(item.mood.color)
+            holder.lineView.visibility = View.VISIBLE
+        }
     }
 
     private fun getFormattedDate(date: LocalDate): String {
