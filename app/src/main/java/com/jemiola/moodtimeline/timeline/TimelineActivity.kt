@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemActivity
 import com.jemiola.moodtimeline.base.BaseActivity
+import com.jemiola.moodtimeline.data.ExtraKeys
+import com.jemiola.moodtimeline.data.TimelineItem
 import com.jemiola.moodtimeline.databinding.ActivityTimelineBinding
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -35,10 +37,13 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
         (adapter as TimelineAdapter).setItems(items)
     }
 
-    override fun openEditTimelineItemActivity() {
-        startActivity(Intent(this, EditTimelineItemActivity::class.java))
+    override fun openEditTimelineItemActivity(item: TimelineItem) {
+        startActivity(
+            Intent(this, EditTimelineItemActivity::class.java)
+                .putExtra(ExtraKeys.TIMELINE_ITEM, item)
+        )
     }
 
-    override fun openTimelineItemDetails() {
+    override fun openTimelineItemDetails(item: TimelineItem) {
     }
 }

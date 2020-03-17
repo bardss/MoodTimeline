@@ -9,8 +9,8 @@ class TimelineAdapterPresenter {
 
     fun onItemClick(item: TimelineItem, view: TimelineContract.View) {
         when (item.state) {
-            CircleState.ADD, CircleState.EDIT -> view.openEditTimelineItemActivity()
-            CircleState.DEFAULT -> view.openTimelineItemDetails()
+            CircleState.ADD, CircleState.EDIT -> view.openEditTimelineItemActivity(item)
+            CircleState.DEFAULT -> view.openTimelineItemDetails(item)
         }
     }
 

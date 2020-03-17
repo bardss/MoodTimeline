@@ -9,7 +9,7 @@ interface TimelineContract {
         fun getTimelineItems(): List<TimelineItem>
     }
     interface View : BaseView {
-        fun openEditTimelineItemActivity()
-        fun openTimelineItemDetails()
+        fun openEditTimelineItemActivity(item: TimelineItem)
+        fun openTimelineItemDetails(item: TimelineItem)
     }
 }
