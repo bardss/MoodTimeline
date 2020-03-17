@@ -9,24 +9,23 @@
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/moodCircle"
         android:layout_width="43dp"
-        android:layout_height="43dp"
+        android:layout_height="51dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/lineView"
         android:layout_width="3dp"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorMoodGood"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/moodCircle"
-        app:layout_constraintEnd_toStartOf="@id/noteTextView"
+        android:elevation="2dp"
+        android:translationY="2dp"
         app:layout_constraintBottom_toBottomOf="@id/noteTextView"
-        android:elevation="1dp"
-        android:translationY="2dp"/>
+        app:layout_constraintEnd_toStartOf="@id/noteTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/moodCircle" />
 
     <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
         android:id="@+id/dateTextView"
@@ -44,13 +43,13 @@
         android:id="@+id/noteTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:minLines="2"
+        android:ellipsize="end"
         android:maxLines="4"
+        android:minLines="2"
+        android:paddingStart="16dp"
         android:paddingBottom="12dp"
         android:textColor="@color/colorText"
         android:textSize="@dimen/text_size_medium"
-        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@id/moodCircle"
         app:layout_constraintTop_toBottomOf="@id/moodCircle" />
 

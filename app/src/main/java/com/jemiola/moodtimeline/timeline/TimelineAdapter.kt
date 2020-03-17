@@ -54,15 +54,17 @@ class TimelineAdapter : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
         holder.moodCircle.mood = item.mood
         if (item.state == CircleState.ADD) {
             holder.lineView.visibility = View.GONE
+            holder.noteTextView.visibility = View.GONE
         } else {
             holder.lineView.setBackgroundColor(item.mood.color)
             holder.lineView.visibility = View.VISIBLE
+            holder.noteTextView.visibility = View.VISIBLE
         }
     }
 
     private fun getFormattedDate(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("MMMM d")
-        return date.format(formatter)
+        return date.format(formatter).capitalize()
     }
 
     fun setItems(items: List<TimelineItem>) {
