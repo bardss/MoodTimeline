@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">Mood Timeline</string>
     <string name="timeline">Timeline</string>
+    <string name="add_note">Add note</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.jemiola.moodtimeline.timeline
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemActivity
 import com.jemiola.moodtimeline.base.BaseActivity
 import com.jemiola.moodtimeline.databinding.ActivityTimelineBinding
 import org.koin.core.inject
@@ -23,7 +25,7 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
     }
 
     private fun setupTimeline() {
-        binding.timelineRecyclerView.adapter = TimelineAdapter()
+        binding.timelineRecyclerView.adapter = TimelineAdapter(this)
         binding.timelineRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
@@ -31,5 +33,12 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
         val items = presenter.getTimelineItems()
         val adapter = binding.timelineRecyclerView.adapter
         (adapter as TimelineAdapter).setItems(items)
+    }
+
+    override fun openEditTimelineItemActivity() {
+        startActivity(Intent(this, EditTimelineItemActivity::class.java))
+    }
+
+    override fun openTimelineItemDetails() {
     }
 }

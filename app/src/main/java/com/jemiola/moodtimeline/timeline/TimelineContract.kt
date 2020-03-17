@@ -8,5 +8,8 @@ interface TimelineContract {
     interface Presenter : BasePresenter {
         fun getTimelineItems(): List<TimelineItem>
     }
-    interface View : BaseView
+    interface View : BaseView {
+        fun openEditTimelineItemActivity()
+        fun openTimelineItemDetails()
+    }
 }

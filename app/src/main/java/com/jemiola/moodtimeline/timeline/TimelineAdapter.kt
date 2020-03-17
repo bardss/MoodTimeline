@@ -13,7 +13,9 @@ import com.jemiola.moodtimeline.data.TimelineItem
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
-class TimelineAdapter : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
+class TimelineAdapter(
+    private val view: TimelineContract.View
+) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
 
     private var items: List<TimelineItem> = listOf()
 
@@ -42,6 +44,23 @@ class TimelineAdapter : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     ) {
         val item = items[position]
         setupMoodCircle(holder, item)
+        setupText(holder, item)
+        setupOnClicks(holder, item)
+    }
+
+    private fun setupOnClicks(holder: ViewHolder, item: TimelineItem) {
+        holder.timelineItemLayout.setOnClickListener {
+            when (item.state) {
+                CircleState.ADD, CircleState.EDIT -> view.openEditTimelineItemActivity()
+                CircleState.DEFAULT -> view.openTimelineItemDetails()
+            }
+        }
+    }
+
+    private fun setupText(
+        holder: ViewHolder,
+        item: TimelineItem
+    ) {
         holder.dateTextView.text = getFormattedDate(item.date)
         holder.noteTextView.text = item.note
     }
@@ -73,6 +92,7 @@ class TimelineAdapter : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val timelineItemLayout: ViewGroup = view.findViewById(R.id.timelineItemLayout)
         val moodCircle: MoodCircle = view.findViewById(R.id.moodCircle)
         val dateTextView: ComfortaRegularTextView = view.findViewById(R.id.dateTextView)
         val noteTextView: RalewayRegularTextView = view.findViewById(R.id.noteTextView)

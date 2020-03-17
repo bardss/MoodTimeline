@@ -1,11 +1,11 @@
 package com.jemiola.moodtimeline.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
+import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemActivity
 import com.jemiola.moodtimeline.timeline.TimelineActivity
 
 const val splashDelayMilis = 2000L
