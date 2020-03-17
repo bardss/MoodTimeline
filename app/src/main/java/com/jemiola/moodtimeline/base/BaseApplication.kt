@@ -17,7 +17,7 @@ class BaseApplication: Application() {
         startKoin{
             androidLogger()
             androidContext(this@BaseApplication)
-            modules(timelineModule)
+            modules(timelineModule, editTimelineItemModule)
         }
     }
 

@@ -10,13 +10,17 @@ import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.data.CircleState
 import com.jemiola.moodtimeline.data.TimelineItem
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import org.koin.java.KoinJavaComponent.inject
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
 class TimelineAdapter(
     private val view: TimelineContract.View
-) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>(), KoinComponent {
 
+    private val adapterPresenter: TimelineAdapterPresenter by inject()
     private var items: List<TimelineItem> = listOf()
 
     override fun onCreateViewHolder(
@@ -50,10 +54,7 @@ class TimelineAdapter(
 
     private fun setupOnClicks(holder: ViewHolder, item: TimelineItem) {
         holder.timelineItemLayout.setOnClickListener {
-            when (item.state) {
-                CircleState.ADD, CircleState.EDIT -> view.openEditTimelineItemActivity()
-                CircleState.DEFAULT -> view.openTimelineItemDetails()
-            }
+            adapterPresenter.onItemClick(item, view)
         }
     }
 
@@ -61,7 +62,7 @@ class TimelineAdapter(
         holder: ViewHolder,
         item: TimelineItem
     ) {
-        holder.dateTextView.text = getFormattedDate(item.date)
+        holder.dateTextView.text = adapterPresenter.getFormattedDate(item.date)
         holder.noteTextView.text = item.note
     }
 
@@ -79,11 +80,6 @@ class TimelineAdapter(
             holder.lineView.visibility = View.VISIBLE
             holder.noteTextView.visibility = View.VISIBLE
         }
-    }
-
-    private fun getFormattedDate(date: LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("MMMM d")
-        return date.format(formatter).capitalize()
     }
 
     fun setItems(items: List<TimelineItem>) {
