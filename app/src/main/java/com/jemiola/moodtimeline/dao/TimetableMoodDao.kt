@@ -8,8 +8,8 @@ import com.jemiola.moodtimeline.data.databaseobjects.TimelineMoodDO
 @Dao
 interface TimetableMoodDao {
     @Query("SELECT * FROM timelinemooddo")
-    suspend fun getAll(): List<TimelineMoodDO>
+    fun getAll(): List<TimelineMoodDO>
 
     @Insert
-    suspend fun insert(user: TimelineMoodDO)
+    fun insert(timelineMood: TimelineMoodDO)
 }

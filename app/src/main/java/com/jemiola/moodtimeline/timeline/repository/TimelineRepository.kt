@@ -3,6 +3,7 @@ package com.jemiola.moodtimeline.timeline.repository
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication
 import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.LocalDatabase
 import com.jemiola.moodtimeline.data.databaseobjects.TimelineMoodDO
 import com.jemiola.moodtimeline.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.data.local.TimelineMoodBO
@@ -10,14 +11,14 @@ import kotlinx.coroutines.async
 
 class TimelineRepository : BaseRepository() {
 
-    private val timetableDatabase = Room.databaseBuilder(
+    private val database = Room.databaseBuilder(
         BaseApplication.context,
-        TimelineDatabase::class.java, "timetable-database"
+        LocalDatabase::class.java, "edit-timetable-mood-database"
     ).build()
 
     suspend fun getTimetableMoods(): List<TimelineMoodBO> {
         val timetableMoodDOsDeferred = async {
-            timetableDatabase.timetableMoodDao().getAll()
+            database.timetableMoodDao().getAll()
         }
         val timetableMoodDOs = timetableMoodDOsDeferred.await()
         return convertTimetableMoodDOtoBO(timetableMoodDOs)

@@ -46,11 +46,10 @@ class MoodCircle : FrameLayout {
 
     private fun changeState(state: CircleStateBO) {
         when (state) {
-            EDIT -> R.drawable.ic_pen
-            ADD -> R.drawable.ic_plus
+            EDIT -> ResUtil.getDrawable(R.drawable.ic_pen)
+            ADD -> ResUtil.getDrawable(R.drawable.ic_plus)
             DEFAULT -> null
-        }?.also { stateDrawableId ->
-            val stateDrawable = ResUtil.getDrawable(stateDrawableId)
+        }?.also { stateDrawable ->
             stateImageView.setImageDrawable(stateDrawable)
         }
     }

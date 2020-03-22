@@ -1,5 +1,6 @@
 package com.jemiola.moodtimeline.utils
 
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import com.jemiola.moodtimeline.base.BaseApplication
 
@@ -18,6 +19,10 @@ object ResUtil {
 
     fun getColor(resourceId: Int): Int {
         return BaseApplication.context.resources.getColor(resourceId)
+    }
+
+    fun getColorAsColorStateList(resourceId: Int): ColorStateList {
+        return ColorStateList.valueOf(BaseApplication.context.resources.getColor(resourceId))
     }
 
     fun getBoolean(resourceId: Int): Boolean {

@@ -44,6 +44,7 @@
         <com.jemiola.moodtimeline.customviews.MoodCircle
             android:id="@+id/moodCircle"
             android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
             android:layout_width="43dp"
             android:layout_height="51dp"/>
 
@@ -67,9 +68,10 @@
 
     </LinearLayout>
 
-    <EditText
+    <com.jemiola.moodtimeline.customviews.RalewayEditText
+        android:id="@+id/noteEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:lines="5"/>
+        android:layout_marginTop="16dp"/>
+
 </LinearLayout>

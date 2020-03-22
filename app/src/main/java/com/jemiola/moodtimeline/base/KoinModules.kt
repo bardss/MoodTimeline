@@ -2,7 +2,7 @@ package com.jemiola.moodtimeline.base
 
 import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodContract
 import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodPresenter
-import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodRepository
+import com.jemiola.moodtimeline.addtimelinemood.repository.EditTimelineMoodRepository
 import com.jemiola.moodtimeline.timeline.TimelineAdapterPresenter
 import com.jemiola.moodtimeline.timeline.TimelineContract
 import com.jemiola.moodtimeline.timeline.TimelinePresenter

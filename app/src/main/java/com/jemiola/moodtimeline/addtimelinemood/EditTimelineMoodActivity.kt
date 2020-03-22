@@ -6,7 +6,7 @@ import com.jemiola.moodtimeline.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.data.local.CircleStateBO
 import com.jemiola.moodtimeline.data.ExtraKeys
 import com.jemiola.moodtimeline.data.local.TimelineMoodBO
-import com.jemiola.moodtimeline.databinding.ActivityAddTimelineItemBinding
+import com.jemiola.moodtimeline.databinding.ActivityEditTimelineMoodBinding
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
@@ -16,17 +16,24 @@ class EditTimelineMoodActivity : BaseActivity(), EditTimelineMoodContract.View {
     private val presenter: EditTimelineMoodContract.Presenter by inject<EditTimelineMoodPresenter> {
         parametersOf(this)
     }
-    private lateinit var binding: ActivityAddTimelineItemBinding
+    private lateinit var binding: ActivityEditTimelineMoodBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddTimelineItemBinding.inflate(layoutInflater)
+        binding = ActivityEditTimelineMoodBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
     override fun onStart() {
         super.onStart()
         setupView()
+        setupButtons()
+    }
+
+    private fun setupButtons() {
+        binding.acceptImageView.setOnClickListener {
+            presenter.addMood()
+        }
     }
 
     private fun setupView() {
@@ -39,13 +46,12 @@ class EditTimelineMoodActivity : BaseActivity(), EditTimelineMoodContract.View {
         setupMoodCircle()
     }
 
-    override fun setupAddView(mood: TimelineMoodBO) {
-        setItemDate(mood.date)
-        setupMoodCircle()
-    }
-
     override fun navigateBack() {
         onBackPressed()
+    }
+
+    override fun getMoodNote(): String {
+        return binding.noteEditText.text.toString()
     }
 
     private fun setItemDate(date: LocalDate) {

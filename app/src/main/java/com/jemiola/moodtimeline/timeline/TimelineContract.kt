@@ -6,7 +6,7 @@ import com.jemiola.moodtimeline.data.local.TimelineMoodBO
 
 interface TimelineContract {
     interface Presenter : BasePresenter {
-        fun setupTimelineMoods()
+        fun refreshTimelineMoods()
     }
     interface View : BaseView {
         fun openEditTimelineMoodActivity(mood: TimelineMoodBO)

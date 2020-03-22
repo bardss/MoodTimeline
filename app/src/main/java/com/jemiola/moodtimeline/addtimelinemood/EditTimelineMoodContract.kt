@@ -9,11 +9,12 @@ interface EditTimelineMoodContract {
     interface Presenter : BasePresenter {
         fun setupView(mood: TimelineMoodBO)
         fun getFormattedDate(date: LocalDate): String
+        fun addMood()
     }
 
     interface View : BaseView {
         fun setupEditView(mood: TimelineMoodBO)
-        fun setupAddView(mood: TimelineMoodBO)
         fun navigateBack()
+        fun getMoodNote(): String
     }
 }

@@ -23,8 +23,12 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityTimelineBinding.inflate(layoutInflater)
         setupTimeline()
-        presenter.setupTimelineMoods()
         setContentView(binding.root)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.refreshTimelineMoods()
     }
 
     private fun setupTimeline() {

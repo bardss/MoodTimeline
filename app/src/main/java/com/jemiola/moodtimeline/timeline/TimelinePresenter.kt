@@ -19,7 +19,7 @@ class TimelinePresenter(
 
     override val job = Job()
 
-    override fun setupTimelineMoods() {
+    override fun refreshTimelineMoods() {
         launch(Dispatchers.Main) {
             val moodsFromRepository = repository.getTimetableMoods()
             val moods = addAddMoodIfNeeded(moodsFromRepository)
