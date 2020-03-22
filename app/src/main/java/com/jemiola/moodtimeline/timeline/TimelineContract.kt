@@ -2,14 +2,15 @@ package com.jemiola.moodtimeline.timeline
 
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.base.BaseView
-import com.jemiola.moodtimeline.data.TimelineItem
+import com.jemiola.moodtimeline.data.local.TimelineMoodBO
 
 interface TimelineContract {
     interface Presenter : BasePresenter {
-        fun getTimelineItems(): List<TimelineItem>
+        fun setupTimelineMoods()
     }
     interface View : BaseView {
-        fun openEditTimelineItemActivity(item: TimelineItem)
-        fun openTimelineItemDetails(item: TimelineItem)
+        fun openEditTimelineMoodActivity(mood: TimelineMoodBO)
+        fun openTimelineMoodDetails(mood: TimelineMoodBO)
+        fun setTimelineMoods(moods: List<TimelineMoodBO>)
     }
 }

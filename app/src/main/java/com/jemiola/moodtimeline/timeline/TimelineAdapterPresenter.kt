@@ -1,16 +1,16 @@
 package com.jemiola.moodtimeline.timeline
 
-import com.jemiola.moodtimeline.data.CircleState
-import com.jemiola.moodtimeline.data.TimelineItem
+import com.jemiola.moodtimeline.data.local.CircleStateBO
+import com.jemiola.moodtimeline.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
 class TimelineAdapterPresenter {
 
-    fun onItemClick(item: TimelineItem, view: TimelineContract.View) {
-        when (item.state) {
-            CircleState.ADD, CircleState.EDIT -> view.openEditTimelineItemActivity(item)
-            CircleState.DEFAULT -> view.openTimelineItemDetails(item)
+    fun onItemClick(mood: TimelineMoodBO, view: TimelineContract.View) {
+        when (mood.state) {
+            CircleStateBO.ADD, CircleStateBO.EDIT -> view.openEditTimelineMoodActivity(mood)
+            CircleStateBO.DEFAULT -> view.openTimelineMoodDetails(mood)
         }
     }
 

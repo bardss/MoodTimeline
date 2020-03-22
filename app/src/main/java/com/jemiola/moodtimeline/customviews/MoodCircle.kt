@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.data.CircleMood
-import com.jemiola.moodtimeline.data.CircleMood.NONE
-import com.jemiola.moodtimeline.data.CircleState
-import com.jemiola.moodtimeline.data.CircleState.*
+import com.jemiola.moodtimeline.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.data.local.CircleMoodBO.NONE
+import com.jemiola.moodtimeline.data.local.CircleStateBO
+import com.jemiola.moodtimeline.data.local.CircleStateBO.*
 import com.jemiola.moodtimeline.utils.ResUtil
 import kotlin.properties.Delegates
 
 class MoodCircle : FrameLayout {
 
-    var state: CircleState by Delegates.observable(DEFAULT) { _, _, state ->
+    var state: CircleStateBO by Delegates.observable(DEFAULT) { _, _, state ->
         changeState(state)
     }
-    var mood: CircleMood by Delegates.observable(NONE) { _, _, mood ->
+    var mood: CircleMoodBO by Delegates.observable(NONE) { _, _, mood ->
         changeBackground(mood)
     }
     private val stateImageView: ImageView
@@ -40,11 +40,11 @@ class MoodCircle : FrameLayout {
         stateImageView = findViewById(R.id.stateImageView)
     }
 
-    private fun changeBackground(mood: CircleMood) {
+    private fun changeBackground(mood: CircleMoodBO) {
         moodImageView.setImageDrawable(mood.background)
     }
 
-    private fun changeState(state: CircleState) {
+    private fun changeState(state: CircleStateBO) {
         when (state) {
             EDIT -> R.drawable.ic_pen
             ADD -> R.drawable.ic_plus

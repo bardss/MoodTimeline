@@ -1,12 +1,12 @@
 package com.jemiola.moodtimeline.base
 
-import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemContract
-import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemPresenter
-import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemRepository
+import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodContract
+import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodPresenter
+import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodRepository
 import com.jemiola.moodtimeline.timeline.TimelineAdapterPresenter
 import com.jemiola.moodtimeline.timeline.TimelineContract
 import com.jemiola.moodtimeline.timeline.TimelinePresenter
-import com.jemiola.moodtimeline.timeline.TimelineRepository
+import com.jemiola.moodtimeline.timeline.repository.TimelineRepository
 import org.koin.dsl.module
 
 val timelineModule = module {
@@ -18,8 +18,8 @@ val timelineModule = module {
 }
 
 val editTimelineItemModule = module {
-    single { EditTimelineItemRepository() }
-    factory { (view: EditTimelineItemContract.View) ->
-        EditTimelineItemPresenter(view, get())
+    single { EditTimelineMoodRepository() }
+    factory { (view: EditTimelineMoodContract.View) ->
+        EditTimelineMoodPresenter(view, get())
     }
 }

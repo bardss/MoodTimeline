@@ -1,10 +1,12 @@
-package com.jemiola.moodtimeline.data
+package com.jemiola.moodtimeline.data.local
 
 import android.graphics.drawable.Drawable
 import com.jemiola.moodtimeline.R
+import com.jemiola.moodtimeline.data.databaseobjects.MoodDO
+import com.jemiola.moodtimeline.data.databaseobjects.MoodDO.*
 import com.jemiola.moodtimeline.utils.ResUtil
 
-enum class CircleMood(
+enum class CircleMoodBO(
     val color: Int,
     val background: Drawable?
 ) {
@@ -32,4 +34,17 @@ enum class CircleMood(
         ResUtil.getColor(R.color.colorMoodNone),
         ResUtil.getDrawable(R.drawable.mood_circle_none)
     );
+
+    companion object {
+        fun from(mood: MoodDO) : CircleMoodBO {
+            return when (mood) {
+                MoodDO.VERY_GOOD -> VERY_GOOD
+                MoodDO.GOOD -> GOOD
+                MoodDO.MEDIOCRE -> MEDIOCRE
+                MoodDO.BAD -> BAD
+                MoodDO.VERY_BAD -> VERY_BAD
+                MoodDO.NONE -> NONE
+            }
+        }
+    }
 }

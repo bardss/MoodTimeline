@@ -1,19 +1,19 @@
-package com.jemiola.moodtimeline.addtimelineitem
+package com.jemiola.moodtimeline.addtimelinemood
 
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.base.BaseView
-import com.jemiola.moodtimeline.data.TimelineItem
+import com.jemiola.moodtimeline.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
 
-interface EditTimelineItemContract {
+interface EditTimelineMoodContract {
     interface Presenter : BasePresenter {
-        fun setupView(item: TimelineItem)
+        fun setupView(mood: TimelineMoodBO)
         fun getFormattedDate(date: LocalDate): String
     }
 
     interface View : BaseView {
-        fun setupEditView(item: TimelineItem)
-        fun setupAddView(item: TimelineItem)
+        fun setupEditView(mood: TimelineMoodBO)
+        fun setupAddView(mood: TimelineMoodBO)
         fun navigateBack()
     }
 }

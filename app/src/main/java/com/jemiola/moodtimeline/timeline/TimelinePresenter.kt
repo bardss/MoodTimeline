@@ -1,36 +1,50 @@
 package com.jemiola.moodtimeline.timeline
 
-import com.jemiola.moodtimeline.data.CircleMood
-import com.jemiola.moodtimeline.data.CircleState
-import com.jemiola.moodtimeline.data.TimelineItem
+import com.jemiola.moodtimeline.base.BasePresenter
+import com.jemiola.moodtimeline.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.data.local.CircleStateBO
+import com.jemiola.moodtimeline.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.timeline.repository.TimelineRepository
 import com.jemiola.moodtimeline.utils.DefaultClock
-import com.jemiola.moodtimeline.utils.addToFront
+import com.jemiola.moodtimeline.utils.pushToFront
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 
 class TimelinePresenter(
     private val view: TimelineContract.View,
     private val repository: TimelineRepository
-) : TimelineContract.Presenter {
+) : BasePresenter, TimelineContract.Presenter {
 
-    override fun getTimelineItems(): List<TimelineItem> {
-        val itemsFromRepository = repository.getDummyTimelineItems()
-        return if (shouldAddItemBeVisible(itemsFromRepository)) {
-            val addTimelineItem = createAddTimelineItem()
-            itemsFromRepository.addToFront(addTimelineItem)
-        } else itemsFromRepository
+    override val job = Job()
+
+    override fun setupTimelineMoods() {
+        launch(Dispatchers.Main) {
+            val moodsFromRepository = repository.getTimetableMoods()
+            val moods = addAddMoodIfNeeded(moodsFromRepository)
+            view.setTimelineMoods(moods)
+        }
     }
 
-    private fun createAddTimelineItem(): TimelineItem {
-        return TimelineItem(
+    private fun addAddMoodIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {
+        return if (shouldAddMoodBeVisible(moodsFromRepository)) {
+            val addTimelineItem = createAddTimelineMood()
+            moodsFromRepository.pushToFront(addTimelineItem)
+        } else moodsFromRepository
+    }
+
+    private fun createAddTimelineMood(): TimelineMoodBO {
+        return TimelineMoodBO(
             LocalDate.now(DefaultClock.getClock()),
             "",
-            CircleMood.NONE,
-            CircleState.ADD
+            CircleMoodBO.NONE,
+            CircleStateBO.ADD
         )
     }
 
-    private fun shouldAddItemBeVisible(items: List<TimelineItem>): Boolean {
-        return items.none { it.date == LocalDate.now(DefaultClock.getClock()) }
+    private fun shouldAddMoodBeVisible(moods: List<TimelineMoodBO>): Boolean {
+        return moods.none { it.date == LocalDate.now(DefaultClock.getClock()) }
     }
 
 }

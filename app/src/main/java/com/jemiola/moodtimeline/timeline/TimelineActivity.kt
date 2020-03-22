@@ -3,18 +3,19 @@ package com.jemiola.moodtimeline.timeline
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jemiola.moodtimeline.addtimelineitem.EditTimelineItemActivity
+import com.jemiola.moodtimeline.addtimelinemood.EditTimelineMoodActivity
 import com.jemiola.moodtimeline.base.BaseActivity
 import com.jemiola.moodtimeline.data.ExtraKeys
-import com.jemiola.moodtimeline.data.TimelineItem
+import com.jemiola.moodtimeline.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.databinding.ActivityTimelineBinding
+import com.jemiola.moodtimeline.timeline.repository.TimelineRepository
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
 class TimelineActivity : BaseActivity(), TimelineContract.View {
 
     private val presenter: TimelineContract.Presenter by inject<TimelinePresenter> {
-        parametersOf(this)
+        parametersOf(this, TimelineRepository())
     }
     private lateinit var binding: ActivityTimelineBinding
 
@@ -22,7 +23,7 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
         super.onCreate(savedInstanceState)
         binding = ActivityTimelineBinding.inflate(layoutInflater)
         setupTimeline()
-        setDummyTimelineNotes()
+        presenter.setupTimelineMoods()
         setContentView(binding.root)
     }
 
@@ -31,19 +32,18 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
         binding.timelineRecyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun setDummyTimelineNotes() {
-        val items = presenter.getTimelineItems()
+    override fun setTimelineMoods(moods: List<TimelineMoodBO>) {
         val adapter = binding.timelineRecyclerView.adapter
-        (adapter as TimelineAdapter).setItems(items)
+        (adapter as TimelineAdapter).setTimelineMoods(moods)
     }
 
-    override fun openEditTimelineItemActivity(item: TimelineItem) {
+    override fun openEditTimelineMoodActivity(mood: TimelineMoodBO) {
         startActivity(
-            Intent(this, EditTimelineItemActivity::class.java)
-                .putExtra(ExtraKeys.TIMELINE_ITEM, item)
+            Intent(this, EditTimelineMoodActivity::class.java)
+                .putExtra(ExtraKeys.TIMELINE_MOOD, mood)
         )
     }
 
-    override fun openTimelineItemDetails(item: TimelineItem) {
+    override fun openTimelineMoodDetails(mood: TimelineMoodBO) {
     }
 }
