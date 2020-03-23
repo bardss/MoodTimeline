@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.data.local.CircleMoodBO
-import com.jemiola.moodtimeline.data.local.CircleMoodBO.NONE
-import com.jemiola.moodtimeline.data.local.CircleStateBO
-import com.jemiola.moodtimeline.data.local.CircleStateBO.*
+import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.CircleMoodBO.NONE
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO.*
 import com.jemiola.moodtimeline.utils.ResUtil
 import kotlin.properties.Delegates
 

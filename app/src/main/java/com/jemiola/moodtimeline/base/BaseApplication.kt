@@ -16,7 +16,11 @@ class BaseApplication: Application() {
         startKoin{
             androidLogger()
             androidContext(this@BaseApplication)
-            modules(timelineModule, editTimelineItemModule)
+            modules(
+                timelineModule,
+                editTimelineItemModule,
+                splashModule
+            )
         }
     }
 

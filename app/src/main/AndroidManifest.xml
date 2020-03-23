@@ -10,15 +10,15 @@
       android:roundIcon="@mipmap/app_round_logo"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-    <activity android:name=".splash.SplashActivity">
+    <activity android:name="com.jemiola.moodtimeline.views.splash.SplashActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".addtimelinemood.EditTimelineMoodActivity"/>
-    <activity android:name=".timeline.TimelineActivity"/>
+    <activity android:name="com.jemiola.moodtimeline.views.addtimelinemood.EditTimelineMoodActivity"/>
+    <activity android:name="com.jemiola.moodtimeline.views.timeline.TimelineActivity"/>
   </application>
 
 </manifest>

@@ -1,14 +1,32 @@
 package com.jemiola.moodtimeline.base
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
+import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-interface BasePresenter: CoroutineScope {
+abstract class BasePresenter(
+    open val repository: BaseRepository
+): CoroutineScope {
 
-    val job: Job
+    private val job = Job()
     override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
+        get() = job
 
+    fun cancelCoroutines() {
+        repository.cancelCoroutines()
+        coroutineContext.cancelChildren()
+    }
+
+    protected fun <T> createRepositoryCallback(onSuccessAction: (result: T) -> Unit, onErrorAction: () -> Unit): OnRepositoryCallback<T> {
+        return object :
+            OnRepositoryCallback<T> {
+            override fun onSuccess(result: T) {
+                onSuccessAction.invoke(result)
+            }
+
+            override fun onError() {
+                onErrorAction.invoke()
+            }
+        }
+    }
 }
