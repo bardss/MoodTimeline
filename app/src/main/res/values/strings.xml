@@ -1,5 +1,7 @@
 <resources>
-  <string name="app_name">Mood Timeline</string>
+    <string name="app_name">Mood Timeline</string>
     <string name="timeline">Timeline</string>
     <string name="add_note">Add note</string>
+    <string name="statistics">Statistics</string>
+    <string name="settings">Settings</string>
 </resources>

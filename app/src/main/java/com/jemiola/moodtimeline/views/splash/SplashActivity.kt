@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.os.Handler
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
-import com.jemiola.moodtimeline.views.addtimelinemood.EditTimelineMoodPresenter
-import com.jemiola.moodtimeline.views.timeline.TimelineActivity
+import com.jemiola.moodtimeline.views.navigation.NavigationActivity
+import com.jemiola.moodtimeline.views.timeline.TimelineFragment
 import org.koin.core.inject
-import org.koin.core.parameter.parametersOf
 
 const val splashDelayMilis = 2000L
 
@@ -29,6 +28,6 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun openTimelineActivity() {
-        startActivity(Intent(this, TimelineActivity::class.java))
+        startActivity(Intent(this, NavigationActivity::class.java))
     }
 }

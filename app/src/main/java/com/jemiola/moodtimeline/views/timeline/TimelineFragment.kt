@@ -1,26 +1,29 @@
 package com.jemiola.moodtimeline.views.timeline
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jemiola.moodtimeline.views.addtimelinemood.EditTimelineMoodActivity
-import com.jemiola.moodtimeline.base.BaseActivity
-import com.jemiola.moodtimeline.model.data.ExtraKeys
+import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
-import com.jemiola.moodtimeline.databinding.ActivityTimelineBinding
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-class TimelineActivity : BaseActivity(), TimelineContract.View {
+class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
-    private lateinit var binding: ActivityTimelineBinding
+    private lateinit var binding: FragmentTimelineBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityTimelineBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentTimelineBinding.inflate(inflater, container, false)
         setupTimeline()
-        setContentView(binding.root)
+        return binding.root
     }
 
     override fun onStart() {
@@ -30,7 +33,7 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
 
     private fun setupTimeline() {
         binding.timelineRecyclerView.adapter = TimelineAdapter(this)
-        binding.timelineRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.timelineRecyclerView.layoutManager = LinearLayoutManager(context)
     }
 
     override fun setTimelineMoods(moods: List<TimelineMoodBO>) {
@@ -39,10 +42,10 @@ class TimelineActivity : BaseActivity(), TimelineContract.View {
     }
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBO) {
-        startActivity(
-            Intent(this, EditTimelineMoodActivity::class.java)
-                .putExtra(ExtraKeys.TIMELINE_MOOD, mood)
-        )
+//        startActivity(
+//            Intent(this, EditTimelineMoodFragment::class.java)
+//                .putExtra(ExtraKeys.TIMELINE_MOOD, mood)
+//        )
     }
 
     override fun openTimelineMoodDetails(mood: TimelineMoodBO) {

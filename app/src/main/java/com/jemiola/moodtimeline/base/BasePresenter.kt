@@ -18,8 +18,7 @@ abstract class BasePresenter(
     }
 
     protected fun <T> createRepositoryCallback(onSuccessAction: (result: T) -> Unit, onErrorAction: () -> Unit): OnRepositoryCallback<T> {
-        return object :
-            OnRepositoryCallback<T> {
+        return object : OnRepositoryCallback<T> {
             override fun onSuccess(result: T) {
                 onSuccessAction.invoke(result)
             }

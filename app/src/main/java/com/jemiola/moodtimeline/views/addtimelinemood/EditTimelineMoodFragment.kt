@@ -1,25 +1,30 @@
 package com.jemiola.moodtimeline.views.addtimelinemood
 
 import android.os.Bundle
-import com.jemiola.moodtimeline.base.BaseActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
-import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
-import com.jemiola.moodtimeline.databinding.ActivityEditTimelineMoodBinding
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
-class EditTimelineMoodActivity : BaseActivity(), EditTimelineMoodContract.View {
+class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
 
     override val presenter: EditTimelineMoodPresenter by inject { parametersOf(this) }
-    private lateinit var binding: ActivityEditTimelineMoodBinding
+    private lateinit var binding: FragmentEditTimelineMoodBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityEditTimelineMoodBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentEditTimelineMoodBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onStart() {
@@ -35,8 +40,8 @@ class EditTimelineMoodActivity : BaseActivity(), EditTimelineMoodContract.View {
     }
 
     private fun setupView() {
-        val timelineItem = intent.getSerializableExtra(ExtraKeys.TIMELINE_MOOD) as TimelineMoodBO
-        presenter.setupView(timelineItem)
+//        val timelineItem = intent.getSerializableExtra(ExtraKeys.TIMELINE_MOOD) as TimelineMoodBO
+//        presenter.setupView(timelineItem)
     }
 
     override fun setupEditView(mood: TimelineMoodBO) {
@@ -45,7 +50,7 @@ class EditTimelineMoodActivity : BaseActivity(), EditTimelineMoodContract.View {
     }
 
     override fun navigateBack() {
-        onBackPressed()
+//        onBackPressed()
     }
 
     override fun getMoodNote(): String {

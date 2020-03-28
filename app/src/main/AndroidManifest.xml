@@ -17,8 +17,7 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name="com.jemiola.moodtimeline.views.addtimelinemood.EditTimelineMoodActivity"/>
-    <activity android:name="com.jemiola.moodtimeline.views.timeline.TimelineActivity"/>
+    <activity android:name="com.jemiola.moodtimeline.views.navigation.NavigationActivity"/>
   </application>
 
 </manifest>

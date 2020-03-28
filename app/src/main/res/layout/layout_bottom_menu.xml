@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@drawable/bottom_menu_background"
+    android:elevation="1dp">
+
+    <LinearLayout
+        android:id="@+id/statisticsLayout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/statisticsImageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_statistics" />
+
+        <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
+            android:id="@+id/statisticsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/statistics"
+            android:textAlignment="center"
+            android:textColor="@color/colorBottomMenuInactive"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timelineLayout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/timelineImageView"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_timeline" />
+
+        <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
+            android:id="@+id/timelineTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/timeline"
+            android:textAlignment="center"
+            android:textColor="@color/colorBottomMenuInactive"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settingsLayout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/settingsImageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_settings" />
+
+        <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
+            android:id="@+id/settingsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/settings"
+            android:textAlignment="center"
+            android:textColor="@color/colorBottomMenuInactive"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</LinearLayout>
