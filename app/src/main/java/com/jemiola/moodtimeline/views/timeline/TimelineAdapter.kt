@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-import com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
 import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.SizeUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -38,6 +38,15 @@ class TimelineAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         setupTimelineItem(position, holder)
+        addFirstItemPadding(position, holder)
+    }
+
+    private fun addFirstItemPadding(position: Int, holder: ViewHolder) {
+        if (position == 0) {
+            holder.timelineItemLayout.setPadding(
+                0, SizeUtils.dp2px(16f), 0, 0
+            )
+        }
     }
 
     private fun setupTimelineItem(
