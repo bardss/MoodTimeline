@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorTitle">#F0F0F0</color>
+    <color name="colorText">#F0F0F0</color>
+    <color name="colorPrimaryBackground">#232527</color>
+    <color name="colorBottomMenuInactive">#CCCCCC</color>
+    <color name="colorBottomMenuActive">#FFFFFF</color>
+    <color name="colorBottomMenuBackground">#36393C</color>
+    <color name="colorTopIcons">#CCCCCC</color>
+</resources>

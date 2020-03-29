@@ -5,9 +5,11 @@
   <color name="colorAccent">#a3adf7</color>
   <color name="colorTitle">#2F2F2F</color>
   <color name="colorText">#4D4D4D</color>
+  <color name="colorPrimaryBackground">#FAFAFA</color>
   <color name="colorBottomMenuInactive">#707070</color>
   <color name="colorBottomMenuActive">#000000</color>
   <color name="colorBottomMenuBackground">#EFEFEF</color>
+  <color name="colorTopIcons">#000000</color>
   <color name="colorMoodNone">#B4B4B4</color>
   <color name="colorMoodVeryGood">#477100</color>
   <color name="colorMoodGood">#8AB54C</color>
