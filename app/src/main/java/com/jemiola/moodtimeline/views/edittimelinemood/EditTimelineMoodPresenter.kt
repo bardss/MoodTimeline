@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.addtimelinemood
+package com.jemiola.moodtimeline.views.edittimelinemood
 
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO

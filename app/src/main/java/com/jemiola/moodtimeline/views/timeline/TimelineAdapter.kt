@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jemiola.moodtimeline.R
+import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
 import com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
 import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
@@ -87,7 +88,7 @@ class TimelineAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val timelineItemLayout: ViewGroup = view.findViewById(R.id.timelineItemLayout)
         val moodCircle: MoodCircle = view.findViewById(R.id.moodCircle)
-        val dateTextView: ComfortaRegularTextView = view.findViewById(R.id.dateTextView)
+        val dateTextView: ComfortaBoldTextView = view.findViewById(R.id.dateTextView)
         val noteTextView: RalewayRegularTextView = view.findViewById(R.id.noteTextView)
         val lineView: View = view.findViewById(R.id.lineView)
     }

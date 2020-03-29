@@ -19,7 +19,8 @@ class BaseApplication: Application() {
             modules(
                 timelineModule,
                 editTimelineItemModule,
-                splashModule
+                splashModule,
+                navigationModule
             )
         }
     }

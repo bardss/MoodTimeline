@@ -24,6 +24,7 @@ class NavigationActivity : BaseActivity(),
     override val presenter: NavigationPresenter by inject { parametersOf(this) }
     private lateinit var binding: ActivityNavigationBinding
     private lateinit var navigation: FragNavController
+    private val actionsToDoOnResume: MutableList<() -> Any?> = mutableListOf()
 
     override val numberOfRootFragments: Int = 3
     override fun getRootFragment(index: Int): Fragment =
@@ -45,9 +46,19 @@ class NavigationActivity : BaseActivity(),
         setupBottomNavigationClicks()
     }
 
+    override fun onResume() {
+        super.onResume()
+        actionsToDoOnResume.forEach { it.invoke() }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         navigation.onSaveInstanceState(outState)
+    }
+
+    override fun onBackPressed() {
+        if (navigation.currentStack?.size == 1) super.onBackPressed()
+        else navigation.popFragment()
     }
 
     private fun createFragNavController(): FragNavController {
@@ -107,6 +118,26 @@ class NavigationActivity : BaseActivity(),
             statisticsTextView.setTextColor(inactiveColor)
             timelineTextView.setTextColor(inactiveColor)
             settingsTextView.setTextColor(inactiveColor)
+        }
+    }
+
+    override fun popFragment() {
+        performNavControllerAction {
+            navigation.popFragment()
+        }
+    }
+
+    override fun pushFragment(fragment: Fragment) {
+        performNavControllerAction {
+            navigation.pushFragment(fragment)
+        }
+    }
+
+    private fun performNavControllerAction(action: () -> Any?) {
+        if (navigation.isStateSaved) {
+            actionsToDoOnResume.add(action)
+        } else {
+            action.invoke()
         }
     }
 

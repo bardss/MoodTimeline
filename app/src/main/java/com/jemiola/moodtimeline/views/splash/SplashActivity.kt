@@ -24,6 +24,7 @@ class SplashActivity : BaseActivity() {
     private fun openNextActivityWithDelay() {
         Handler().postDelayed({
             openTimelineActivity()
+            finish()
         }, splashDelayMilis)
     }
 

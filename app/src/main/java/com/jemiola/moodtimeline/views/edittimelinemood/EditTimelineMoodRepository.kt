@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.addtimelinemood
+package com.jemiola.moodtimeline.views.edittimelinemood
 
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication

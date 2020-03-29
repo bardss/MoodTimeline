@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
+import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
@@ -32,8 +34,10 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun setupTimeline() {
-        binding.timelineRecyclerView.adapter = TimelineAdapter(this)
-        binding.timelineRecyclerView.layoutManager = LinearLayoutManager(context)
+        with(binding.timelineRecyclerView) {
+            adapter = TimelineAdapter(this@TimelineFragment)
+            layoutManager = LinearLayoutManager(context)
+        }
     }
 
     override fun setTimelineMoods(moods: List<TimelineMoodBO>) {
@@ -42,10 +46,15 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBO) {
-//        startActivity(
-//            Intent(this, EditTimelineMoodFragment::class.java)
-//                .putExtra(ExtraKeys.TIMELINE_MOOD, mood)
-//        )
+        val editTimelineMoodFragment = EditTimelineMoodFragment()
+        editTimelineMoodFragment.arguments = createEditTimelineMoodBundle(mood)
+        pushFragment(editTimelineMoodFragment)
+    }
+
+    private fun createEditTimelineMoodBundle(mood: TimelineMoodBO) : Bundle{
+        return Bundle().apply {
+            putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
+        }
     }
 
     override fun openTimelineMoodDetails(mood: TimelineMoodBO) {

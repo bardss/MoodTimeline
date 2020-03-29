@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.addtimelinemood
+package com.jemiola.moodtimeline.views.edittimelinemood
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
+import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
@@ -40,8 +41,9 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     private fun setupView() {
-//        val timelineItem = intent.getSerializableExtra(ExtraKeys.TIMELINE_MOOD) as TimelineMoodBO
-//        presenter.setupView(timelineItem)
+        (arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO)?.let {
+            presenter.setupView(it)
+        }
     }
 
     override fun setupEditView(mood: TimelineMoodBO) {
@@ -50,7 +52,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     override fun navigateBack() {
-//        onBackPressed()
+        popFragment()
     }
 
     override fun getMoodNote(): String {

@@ -5,18 +5,20 @@
 
     <ImageView
         android:id="@+id/moodImageView"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
-        android:background="@drawable/mood_circle_none"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/mood_circle_none"
         android:elevation="3dp"
         android:src="@drawable/mood_circle_none" />
 
     <ImageView
         android:id="@+id/stateImageView"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
         android:elevation="4dp"
-        android:padding="12dp" />
+        android:padding="6dp" />
 
 </FrameLayout>
