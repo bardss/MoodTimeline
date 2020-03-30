@@ -30,10 +30,7 @@ class TimelinePresenter(
         return if (shouldAddMoodBeVisible(moodsFromRepository)) {
             val addTimelineItem = createAddTimelineMood()
             moodsFromRepository.pushToFront(addTimelineItem)
-        } else {
-            val addTimelineItem = createAddTimelineMood()
-            moodsFromRepository.pushToFront(addTimelineItem)
-        }
+        } else moodsFromRepository
     }
 
     private fun createAddTimelineMood(): TimelineMoodBO {

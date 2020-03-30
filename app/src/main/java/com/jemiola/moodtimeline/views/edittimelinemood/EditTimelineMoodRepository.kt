@@ -26,7 +26,7 @@ class EditTimelineMoodRepository : BaseRepository() {
         return TimelineMoodDO(
             mood.note,
             mood.date,
-            MoodDO.from(mood.mood)
+            MoodDO.from(mood.circleMood)
         )
     }
 

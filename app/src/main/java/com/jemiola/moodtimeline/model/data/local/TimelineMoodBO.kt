@@ -6,6 +6,6 @@ import java.io.Serializable
 data class TimelineMoodBO(
     val date: LocalDate,
     val note: String,
-    val mood: CircleMoodBO,
-    val state: CircleStateBO = CircleStateBO.DEFAULT
+    val circleMood: CircleMoodBO,
+    val circleState: CircleStateBO = CircleStateBO.DEFAULT
 ) : Serializable

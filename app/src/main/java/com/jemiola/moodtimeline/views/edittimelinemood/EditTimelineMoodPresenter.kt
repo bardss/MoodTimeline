@@ -15,7 +15,7 @@ class EditTimelineMoodPresenter(
 ) : BasePresenter(repository), EditTimelineMoodContract.Presenter {
 
     override fun setupView(mood: TimelineMoodBO) {
-        when (mood.state) {
+        when (mood.circleState) {
             EDIT, ADD -> view.setupEditView(mood)
             DEFAULT -> view.navigateBack()
         }
@@ -32,7 +32,7 @@ class EditTimelineMoodPresenter(
             val moodToAdd = TimelineMoodBO(
                 date = LocalDate.now(DefaultClock.getClock()),
                 note = noteFromView,
-                mood = CircleMoodBO.GOOD
+                circleMood = CircleMoodBO.GOOD
             )
             repository.addMood(moodToAdd)
         }

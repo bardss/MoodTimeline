@@ -10,6 +10,7 @@ import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -77,13 +78,15 @@ class TimelineAdapter(
         holder: ViewHolder,
         mood: TimelineMoodBO
     ) {
-        holder.moodCircle.state = mood.state
-        holder.moodCircle.mood = mood.mood
-        if (mood.state == CircleStateBO.ADD) {
+        holder.moodCircle.state = mood.circleState
+        holder.moodCircle.mood = mood.circleMood
+        if (mood.circleState == CircleStateBO.ADD) {
             holder.lineView.visibility = View.GONE
             holder.noteTextView.visibility = View.GONE
         } else {
-            holder.lineView.setBackgroundColor(mood.mood.color)
+            holder.lineView.setBackgroundColor(
+                ResUtil.getColor(mood.circleMood.colorId)
+            )
             holder.lineView.visibility = View.VISIBLE
             holder.noteTextView.visibility = View.VISIBLE
         }

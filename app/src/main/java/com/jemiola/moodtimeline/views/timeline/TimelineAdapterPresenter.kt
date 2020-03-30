@@ -8,7 +8,7 @@ import org.threeten.bp.format.DateTimeFormatter
 class TimelineAdapterPresenter {
 
     fun onItemClick(mood: TimelineMoodBO, view: TimelineContract.View) {
-        when (mood.state) {
+        when (mood.circleState) {
             CircleStateBO.ADD, CircleStateBO.EDIT -> view.openEditTimelineMoodActivity(mood)
             CircleStateBO.DEFAULT -> view.openTimelineMoodDetails(mood)
         }

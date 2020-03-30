@@ -41,7 +41,9 @@ class MoodCircle : FrameLayout {
     }
 
     private fun changeBackground(mood: CircleMoodBO) {
-        moodImageView.setImageDrawable(mood.background)
+        moodImageView.setImageDrawable(
+            ResUtil.getDrawable(mood.backgroundId)
+        )
     }
 
     private fun changeState(state: CircleStateBO) {
