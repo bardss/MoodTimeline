@@ -27,6 +27,10 @@ class EditTimelineMoodPresenter(
     }
 
     override fun addMood() {
+        val callback = createRepositoryCallback<Unit>(
+            onSuccessAction = { view.navigateBack() },
+            onErrorAction = {}
+        )
         launch {
             val noteFromView = view.getMoodNote()
             val moodToAdd = TimelineMoodBO(
@@ -34,10 +38,7 @@ class EditTimelineMoodPresenter(
                 note = noteFromView,
                 circleMood = CircleMoodBO.GOOD
             )
-            repository.addMood(moodToAdd)
+            repository.addMood(moodToAdd, callback)
         }
-        view.navigateBack()
     }
-
-
 }
