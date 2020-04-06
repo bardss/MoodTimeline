@@ -33,11 +33,20 @@ class MoodCircle : FrameLayout {
         attrs,
         defStyleAttr
     )
-
     init {
         LayoutInflater.from(context).inflate(R.layout.view_mood_circle, this)
         moodImageView = findViewById(R.id.moodImageView)
         stateImageView = findViewById(R.id.stateImageView)
+        setupStatePadding()
+    }
+
+    private fun setupStatePadding() {
+        viewTreeObserver.addOnGlobalLayoutListener {
+            stateImageView.layoutParams = stateImageView.layoutParams.apply {
+                width = moodImageView.width / 2
+                height = moodImageView.height / 2
+            }
+        }
     }
 
     private fun changeBackground(mood: CircleMoodBO) {

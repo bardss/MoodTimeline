@@ -9,8 +9,8 @@
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/moodCircle"
-        android:layout_width="36dp"
-        android:layout_height="40dp"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,6 +19,7 @@
         android:layout_width="4dp"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorMoodGood"
         app:layout_constraintBottom_toBottomOf="@id/noteTextView"
@@ -29,8 +30,8 @@
     <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
         android:id="@+id/dateTextView"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_gravity="center_vertical"
+        android:layout_height="41dp"
+        android:gravity="center"
         android:layout_marginStart="16dp"
         android:textColor="@color/colorTitle"
         android:textSize="@dimen/text_size_medium"

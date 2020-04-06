@@ -34,7 +34,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginEnd="6dp"
-            android:src="@drawable/ic_checked" />
+            android:src="@drawable/ic_checked"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -49,36 +50,21 @@
         android:layout_marginEnd="2dp"
         android:translationY="2dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.jemiola.moodtimeline.customviews.MoodCircle
+        android:id="@+id/moodCircle"
         android:layout_marginTop="8dp"
+        android:layout_width="61dp"
+        android:layout_height="61dp"
+        android:layout_gravity="center"/>
+
+    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+        android:id="@+id/editedDayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center">
-
-        <com.jemiola.moodtimeline.customviews.MoodCircle
-            android:id="@+id/moodCircle"
-            android:layout_width="36dp"
-            android:layout_height="40dp"/>
-
-        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-            android:id="@+id/editedDayTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/colorTitle"
-            android:textSize="@dimen/text_size_large" />
-
-        <ImageView
-            android:id="@+id/addPictureImageView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_add_picture" />
-
-    </LinearLayout>
+        android:textColor="@color/colorTitle"
+        android:layout_marginTop="3dp"
+        android:textSize="@dimen/text_size_xlarge" />
 
     <com.jemiola.moodtimeline.customviews.RalewayEditText
         android:id="@+id/noteEditText"
