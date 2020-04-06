@@ -23,7 +23,8 @@ class TimelineRepository : BaseRepository() {
             },
             callback = {
                 val timelineMoodBOs = convertTimetableMoodDOtoBO(it)
-                callback.onSuccess(timelineMoodBOs)
+                val moodsInCorrectOrder = timelineMoodBOs.reversed()
+                callback.onSuccess(moodsInCorrectOrder)
             }
         )
     }
