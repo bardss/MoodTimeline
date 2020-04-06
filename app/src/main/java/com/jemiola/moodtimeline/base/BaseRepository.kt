@@ -14,18 +14,20 @@ abstract class BaseRepository : KoinComponent, CoroutineScope {
         coroutineContext.cancelChildren()
     }
 
-    fun <T: Any> launchCallbackRequest(request: () -> T, callback: (T) -> Unit) {
-        launch {
-            val response = request.invoke()
-            launch(Dispatchers.Main) {
-                callback.invoke(response)
+    fun <T: Any> launchCallbackRequest(
+        request: () -> T,
+        onSuccess: (T) -> Unit,
+        onError: (Throwable) -> Unit) {
+        try {
+            launch {
+                val response = request.invoke()
+                launch(Dispatchers.Main) {
+                    onSuccess.invoke(response)
+                }
             }
-        }
-    }
-
-    fun launchNoCallbackRequest(request: () -> Unit) {
-        launch {
-            request.invoke()
+        } catch (error: Throwable) {
+            cancel()
+            onError.invoke(error)
         }
     }
 

@@ -21,11 +21,12 @@ class TimelineRepository : BaseRepository() {
             request = {
                 database.timelineMoodDao().getAll()
             },
-            callback = {
+            onSuccess = {
                 val timelineMoodBOs = convertTimetableMoodDOtoBO(it)
                 val moodsInCorrectOrder = timelineMoodBOs.reversed()
                 callback.onSuccess(moodsInCorrectOrder)
-            }
+            },
+            onError = { callback.onError() }
         )
     }
 

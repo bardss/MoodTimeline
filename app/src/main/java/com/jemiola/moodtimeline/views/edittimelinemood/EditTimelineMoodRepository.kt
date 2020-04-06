@@ -22,9 +22,8 @@ class EditTimelineMoodRepository : BaseRepository() {
                 val timelineMoodDO = convertMoodBOtoDO(timelineMood)
                 database.timelineMoodDao().insert(timelineMoodDO)
             },
-            callback = {
-                callback.onSuccess(Unit)
-            }
+            onSuccess = { callback.onSuccess(it) },
+            onError = { callback.onError() }
         )
     }
 
