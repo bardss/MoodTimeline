@@ -35,7 +35,7 @@
             android:layout_gravity="center"
             android:layout_marginEnd="6dp"
             android:src="@drawable/ic_checked"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
     </LinearLayout>
 
@@ -50,10 +50,10 @@
         android:layout_marginEnd="2dp"
         android:translationY="2dp"/>
 
-    <com.jemiola.moodtimeline.customviews.MoodCircle
-        android:id="@+id/moodCircle"
+    <com.jemiola.moodtimeline.customviews.ChooseMoodCircle
+        android:id="@+id/chooseMoodCircle"
         android:layout_marginTop="8dp"
-        android:layout_width="61dp"
+        android:layout_width="match_parent"
         android:layout_height="61dp"
         android:layout_gravity="center"/>
 

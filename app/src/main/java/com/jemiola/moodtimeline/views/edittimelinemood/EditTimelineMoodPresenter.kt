@@ -33,10 +33,11 @@ class EditTimelineMoodPresenter(
         )
         launch {
             val noteFromView = view.getMoodNote()
+            val mood = view.getSelectedMood()
             val moodToAdd = TimelineMoodBO(
                 date = LocalDate.now(DefaultClock.getClock()),
                 note = noteFromView,
-                circleMood = CircleMoodBO.GOOD
+                circleMood = mood
             )
             repository.addMood(moodToAdd, callback)
         }

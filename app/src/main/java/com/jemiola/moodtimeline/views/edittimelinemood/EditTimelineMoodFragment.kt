@@ -32,6 +32,14 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         super.onStart()
         setupView()
         setupButtons()
+        setupAcceptButtonVisibilityChange()
+    }
+
+    private fun setupAcceptButtonVisibilityChange() {
+        binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
+            if (mood == CircleMoodBO.NONE) binding.acceptImageView.visibility = View.INVISIBLE
+            else binding.acceptImageView.visibility = View.VISIBLE
+        }
     }
 
     private fun setupButtons() {
@@ -41,22 +49,16 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     private fun setupView() {
-        (arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO)?.let {
-            presenter.setupView(it)
-        }
+        val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
+        mood?.let { presenter.setupView(it) }
     }
 
     override fun setupEditView(mood: TimelineMoodBO) {
         setItemDate(mood.date)
-        setupMoodCircle()
     }
 
     override fun navigateBack() {
         popFragment()
-    }
-
-    override fun getMoodNote(): String {
-        return binding.noteEditText.text.toString()
     }
 
     private fun setItemDate(date: LocalDate) {
@@ -64,8 +66,11 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         binding.editedDayTextView.text = formattedDate
     }
 
-    private fun setupMoodCircle() {
-        binding.moodCircle.mood = CircleMoodBO.NONE
-        binding.moodCircle.state = CircleStateBO.EDIT
+    override fun getMoodNote(): String {
+        return binding.noteEditText.text.toString()
+    }
+
+    override fun getSelectedMood(): CircleMoodBO {
+        return binding.chooseMoodCircle.selectedMood
     }
 }

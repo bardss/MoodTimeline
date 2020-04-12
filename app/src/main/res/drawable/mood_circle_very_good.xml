@@ -4,5 +4,5 @@
     <solid android:color="@color/colorPrimaryBackground" />
     <stroke
         android:width="4dip"
-        android:color="@color/colorMoodGood" />
+        android:color="@color/colorMoodVeryGood" />
 </shape>

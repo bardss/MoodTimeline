@@ -33,6 +33,7 @@ class MoodCircle : FrameLayout {
         attrs,
         defStyleAttr
     )
+
     init {
         LayoutInflater.from(context).inflate(R.layout.view_mood_circle, this)
         moodImageView = findViewById(R.id.moodImageView)
@@ -43,8 +44,8 @@ class MoodCircle : FrameLayout {
     private fun setupStatePadding() {
         viewTreeObserver.addOnGlobalLayoutListener {
             stateImageView.layoutParams = stateImageView.layoutParams.apply {
-                width = moodImageView.width / 2
-                height = moodImageView.height / 2
+                width = (moodImageView.width / 3) * 2
+                height = (moodImageView.height / 3) * 2
             }
         }
     }
@@ -60,7 +61,7 @@ class MoodCircle : FrameLayout {
             EDIT -> ResUtil.getDrawable(R.drawable.ic_edit)
             ADD -> ResUtil.getDrawable(R.drawable.ic_plus)
             DEFAULT -> null
-        }?.also { stateDrawable ->
+        }.also { stateDrawable ->
             stateImageView.setImageDrawable(stateDrawable)
         }
     }

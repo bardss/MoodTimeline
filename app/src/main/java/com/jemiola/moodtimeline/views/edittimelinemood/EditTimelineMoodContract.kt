@@ -1,5 +1,6 @@
 package com.jemiola.moodtimeline.views.edittimelinemood
 
+import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
 
@@ -14,5 +15,6 @@ interface EditTimelineMoodContract {
         fun setupEditView(mood: TimelineMoodBO)
         fun navigateBack()
         fun getMoodNote(): String
+        fun getSelectedMood(): CircleMoodBO
     }
 }
