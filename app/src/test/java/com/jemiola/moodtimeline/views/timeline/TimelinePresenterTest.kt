@@ -29,10 +29,11 @@ class TimelinePresenterTest {
         every { DefaultClock.getClock() } returns testClock
         every { view.setTimelineMoods(any()) } returns Unit
         val testMoodBO = TimelineMoodBO(
-            LocalDate.now(DefaultClock.getClock()),
-            "",
-            CircleMoodBO.NONE,
-            CircleStateBO.ADD
+            date = LocalDate.now(DefaultClock.getClock()),
+            note = "",
+            circleMood = CircleMoodBO.NONE,
+            circleState = CircleStateBO.ADD,
+            picturePath = ""
         )
         val result: List<TimelineMoodBO> = listOf(testMoodBO)
         every { repository.getTimetableMoods(any()) } answers {

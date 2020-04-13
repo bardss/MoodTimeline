@@ -10,7 +10,7 @@ class ListUtilTest {
         val itemToPush = 5
         val firstItem = 1
         val secondItem = 2
-        val items = listOf(firstItem, secondItem)
+        val items = mutableListOf(firstItem, secondItem)
         val updatedList = items.pushToFront(itemToPush)
         assertEquals(updatedList[0], itemToPush)
         assertEquals(updatedList[1], firstItem)
@@ -21,7 +21,7 @@ class ListUtilTest {
     @Test
     fun `pushToFront adds item to the front of the list case 2`(){
         val itemToPush = 5
-        val items = listOf<Int>()
+        val items = mutableListOf<Int>()
         val updatedList = items.pushToFront(itemToPush)
         assertEquals(updatedList[0], itemToPush)
         assertEquals(updatedList.size, 1)

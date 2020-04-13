@@ -17,10 +17,11 @@ class TimelineAdapterPresenterTest {
         val circleMoodState = CircleStateBO.ADD
         val adapterPresenter = TimelineAdapterPresenter()
         val mood = TimelineMoodBO(
-            LocalDate.MAX,
-            "",
-            CircleMoodBO.BAD,
-            circleMoodState
+            date = LocalDate.MAX,
+            note = "",
+            circleMood = CircleMoodBO.BAD,
+            circleState = circleMoodState,
+            picturePath = ""
         )
         val view: TimelineContract.View = mockk()
         every { view.openEditTimelineMoodActivity(any()) } returns Unit
@@ -33,10 +34,11 @@ class TimelineAdapterPresenterTest {
         val circleMoodState = CircleStateBO.EDIT
         val adapterPresenter = TimelineAdapterPresenter()
         val mood = TimelineMoodBO(
-            LocalDate.MAX,
-            "",
-            CircleMoodBO.BAD,
-            circleMoodState
+            date = LocalDate.MAX,
+            note = "",
+            circleMood = CircleMoodBO.BAD,
+            circleState = circleMoodState,
+            picturePath = ""
         )
         val view: TimelineContract.View = mockk()
         every { view.openEditTimelineMoodActivity(any()) } returns Unit
@@ -49,10 +51,11 @@ class TimelineAdapterPresenterTest {
         val circleMoodState = CircleStateBO.DEFAULT
         val adapterPresenter = TimelineAdapterPresenter()
         val mood = TimelineMoodBO(
-            LocalDate.MAX,
-            "",
-            CircleMoodBO.BAD,
-            circleMoodState
+            date = LocalDate.MAX,
+            note = "",
+            circleMood = CircleMoodBO.BAD,
+            circleState = circleMoodState,
+            picturePath = ""
         )
         val view: TimelineContract.View = mockk()
         every { view.openTimelineMoodDetails(any()) } returns Unit
