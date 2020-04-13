@@ -9,12 +9,16 @@ interface EditTimelineMoodContract {
         fun setupView(mood: TimelineMoodBO)
         fun getFormattedDate(date: LocalDate): String
         fun addMood()
+        fun editMood()
+        fun saveOpenedMoodId(id: Int?)
     }
 
     interface View {
-        fun setupEditView(mood: TimelineMoodBO)
         fun navigateBack()
         fun getMoodNote(): String
         fun getSelectedMood(): CircleMoodBO
+        fun setupEditView(mood: TimelineMoodBO)
+        fun setupAddView(mood: TimelineMoodBO)
+        fun getPicturePath(): String
     }
 }

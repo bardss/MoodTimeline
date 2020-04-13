@@ -17,6 +17,7 @@ val MARGIN_BETWEEN_CIRCLES = SizeUtils.dp2px(10f)
 class ChooseMoodCircle : FrameLayout {
 
     var selectedMood: CircleMoodBO by Delegates.observable(CircleMoodBO.NONE) { _, _, value ->
+        mediocreCircle.mood = value
         onSelectedMoodChange.invoke(value)
     }
 
@@ -53,10 +54,10 @@ class ChooseMoodCircle : FrameLayout {
     private fun setupInitialState() {
         mediocreCircle.state = CircleStateBO.EDIT
         mediocreCircle.setOnClickListener { expand() }
-        veryGoodCircle.setOnClickListener { collapse(CircleMoodBO.VERY_GOOD) }
-        goodCircle.setOnClickListener { collapse(CircleMoodBO.GOOD) }
-        badCircle.setOnClickListener { collapse(CircleMoodBO.BAD) }
-        veryBadCircle.setOnClickListener { collapse(CircleMoodBO.VERY_BAD) }
+        veryGoodCircle.setOnClickListener { selectMood(CircleMoodBO.VERY_GOOD) }
+        goodCircle.setOnClickListener { selectMood(CircleMoodBO.GOOD) }
+        badCircle.setOnClickListener { selectMood(CircleMoodBO.BAD) }
+        veryBadCircle.setOnClickListener { selectMood(CircleMoodBO.VERY_BAD) }
     }
 
     private fun setupMoodColors() {
@@ -71,16 +72,15 @@ class ChooseMoodCircle : FrameLayout {
         if (!expanded) {
             mediocreCircle.state = CircleStateBO.DEFAULT
             mediocreCircle.mood = CircleMoodBO.MEDIOCRE
-            mediocreCircle.setOnClickListener { collapse(CircleMoodBO.MEDIOCRE) }
+            mediocreCircle.setOnClickListener { selectMood(CircleMoodBO.MEDIOCRE) }
             circleExpandAnimation()
             expanded = true
         }
     }
 
-    private fun collapse(mood: CircleMoodBO) {
+    private fun selectMood(mood: CircleMoodBO) {
         if (expanded) {
             mediocreCircle.state = CircleStateBO.EDIT
-            mediocreCircle.mood = mood
             selectedMood = mood
             mediocreCircle.setOnClickListener { expand() }
             circleCollapseAnimation()
@@ -91,10 +91,10 @@ class ChooseMoodCircle : FrameLayout {
 
     private fun circleExpandAnimation() {
         val distance = mediocreCircle.width + MARGIN_BETWEEN_CIRCLES
-        AnimUtils.animateMove(ANIM_DURATION, -(distance * 2), veryGoodCircle)
-        AnimUtils.animateMove(ANIM_DURATION, -distance, goodCircle)
-        AnimUtils.animateMove(ANIM_DURATION, distance, badCircle)
-        AnimUtils.animateMove(ANIM_DURATION, distance * 2, veryBadCircle)
+        AnimUtils.animateMove(ANIM_DURATION, -(distance * 2), veryBadCircle)
+        AnimUtils.animateMove(ANIM_DURATION, -distance, badCircle)
+        AnimUtils.animateMove(ANIM_DURATION, distance, goodCircle)
+        AnimUtils.animateMove(ANIM_DURATION, distance * 2, veryGoodCircle)
     }
 
     private fun circleCollapseAnimation() {

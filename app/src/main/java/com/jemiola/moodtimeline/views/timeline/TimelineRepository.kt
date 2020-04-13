@@ -33,9 +33,11 @@ class TimelineRepository : BaseRepository() {
     private fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDO>): List<TimelineMoodBO> {
         return timetableMoodDOs.map {
             TimelineMoodBO(
-                it.date,
-                it.note,
-                CircleMoodBO.from(it.mood)
+                id = it.id,
+                date = it.date,
+                note = it.note,
+                circleMood = CircleMoodBO.from(it.mood),
+                picturePath = it.picturePath
             )
         }
     }

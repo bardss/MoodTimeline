@@ -9,6 +9,7 @@ import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -24,6 +25,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTimelineBinding.inflate(inflater, container, false)
+        setupStoragePermissions()
         setupTimeline()
         return binding.root
     }
@@ -31,6 +33,12 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     override fun onStart() {
         super.onStart()
         presenter.refreshTimelineMoods()
+    }
+
+    private fun setupStoragePermissions() {
+        if (!PermissionsUtil.isStoragePermissionGranted()) {
+            PermissionsUtil.askForStoragePermission()
+        }
     }
 
     private fun setupTimeline() {

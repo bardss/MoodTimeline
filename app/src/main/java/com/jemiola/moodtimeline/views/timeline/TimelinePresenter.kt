@@ -27,26 +27,43 @@ class TimelinePresenter(
     }
 
     private fun addAddMoodIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {
-        return if (shouldAddMoodBeVisible(moodsFromRepository)) {
-            val addTimelineItem = createAddTimelineMood()
-            moodsFromRepository.pushToFront(addTimelineItem)
-        } else {
-            val addTimelineItem = createAddTimelineMood()
-            moodsFromRepository.pushToFront(addTimelineItem)
+        val editableMoods = moodsFromRepository.toMutableList()
+        return when {
+            shouldAddMoodBeVisible(moodsFromRepository) -> {
+                val addTimelineItem = createAddTimelineMood()
+                editableMoods.pushToFront(addTimelineItem)
+            }
+            shouldEditMoodBeVisible(moodsFromRepository) -> {
+                createMoodsWithFirstEditableMood(editableMoods)
+            }
+            else -> moodsFromRepository
         }
     }
 
     private fun createAddTimelineMood(): TimelineMoodBO {
         return TimelineMoodBO(
-            LocalDate.now(DefaultClock.getClock()),
-            "",
-            CircleMoodBO.NONE,
-            CircleStateBO.ADD
+            id = null,
+            date = LocalDate.now(DefaultClock.getClock()),
+            note = "",
+            circleMood = CircleMoodBO.NONE,
+            circleState = CircleStateBO.ADD,
+            picturePath = ""
         )
+    }
+
+    private fun createMoodsWithFirstEditableMood(
+        moodsFromRepository: MutableList<TimelineMoodBO>
+    ): List<TimelineMoodBO> {
+        moodsFromRepository[0].circleState = CircleStateBO.EDIT
+        return moodsFromRepository
     }
 
     private fun shouldAddMoodBeVisible(moods: List<TimelineMoodBO>): Boolean {
         return moods.none { it.date == LocalDate.now(DefaultClock.getClock()) }
+    }
+
+    private fun shouldEditMoodBeVisible(moods: List<TimelineMoodBO>): Boolean {
+        return moods.any { it.date == LocalDate.now(DefaultClock.getClock()) }
     }
 
 }

@@ -19,12 +19,12 @@
             android:layout_marginStart="6dp" />
 
         <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/titleTextView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/add_note"
             android:textColor="@color/colorTitle"
             android:textSize="@dimen/text_size_xlarge" />
 
@@ -35,41 +35,48 @@
             android:layout_gravity="center"
             android:layout_marginEnd="6dp"
             android:src="@drawable/ic_checked"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/top_divider"
         android:elevation="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:translationY="2dp"/>
+        android:translationY="2dp" />
 
     <com.jemiola.moodtimeline.customviews.ChooseMoodCircle
         android:id="@+id/chooseMoodCircle"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="61dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp" />
 
     <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
         android:id="@+id/editedDayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/colorTitle"
         android:layout_marginTop="3dp"
+        android:textColor="@color/colorTitle"
         android:textSize="@dimen/text_size_xlarge" />
 
     <com.jemiola.moodtimeline.customviews.RalewayEditText
         android:id="@+id/noteEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:hint="@string/note" />
+
+    <com.jemiola.moodtimeline.customviews.PickPhotoView
+        android:id="@+id/pickPhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.jemiola.moodtimeline.base
 
+import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import kotlin.coroutines.CoroutineContext
@@ -30,5 +32,4 @@ abstract class BaseRepository : KoinComponent, CoroutineScope {
             onError.invoke(error)
         }
     }
-
 }

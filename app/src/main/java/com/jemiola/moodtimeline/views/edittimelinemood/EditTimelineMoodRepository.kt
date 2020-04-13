@@ -16,6 +16,12 @@ class EditTimelineMoodRepository : BaseRepository() {
         LocalDatabase::class.java, "edit-timetable-mood-database"
     ).build()
 
+    private var openedMoodId: Int? = null
+
+    fun setOpenedMoodId(openedMoodId: Int?) {
+        this.openedMoodId = openedMoodId
+    }
+
     fun addMood(timelineMood: TimelineMoodBO, callback: OnRepositoryCallback<Unit>) {
         launchCallbackRequest(
             request = {
@@ -27,11 +33,24 @@ class EditTimelineMoodRepository : BaseRepository() {
         )
     }
 
+    fun editMood(timelineMood: TimelineMoodBO, callback: OnRepositoryCallback<Unit>) {
+        launchCallbackRequest(
+            request = {
+                val timelineMoodDO = convertMoodBOtoDO(timelineMood)
+                database.timelineMoodDao().update(timelineMoodDO)
+            },
+            onSuccess = { callback.onSuccess(it) },
+            onError = { callback.onError() }
+        )
+    }
+
     private fun convertMoodBOtoDO(mood: TimelineMoodBO): TimelineMoodDO {
         return TimelineMoodDO(
-            mood.note,
-            mood.date,
-            MoodDO.from(mood.circleMood)
+            id = openedMoodId,
+            note = mood.note,
+            date = mood.date,
+            mood = MoodDO.from(mood.circleMood),
+            picturePath = mood.picturePath
         )
     }
 
