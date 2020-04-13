@@ -9,7 +9,8 @@
         layout="@layout/layout_bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/fragmentContainerLayout"
@@ -25,6 +26,7 @@
         android:layout_height="15dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/bottom_menu_shadow" />
+        android:background="@drawable/bottom_menu_shadow"
+        android:visibility="gone"/>
 
 </RelativeLayout>

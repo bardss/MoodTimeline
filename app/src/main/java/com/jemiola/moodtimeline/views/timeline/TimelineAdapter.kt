@@ -1,8 +1,10 @@
 package com.jemiola.moodtimeline.views.timeline
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
@@ -89,6 +91,7 @@ class TimelineAdapter(
             )
             holder.lineView.visibility = View.VISIBLE
             holder.noteTextView.visibility = View.VISIBLE
+            setPathAsSelectedPicture(mood.picturePath, holder.pictureImageView)
         }
     }
 
@@ -97,11 +100,20 @@ class TimelineAdapter(
         notifyDataSetChanged()
     }
 
+    private fun setPathAsSelectedPicture(path: String?, imageView: ImageView) {
+        val pictureBitmap = BitmapFactory.decodeFile(path)
+        if (pictureBitmap != null) {
+            imageView.visibility = View.VISIBLE
+            imageView.setImageBitmap(pictureBitmap)
+        } else imageView.visibility = View.GONE
+    }
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val timelineItemLayout: ViewGroup = view.findViewById(R.id.timelineItemLayout)
         val moodCircle: MoodCircle = view.findViewById(R.id.moodCircle)
         val dateTextView: ComfortaBoldTextView = view.findViewById(R.id.dateTextView)
         val noteTextView: RalewayRegularTextView = view.findViewById(R.id.noteTextView)
         val lineView: View = view.findViewById(R.id.lineView)
+        val pictureImageView: ImageView = view.findViewById(R.id.pictureImageView)
     }
 }
