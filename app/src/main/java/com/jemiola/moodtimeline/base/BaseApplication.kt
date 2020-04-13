@@ -20,7 +20,8 @@ class BaseApplication: Application() {
                 timelineModule,
                 editTimelineItemModule,
                 splashModule,
-                navigationModule
+                navigationModule,
+                detailsTimelineItemModule
             )
         }
     }

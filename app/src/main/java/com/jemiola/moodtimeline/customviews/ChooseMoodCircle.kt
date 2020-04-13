@@ -44,7 +44,7 @@ class ChooseMoodCircle : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_choose_mood_circle, this)
         veryGoodCircle = findViewById(R.id.veryGoodCircle)
         goodCircle = findViewById(R.id.goodCircle)
-        mediocreCircle = findViewById(R.id.noneCircle)
+        mediocreCircle = findViewById(R.id.mediocreCircle)
         badCircle = findViewById(R.id.badCircle)
         veryBadCircle = findViewById(R.id.veryBadCircle)
         setupMoodColors()

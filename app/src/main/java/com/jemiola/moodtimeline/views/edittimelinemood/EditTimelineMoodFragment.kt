@@ -11,6 +11,7 @@ import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -52,7 +53,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     private fun setupAcceptButtonVisibilityChange() {
         binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
             if (mood == CircleMoodBO.NONE) binding.acceptImageView.visibility = View.INVISIBLE
-            else binding.acceptImageView.visibility = View.VISIBLE
+            else AnimUtils.fadeIn(500, binding.acceptImageView)
         }
     }
 

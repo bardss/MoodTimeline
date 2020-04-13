@@ -51,7 +51,7 @@ class PickPhotoView : FrameLayout {
     }
 
     fun setPathAsSelectedPicture(path: String?) {
-        val pictureBitmap = BitmapFactory.decodeFile(path)
+        val pictureBitmap = ImageUtils.getBitmapFromPath(path)
         if (pictureBitmap != null) {
             this.picturePath = path
             selectedPictureImageView.setImageBitmap(pictureBitmap)

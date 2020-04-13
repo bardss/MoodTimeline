@@ -11,4 +11,15 @@ object AnimUtils {
         buttonAnimator.duration = duration.toLong()
         buttonAnimator.start()
     }
+
+    fun fadeIn(duration: Int, vararg views: View) {
+        for (view in views) {
+            view.alpha = 0f
+            view.visibility = View.VISIBLE
+            view.animate()
+                .alpha(1f)
+                .setDuration(duration.toLong())
+                .setListener(null)
+        }
+    }
 }

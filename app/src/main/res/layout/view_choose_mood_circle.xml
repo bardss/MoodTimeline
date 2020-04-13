@@ -36,7 +36,7 @@
         android:focusable="true"/>
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
-        android:id="@+id/noneCircle"
+        android:id="@+id/mediocreCircle"
         android:layout_width="61dp"
         android:layout_height="61dp"
         android:layout_gravity="center"

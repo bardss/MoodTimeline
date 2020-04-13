@@ -1,5 +1,8 @@
 package com.jemiola.moodtimeline.base
 
+import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodContract
+import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodPresenter
+import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodRepository
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodContract
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodPresenter
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodRepository
@@ -33,6 +36,13 @@ val editTimelineItemModule = module {
     single { EditTimelineMoodRepository() }
     factory { (view: EditTimelineMoodContract.View) ->
         EditTimelineMoodPresenter(view, get())
+    }
+}
+
+val detailsTimelineItemModule = module {
+    single { DetailsTimelineMoodRepository() }
+    factory { (view: DetailsTimelineMoodContract.View) ->
+        DetailsTimelineMoodPresenter(view, get())
     }
 }
 

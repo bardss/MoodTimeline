@@ -10,6 +10,7 @@ import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.PermissionsUtil
+import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -55,16 +56,19 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBO) {
         val editTimelineMoodFragment = EditTimelineMoodFragment()
-        editTimelineMoodFragment.arguments = createEditTimelineMoodBundle(mood)
+        editTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
         pushFragment(editTimelineMoodFragment)
     }
 
-    private fun createEditTimelineMoodBundle(mood: TimelineMoodBO) : Bundle{
+    override fun openTimelineMoodDetails(mood: TimelineMoodBO) {
+        val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
+        detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
+        pushFragment(detailsTimelineMoodFragment)
+    }
+
+    private fun createBundleWithTimelineMood(mood: TimelineMoodBO) : Bundle{
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }
-    }
-
-    override fun openTimelineMoodDetails(mood: TimelineMoodBO) {
     }
 }

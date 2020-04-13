@@ -1,6 +1,7 @@
 package com.jemiola.moodtimeline.utils
 
 import android.database.Cursor
+import android.graphics.*
 import android.net.Uri
 import android.provider.MediaStore
 import com.jemiola.moodtimeline.base.BaseApplication
@@ -31,4 +32,23 @@ object ImageUtils {
         }
     }
 
+    fun getBitmapFromPath(path: String?): Bitmap? {
+        val pictureBitmap = BitmapFactory.decodeFile(path)
+        return pictureBitmap?.let { roundImageCorners(pictureBitmap) }
+    }
+
+    private fun roundImageCorners(bitmap: Bitmap): Bitmap {
+        val imageRounded = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
+        val canvas = Canvas(imageRounded)
+        val paint = Paint()
+        paint.isAntiAlias = true
+        paint.shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+        canvas.drawRoundRect(
+            RectF(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat()),
+            40f,
+            40f,
+            paint
+        )
+        return imageRounded
+    }
 }

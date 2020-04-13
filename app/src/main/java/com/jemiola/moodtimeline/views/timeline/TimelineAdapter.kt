@@ -12,6 +12,7 @@ import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
 import org.koin.core.KoinComponent
@@ -101,7 +102,7 @@ class TimelineAdapter(
     }
 
     private fun setPathAsSelectedPicture(path: String?, imageView: ImageView) {
-        val pictureBitmap = BitmapFactory.decodeFile(path)
+        val pictureBitmap = ImageUtils.getBitmapFromPath(path)
         if (pictureBitmap != null) {
             imageView.visibility = View.VISIBLE
             imageView.setImageBitmap(pictureBitmap)

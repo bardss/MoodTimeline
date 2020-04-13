@@ -22,7 +22,8 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:alpha="0.25"
-            android:src="@drawable/ic_picture" />
+            android:src="@drawable/ic_picture"
+            android:elevation="5dp"/>
 
     </LinearLayout>
 </FrameLayout>
