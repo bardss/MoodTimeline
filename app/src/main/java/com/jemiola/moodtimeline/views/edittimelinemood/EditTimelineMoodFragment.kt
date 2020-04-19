@@ -30,13 +30,13 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     ): View? {
         binding = FragmentEditTimelineMoodBinding.inflate(inflater, container, false)
         binding.pickPhotoView.setFragment(this)
+        saveOpenedMoodId()
+        setupView()
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        saveOpenedMoodId()
-        setupView()
         setupAcceptButtonVisibilityChange()
     }
 

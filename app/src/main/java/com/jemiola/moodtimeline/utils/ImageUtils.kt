@@ -1,10 +1,20 @@
 package com.jemiola.moodtimeline.utils
 
 import android.database.Cursor
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.jemiola.moodtimeline.base.BaseApplication
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 object ImageUtils {
     fun getPathFromUri(uri: Uri): String? {
@@ -32,23 +42,77 @@ object ImageUtils {
         }
     }
 
-    fun getBitmapFromPath(path: String?): Bitmap? {
+    fun getBitmapDrawableFromPath(
+        path: String?,
+        quality: Int = 25,
+        addingPicture: Boolean = false
+    ): RoundedBitmapDrawable? {
+        val file = File(path)
         val pictureBitmap = BitmapFactory.decodeFile(path)
-        return pictureBitmap?.let { roundImageCorners(pictureBitmap) }
+        if (pictureBitmap != null) {
+            val rotateBitmap = performRotation(file, pictureBitmap)
+            if (addingPicture) {
+                val resizedBitmap = resizeBitmap(rotateBitmap)
+                resizedBitmap.saveBitmap(file, quality)
+            }
+            val drawable = RoundedBitmapDrawableFactory.create(
+                BaseApplication.context.resources,
+                rotateBitmap
+            )
+            drawable.cornerRadius = 20f
+            return drawable
+        }
+        return null
     }
 
-    private fun roundImageCorners(bitmap: Bitmap): Bitmap {
-        val imageRounded = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config)
-        val canvas = Canvas(imageRounded)
-        val paint = Paint()
-        paint.isAntiAlias = true
-        paint.shader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-        canvas.drawRoundRect(
-            RectF(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat()),
-            40f,
-            40f,
-            paint
+    private fun resizeBitmap(source: Bitmap): Bitmap {
+        return Bitmap.createScaledBitmap(
+            source,
+            source.width / 2,
+            source.height / 2,
+            true
         )
-        return imageRounded
     }
+
+    private fun performRotation(file: File, bitmap: Bitmap): Bitmap {
+        val ei = ExifInterface(file.absolutePath)
+        val orientation = ei.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(
+                bitmap,
+                90f
+            )
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(
+                bitmap,
+                180f
+            )
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(
+                bitmap,
+                270f
+            )
+            ExifInterface.ORIENTATION_NORMAL -> bitmap
+            else -> bitmap
+        }
+    }
+
+    private fun Bitmap.saveBitmap(file: File, quality: Int) {
+        try {
+            val fileOutputStream = FileOutputStream(file)
+            this.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream)
+            fileOutputStream.close()
+        } catch (e: FileNotFoundException) {
+            Log.e("File not found: ", e.message)
+        } catch (e: IOException) {
+            Log.e("Error accessing file: ", e.message)
+        }
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix().apply { postRotate(angle) }
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
 }

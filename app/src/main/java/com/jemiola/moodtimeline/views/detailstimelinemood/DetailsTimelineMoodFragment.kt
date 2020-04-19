@@ -1,11 +1,9 @@
 package com.jemiola.moodtimeline.views.detailstimelinemood
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentDetailsTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
@@ -15,6 +13,8 @@ import com.jemiola.moodtimeline.utils.ImageUtils
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
+
+const val PICTURE_QUALITY = 60
 
 class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.View {
 
@@ -59,9 +59,9 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
     }
 
     private fun setPathAsSelectedPicture(path: String?) {
-        val pictureBitmap = ImageUtils.getBitmapFromPath(path)
+        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path, PICTURE_QUALITY)
         if (pictureBitmap != null) {
-            binding.selectedPictureImageView.setImageBitmap(pictureBitmap)
+            binding.selectedPictureImageView.setImageDrawable(pictureBitmap)
         }
     }
 

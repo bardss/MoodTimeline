@@ -1,6 +1,5 @@
 package com.jemiola.moodtimeline.views.timeline
 
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +91,11 @@ class TimelineAdapter(
             )
             holder.lineView.visibility = View.VISIBLE
             holder.noteTextView.visibility = View.VISIBLE
-            setPathAsSelectedPicture(mood.picturePath, holder.pictureImageView)
+            setPathAsSelectedPicture(
+                mood.picturePath,
+                holder.pictureImageView,
+                holder.pictureLayout
+            )
         }
     }
 
@@ -101,12 +104,16 @@ class TimelineAdapter(
         notifyDataSetChanged()
     }
 
-    private fun setPathAsSelectedPicture(path: String?, imageView: ImageView) {
-        val pictureBitmap = ImageUtils.getBitmapFromPath(path)
+    private fun setPathAsSelectedPicture(
+        path: String?,
+        pictureImageView: ImageView,
+        pictureLayout: ViewGroup
+    ) {
+        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
-            imageView.visibility = View.VISIBLE
-            imageView.setImageBitmap(pictureBitmap)
-        } else imageView.visibility = View.GONE
+            pictureLayout.visibility = View.VISIBLE
+            pictureImageView.setImageDrawable(pictureBitmap)
+        } else pictureLayout.visibility = View.GONE
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -116,5 +123,6 @@ class TimelineAdapter(
         val noteTextView: RalewayRegularTextView = view.findViewById(R.id.noteTextView)
         val lineView: View = view.findViewById(R.id.lineView)
         val pictureImageView: ImageView = view.findViewById(R.id.pictureImageView)
+        val pictureLayout: ViewGroup = view.findViewById(R.id.pictureLayout)
     }
 }

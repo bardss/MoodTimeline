@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryBackground"
@@ -44,27 +45,46 @@
         android:textSize="@dimen/text_size_xlarge" />
 
     <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:id="@+id/noteTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:text="@string/note"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_small" />
 
-    <LinearLayout
+    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+        android:id="@+id/noteTextView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:weightSum="5">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size_medium" />
 
-        <ImageView
-            android:id="@+id/selectedPictureImageView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:elevation="5dp" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:layout_marginTop="16dp">
 
-    </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:elevation="5dp"
+            app:cardCornerRadius="8dp">
+
+            <ImageView
+                android:id="@+id/selectedPictureImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:alpha="0.8"
+                android:clipChildren="true"
+                android:src="@drawable/ic_picture" />
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
 
 </LinearLayout>
