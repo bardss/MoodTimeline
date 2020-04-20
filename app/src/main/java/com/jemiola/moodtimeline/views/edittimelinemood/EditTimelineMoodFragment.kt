@@ -29,6 +29,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditTimelineMoodBinding.inflate(inflater, container, false)
+        setUnderlineColor(R.color.colorMoodNone)
         binding.pickPhotoView.setFragment(this)
         saveOpenedMoodId()
         setupView()
@@ -37,7 +38,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
 
     override fun onStart() {
         super.onStart()
-        setupAcceptButtonVisibilityChange()
+        setupOnMoodChangeAction()
     }
 
     private fun saveOpenedMoodId() {
@@ -50,10 +51,11 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         mood?.let { presenter.setupView(it) }
     }
 
-    private fun setupAcceptButtonVisibilityChange() {
+    private fun setupOnMoodChangeAction() {
         binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
             if (mood == CircleMoodBO.NONE) binding.acceptImageView.visibility = View.INVISIBLE
             else AnimUtils.fadeIn(500, binding.acceptImageView)
+            binding.noteEditText.backgroundTintList = ResUtil.getColorAsColorStateList(mood.colorId)
         }
     }
 
@@ -71,10 +73,16 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     private fun fillMoodData(mood: TimelineMoodBO) {
+        setUnderlineColor(mood.circleMood.colorId)
         setItemDate(mood.date)
         setNote(mood.note)
         setSelectedMood(mood.circleMood)
         setSelectedImage(mood.picturePath)
+    }
+
+    private fun setUnderlineColor(color: Int) {
+        binding.noteEditText.backgroundTintList =
+            ResUtil.getColorAsColorStateList(color)
     }
 
     private fun setSelectedImage(picturePath: String) {

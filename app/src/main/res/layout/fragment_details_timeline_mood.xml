@@ -62,7 +62,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="230dp"
         android:layout_marginTop="16dp">
 
         <androidx.cardview.widget.CardView
@@ -79,9 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
-                android:alpha="0.8"
-                android:clipChildren="true"
-                android:src="@drawable/ic_picture" />
+                android:alpha="0.7"
+                android:clipChildren="true" />
 
         </androidx.cardview.widget.CardView>
 

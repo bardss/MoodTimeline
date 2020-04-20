@@ -70,8 +70,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="@color/colorText"
         android:text="@string/note"
+        android:textColor="@color/colorText"
         android:textSize="@dimen/text_size_small" />
 
     <com.jemiola.moodtimeline.customviews.RalewayEditText
@@ -79,7 +79,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:textSize="@dimen/text_size_medium"/>
+        android:backgroundTint="@color/colorMoodNone"
+        android:textSize="@dimen/text_size_medium" />
 
     <com.jemiola.moodtimeline.customviews.PickPhotoView
         android:id="@+id/pickPhotoView"
