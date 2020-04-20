@@ -45,13 +45,13 @@ object ImageUtils {
     fun getBitmapDrawableFromPath(
         path: String?,
         quality: Int = 25,
-        addingPicture: Boolean = false
+        isAddingPicture: Boolean = false
     ): RoundedBitmapDrawable? {
         val file = File(path)
         val pictureBitmap = BitmapFactory.decodeFile(path)
         if (pictureBitmap != null) {
             val rotateBitmap = performRotation(file, pictureBitmap)
-            if (addingPicture) {
+            if (isAddingPicture) {
                 val resizedBitmap = resizeBitmap(rotateBitmap)
                 resizedBitmap.saveBitmap(file, quality)
             }

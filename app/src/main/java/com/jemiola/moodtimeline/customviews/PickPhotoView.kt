@@ -46,13 +46,13 @@ class PickPhotoView : FrameLayout {
         if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
                 val pathToPhoto = ImageUtils.getPathFromUri(uri)
-                setPathAsSelectedPicture(pathToPhoto)
+                setPathAsSelectedPicture(pathToPhoto, true)
             }
         }
     }
 
-    fun setPathAsSelectedPicture(path: String?) {
-        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path, PICTURE_QUALITY, true)
+    fun setPathAsSelectedPicture(path: String?, isAddingPicture: Boolean = false) {
+        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path, PICTURE_QUALITY, isAddingPicture)
         if (pictureBitmap != null) {
             this.picturePath = path
             selectedPictureImageView.setImageDrawable(pictureBitmap)
