@@ -85,6 +85,7 @@ class TimelineAdapter(
         if (mood.circleState == CircleStateBO.ADD) {
             holder.lineView.visibility = View.GONE
             holder.noteTextView.visibility = View.GONE
+            holder.pictureLayout.visibility = View.GONE
         } else {
             holder.lineView.setBackgroundColor(
                 ResUtil.getColor(mood.circleMood.colorId)

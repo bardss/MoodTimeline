@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
+import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
@@ -19,6 +22,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentTimelineBinding
+    private var isSearchOpened = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,6 +32,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         binding = FragmentTimelineBinding.inflate(inflater, container, false)
         setupStoragePermissions()
         setupTimeline()
+        setupSearchOptions()
         return binding.root
     }
 
@@ -66,9 +71,45 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         pushFragment(detailsTimelineMoodFragment)
     }
 
-    private fun createBundleWithTimelineMood(mood: TimelineMoodBO) : Bundle{
+    private fun createBundleWithTimelineMood(mood: TimelineMoodBO): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }
     }
+
+    private fun setupSearchOptions() {
+        binding.fromEditText.backgroundTintList =
+            ResUtil.getColorAsColorStateList(R.color.colorTitle)
+        binding.fromEditText.setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorMoodNone))
+        binding.toEditText.backgroundTintList = ResUtil.getColorAsColorStateList(R.color.colorTitle)
+        binding.toEditText.setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorMoodNone))
+        binding.topBarLayout.post {
+            initialSearchLayoutMoveOutOfScreen()
+            binding.searchImageView.setOnClickListener { onSearchClick() }
+        }
+    }
+
+    private fun onSearchClick() {
+        val distance = binding.topBarLayout.width
+        val searchIconWidth = binding.searchImageView.width
+        val timelineLayoutPadding = binding.timelineLayout.paddingStart
+        if (!isSearchOpened) {
+            isSearchOpened = true
+            val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
+            AnimUtils.animateMove(500, hideDistance, binding.topBarLayout)
+            AnimUtils.animateMove(500, 0, binding.searchLayout)
+        } else {
+            isSearchOpened = false
+            AnimUtils.animateMove(500, 0, binding.topBarLayout)
+            AnimUtils.animateMove(500, distance, binding.searchLayout)
+        }
+    }
+
+    private fun initialSearchLayoutMoveOutOfScreen() {
+        val distance = binding.topBarLayout.width
+        AnimUtils.animateMove(500, distance, binding.searchLayout) {
+            binding.searchLayout.visibility = View.VISIBLE
+        }
+    }
+
 }

@@ -1,64 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/timelineLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryBackground"
     android:orientation="vertical"
     android:padding="18dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/calendarImageView"
-            android:layout_width="28dp"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:id="@+id/topBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="6dp"
-            android:src="@drawable/ic_calendar" />
+            android:gravity="center">
 
-        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/timeline"
-            android:textColor="@color/colorTitle"
-            android:textSize="@dimen/text_size_xlarge" />
+            <ImageView
+                android:id="@+id/calendarImageView"
+                android:layout_width="28dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/ic_calendar" />
 
-        <ImageView
-            android:id="@+id/searchImageView"
-            android:layout_width="32dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginEnd="6dp"
-            android:src="@drawable/ic_search" />
+            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/timeline"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/text_size_xlarge" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/searchImageView"
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/ic_search" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/searchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:gravity="end"
+            android:weightSum="5">
+
+            <com.jemiola.moodtimeline.customviews.RalewayEditText
+                android:id="@+id/fromEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="2"
+                android:hint="@string/from"
+                android:textColor="@color/colorText" />
+
+            <com.jemiola.moodtimeline.customviews.RalewayEditText
+                android:id="@+id/toEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="2"
+                android:hint="@string/to"
+                android:textColor="@color/colorText" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="2dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/top_divider"
         android:elevation="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
-        android:translationY="2dp"/>
+        android:translationY="2dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timelineRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
         android:layout_marginTop="-12dp"
+        android:layout_marginEnd="4dp"
         android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
