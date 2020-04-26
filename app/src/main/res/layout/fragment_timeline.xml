@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/topBarLayout"
+            android:id="@+id/timelineTopLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -48,19 +48,19 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/searchLayout"
+            android:id="@+id/searchTopLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:gravity="end"
+            android:visibility="invisible"
             android:weightSum="5">
 
             <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/from_with_semicolon"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/text_size_small"
-                android:text="@string/from_with_semicolon"/>
+                android:textSize="@dimen/text_size_small" />
 
             <com.jemiola.moodtimeline.customviews.RalewayEditText
                 android:id="@+id/fromEditText"
@@ -74,9 +74,9 @@
             <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/to_with_semicolon"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/text_size_small"
-                android:text="@string/to_with_semicolon"/>
+                android:textSize="@dimen/text_size_small" />
 
             <com.jemiola.moodtimeline.customviews.RalewayEditText
                 android:id="@+id/toEditText"
@@ -88,6 +88,23 @@
                 android:textColor="@color/colorText" />
 
         </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/calendarTopLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/calendar"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/text_size_xlarge" />
+
+        </FrameLayout>
 
     </RelativeLayout>
 
@@ -102,16 +119,28 @@
         android:elevation="2dp"
         android:translationY="2dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/timelineRecyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
         android:layout_marginTop="-12dp"
-        android:layout_marginEnd="4dp"
-        android:overScrollMode="never"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comfortaBoldTextView" />
+        android:layout_marginEnd="4dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/timelineRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comfortaBoldTextView" />
+
+        <FrameLayout
+            android:id="@+id/calendarFragmentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"/>
+
+    </FrameLayout>
 
 </LinearLayout>

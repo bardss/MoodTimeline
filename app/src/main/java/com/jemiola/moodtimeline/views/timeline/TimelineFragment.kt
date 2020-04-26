@@ -18,6 +18,7 @@ import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.views.calendar.CalendarFragment
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
@@ -29,6 +30,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentTimelineBinding
     private var isSearchOpened = false
+    private var isCalendarOpened = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +40,8 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         binding = FragmentTimelineBinding.inflate(inflater, container, false)
         setupStoragePermissions()
         setupTimeline()
-        setupSearchOptions()
+        setupSearchView()
+        setupCalendarView()
         return binding.root
     }
 
@@ -83,14 +86,30 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         }
     }
 
-    private fun setupSearchOptions() {
+    private fun setupSearchView() {
         setupSearchDefaultValues()
         setupSearchEditTextColors()
         setupSearchCalendars()
-        binding.topBarLayout.post {
-            initialSearchLayoutMoveOutOfScreen()
+        binding.timelineTopLayout.post {
+            initialSearchTopLayoutMoveOutOfScreen()
             binding.searchImageView.setOnClickListener { onSearchClick() }
         }
+    }
+
+    private fun setupCalendarView() {
+        setupCalendarFragment()
+        binding.timelineTopLayout.post {
+            initialCalendarTopLayoutMoveOutOfScreen()
+            binding.calendarImageView.setOnClickListener { onCalendarClick() }
+        }
+    }
+
+    private fun setupCalendarFragment() {
+        val calendarFragment = CalendarFragment()
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.calendarFragmentLayout, calendarFragment)
+            .commit()
     }
 
     private fun setupSearchDefaultValues() {
@@ -109,27 +128,57 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun onSearchClick() {
-        val distance = binding.topBarLayout.width
+        val distance = binding.timelineTopLayout.width
         val searchIconWidth = binding.searchImageView.width
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isSearchOpened) {
             isSearchOpened = true
             val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
-            AnimUtils.animateMove(500, hideDistance, binding.topBarLayout)
-            AnimUtils.animateMove(500, 0, binding.searchLayout)
+            AnimUtils.animateMove(500, hideDistance, binding.timelineTopLayout)
+            AnimUtils.animateMove(500, 0, binding.searchTopLayout)
         } else {
             isSearchOpened = false
-            AnimUtils.animateMove(500, 0, binding.topBarLayout)
-            AnimUtils.animateMove(500, distance, binding.searchLayout) {
+            AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
+            AnimUtils.animateMove(500, distance, binding.searchTopLayout) {
                 setupSearchDefaultValues()
             }
         }
     }
 
-    private fun initialSearchLayoutMoveOutOfScreen() {
-        val distance = binding.topBarLayout.width
-        AnimUtils.animateMove(500, distance, binding.searchLayout) {
-            binding.searchLayout.visibility = View.VISIBLE
+    private fun onCalendarClick() {
+        val distance = binding.timelineTopLayout.width
+        val calendarIconWidth = binding.calendarImageView.width
+        val timelineLayoutPadding = binding.timelineLayout.paddingStart
+        if (!isCalendarOpened) {
+            isCalendarOpened = true
+            val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
+            AnimUtils.animateMove(500, hideDistance, binding.timelineTopLayout)
+            AnimUtils.animateMove(500, distance, binding.timelineRecyclerView)
+            AnimUtils.animateMove(500, 0, binding.calendarTopLayout)
+            AnimUtils.animateMove(500, 0, binding.calendarFragmentLayout)
+        } else {
+            isCalendarOpened = false
+            AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
+            AnimUtils.animateMove(500, 0, binding.timelineRecyclerView)
+            AnimUtils.animateMove(500, - distance, binding.calendarTopLayout)
+            AnimUtils.animateMove(500, - distance, binding.calendarFragmentLayout)
+        }
+    }
+
+    private fun initialSearchTopLayoutMoveOutOfScreen() {
+        val distance = binding.timelineTopLayout.width
+        AnimUtils.animateMove(500, distance, binding.searchTopLayout) {
+            binding.searchTopLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun initialCalendarTopLayoutMoveOutOfScreen() {
+        val distance = binding.timelineTopLayout.width
+        AnimUtils.animateMove(500, -distance, binding.calendarTopLayout) {
+            binding.calendarTopLayout.visibility = View.VISIBLE
+        }
+        AnimUtils.animateMove(500, -distance, binding.calendarFragmentLayout) {
+            binding.calendarFragmentLayout.visibility = View.VISIBLE
         }
     }
 

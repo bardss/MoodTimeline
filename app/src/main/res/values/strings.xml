@@ -11,4 +11,5 @@
     <string name="to">to</string>
     <string name="from_with_semicolon">from:</string>
     <string name="to_with_semicolon">to:</string>
+    <string name="calendar">Calendar</string>
 </resources>
