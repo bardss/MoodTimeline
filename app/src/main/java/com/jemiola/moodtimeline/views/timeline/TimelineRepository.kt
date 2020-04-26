@@ -8,18 +8,27 @@ import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.DefaultTime
+import org.threeten.bp.LocalDate
 
 class TimelineRepository : BaseRepository() {
+
+    val defaultSearchFromDate: LocalDate = LocalDate.now(DefaultTime.getClock()).minusDays(14)
+    val defaultSearchToDate: LocalDate = LocalDate.now(DefaultTime.getClock())
 
     private val database = Room.databaseBuilder(
         BaseApplication.context,
         LocalDatabase::class.java, "edit-timetable-mood-database"
     ).build()
 
-    fun getTimetableMoods(callback: OnRepositoryCallback<List<TimelineMoodBO>>) {
+    fun getTimetableMoods(
+        from: LocalDate,
+        to: LocalDate,
+        callback: OnRepositoryCallback<List<TimelineMoodBO>>
+    ) {
         launchCallbackRequest(
             request = {
-                database.timelineMoodDao().getAll()
+                database.timelineMoodDao().getMoodsFromTo(from, to)
             },
             onSuccess = {
                 val timelineMoodBOs = convertTimetableMoodDOtoBO(it)

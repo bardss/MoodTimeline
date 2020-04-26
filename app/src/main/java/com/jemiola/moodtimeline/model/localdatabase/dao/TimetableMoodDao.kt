@@ -5,11 +5,12 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
+import org.threeten.bp.LocalDate
 
 @Dao
 interface TimetableMoodDao {
-    @Query("SELECT * FROM timelinemooddo")
-    fun getAll(): List<TimelineMoodDO>
+    @Query("SELECT * FROM timelinemooddo WHERE date BETWEEN :fromDate AND :toDate")
+    fun getMoodsFromTo(fromDate: LocalDate, toDate: LocalDate): List<TimelineMoodDO>
 
     @Insert
     fun insert(timelineMood: TimelineMoodDO)

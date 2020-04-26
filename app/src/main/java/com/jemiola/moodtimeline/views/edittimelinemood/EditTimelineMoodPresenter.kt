@@ -3,7 +3,7 @@ package com.jemiola.moodtimeline.views.edittimelinemood
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO.*
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
-import com.jemiola.moodtimeline.utils.DefaultClock
+import com.jemiola.moodtimeline.utils.DefaultTime
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
@@ -57,7 +57,7 @@ class EditTimelineMoodPresenter(
         val mood = view.getSelectedMood()
         val picturePath = view.getPicturePath()
         return TimelineMoodBO(
-            date = LocalDate.now(DefaultClock.getClock()),
+            date = LocalDate.now(DefaultTime.getClock()),
             note = noteFromView,
             circleMood = mood,
             picturePath = picturePath

@@ -9,4 +9,6 @@
     <string name="mood">Mood</string>
     <string name="from">from</string>
     <string name="to">to</string>
+    <string name="from_with_semicolon">from:</string>
+    <string name="to_with_semicolon">to:</string>
 </resources>

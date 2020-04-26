@@ -55,14 +55,28 @@
             android:gravity="end"
             android:weightSum="5">
 
+            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/from_with_semicolon"/>
+
             <com.jemiola.moodtimeline.customviews.RalewayEditText
                 android:id="@+id/fromEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="2"
-                android:hint="@string/from"
+                android:focusable="false"
                 android:textColor="@color/colorText" />
+
+            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size_small"
+                android:text="@string/to_with_semicolon"/>
 
             <com.jemiola.moodtimeline.customviews.RalewayEditText
                 android:id="@+id/toEditText"
@@ -70,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_weight="2"
-                android:hint="@string/to"
+                android:focusable="false"
                 android:textColor="@color/colorText" />
 
         </LinearLayout>

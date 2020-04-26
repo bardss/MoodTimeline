@@ -1,12 +1,17 @@
 package com.jemiola.moodtimeline.views.timeline
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.customviews.RalewayEditText
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
@@ -17,6 +22,7 @@ import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFra
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
+import java.util.*
 
 class TimelineFragment : BaseFragment(), TimelineContract.View {
 
@@ -38,7 +44,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun onStart() {
         super.onStart()
-        presenter.refreshTimelineMoods()
+        presenter.requestTimelineMoods()
     }
 
     private fun setupStoragePermissions() {
@@ -78,15 +84,28 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun setupSearchOptions() {
+        setupSearchDefaultValues()
+        setupSearchEditTextColors()
+        setupSearchCalendars()
+        binding.topBarLayout.post {
+            initialSearchLayoutMoveOutOfScreen()
+            binding.searchImageView.setOnClickListener { onSearchClick() }
+        }
+    }
+
+    private fun setupSearchDefaultValues() {
+        val fromDate = presenter.getDefaultFromDate()
+        val toDate = presenter.getDefaultToDate()
+        binding.fromEditText.setText(fromDate)
+        binding.toEditText.setText(toDate)
+    }
+
+    private fun setupSearchEditTextColors() {
         binding.fromEditText.backgroundTintList =
             ResUtil.getColorAsColorStateList(R.color.colorTitle)
         binding.fromEditText.setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorMoodNone))
         binding.toEditText.backgroundTintList = ResUtil.getColorAsColorStateList(R.color.colorTitle)
         binding.toEditText.setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorMoodNone))
-        binding.topBarLayout.post {
-            initialSearchLayoutMoveOutOfScreen()
-            binding.searchImageView.setOnClickListener { onSearchClick() }
-        }
     }
 
     private fun onSearchClick() {
@@ -101,7 +120,9 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         } else {
             isSearchOpened = false
             AnimUtils.animateMove(500, 0, binding.topBarLayout)
-            AnimUtils.animateMove(500, distance, binding.searchLayout)
+            AnimUtils.animateMove(500, distance, binding.searchLayout) {
+                setupSearchDefaultValues()
+            }
         }
     }
 
@@ -110,6 +131,70 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         AnimUtils.animateMove(500, distance, binding.searchLayout) {
             binding.searchLayout.visibility = View.VISIBLE
         }
+    }
+
+    private fun setupSearchCalendars() {
+        context?.let { notNullContext ->
+            val pickerFrom = createDatePicker(notNullContext, binding.fromEditText)
+            binding.fromEditText.setOnClickListener { pickerFrom.show() }
+            val pickerTo = createDatePicker(notNullContext, binding.toEditText)
+            binding.toEditText.setOnClickListener { pickerTo.show() }
+            setupDatePickerBlockades(pickerFrom, pickerTo)
+            setupSearchTextWatchers(pickerFrom, pickerTo)
+        }
+
+    }
+
+    private fun createOnDatePickedListener(editText: RalewayEditText) =
+        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            val dateText = presenter.createDateTextFrom(dayOfMonth, monthOfYear + 1, year)
+            editText.setText(dateText)
+        }
+
+    private fun createDatePicker(context: Context, editText: RalewayEditText): DatePickerDialog {
+        return DatePickerDialog(
+            context,
+            createOnDatePickedListener(editText),
+            Calendar.getInstance().get(Calendar.YEAR),
+            Calendar.getInstance().get(Calendar.MONTH),
+            Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        )
+    }
+
+    private fun setupSearchTextWatchers(
+        fromDatePicker: DatePickerDialog,
+        toDatePicker: DatePickerDialog
+    ) {
+        val afterTextChangedAction = { _: Editable? ->
+            val fromText = binding.fromEditText.text
+            val toText = binding.toEditText.text
+            if (fromText?.isNotEmpty() == true && toText?.isNotEmpty() == true) {
+                presenter.requestTimelineMoods()
+            }
+            setupDatePickerBlockades(fromDatePicker, toDatePicker)
+        }
+        binding.fromEditText.doAfterTextChanged(afterTextChangedAction)
+        binding.toEditText.doAfterTextChanged(afterTextChangedAction)
+    }
+
+    private fun setupDatePickerBlockades(
+        fromDatePicker: DatePickerDialog,
+        toDatePicker: DatePickerDialog
+    ) {
+        if (binding.toEditText.text?.isNotEmpty() == true) {
+            fromDatePicker.datePicker.maxDate = presenter.getSearchToDateLong()
+        }
+        if (binding.fromEditText.text?.isNotEmpty() == true) {
+            toDatePicker.datePicker.minDate = presenter.getSearchFromDateLong()
+        }
+    }
+
+    override fun getFromDate(): String {
+        return binding.fromEditText.text.toString()
+    }
+
+    override fun getToDate(): String {
+        return binding.toEditText.text.toString()
     }
 
 }

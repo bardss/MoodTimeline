@@ -4,7 +4,7 @@ import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
-import com.jemiola.moodtimeline.utils.DefaultClock
+import com.jemiola.moodtimeline.utils.DefaultTime
 import io.mockk.*
 import org.junit.jupiter.api.Test
 import org.threeten.bp.*
@@ -18,18 +18,18 @@ class TimelinePresenterTest {
     @Test
     fun `refreshTimelineMoods invokes getTimetableMoods on repository`() {
         every { repository.getTimetableMoods(any()) } returns Unit
-        presenter.refreshTimelineMoods()
+        presenter.requestTimelineMoods()
         verify(exactly = 1) { repository.getTimetableMoods(any()) }
     }
 
     @Test
     fun `refreshTimelineMoods invokes setTimelineMoods in onSuccessAction`() {
-        mockkObject(DefaultClock)
+        mockkObject(DefaultTime)
         val testClock = Clock.fixed(LocalDateTime.MAX.toInstant(ZoneOffset.MAX), ZoneId.of("UTC"))
-        every { DefaultClock.getClock() } returns testClock
+        every { DefaultTime.getClock() } returns testClock
         every { view.setTimelineMoods(any()) } returns Unit
         val testMoodBO = TimelineMoodBO(
-            date = LocalDate.now(DefaultClock.getClock()),
+            date = LocalDate.now(DefaultTime.getClock()),
             note = "",
             circleMood = CircleMoodBO.NONE,
             circleState = CircleStateBO.ADD,
@@ -39,7 +39,7 @@ class TimelinePresenterTest {
         every { repository.getTimetableMoods(any()) } answers {
             (firstArg() as OnRepositoryCallback<List<TimelineMoodBO>>).onSuccess(result)
         }
-        presenter.refreshTimelineMoods()
+        presenter.requestTimelineMoods()
         verify(exactly = 1) { view.setTimelineMoods(result) }
         unmockkAll()
     }
