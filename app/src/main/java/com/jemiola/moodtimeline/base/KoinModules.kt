@@ -1,5 +1,8 @@
 package com.jemiola.moodtimeline.base
 
+import com.jemiola.moodtimeline.views.calendar.CalendarContract
+import com.jemiola.moodtimeline.views.calendar.CalendarPresenter
+import com.jemiola.moodtimeline.views.calendar.CalendarRepository
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodContract
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodPresenter
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodRepository
@@ -16,6 +19,7 @@ import com.jemiola.moodtimeline.views.timeline.TimelineContract
 import com.jemiola.moodtimeline.views.timeline.TimelinePresenter
 import com.jemiola.moodtimeline.views.timeline.TimelineRepository
 import org.koin.dsl.module
+import java.util.*
 
 val navigationModule = module {
     single { NavigationRepository() }
@@ -43,6 +47,13 @@ val detailsTimelineItemModule = module {
     single { DetailsTimelineMoodRepository() }
     factory { (view: DetailsTimelineMoodContract.View) ->
         DetailsTimelineMoodPresenter(view, get())
+    }
+}
+
+val calendarModule = module {
+    single { CalendarRepository() }
+    factory { (view: CalendarContract.View) ->
+        CalendarPresenter(view, get())
     }
 }
 

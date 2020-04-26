@@ -6,13 +6,40 @@
     android:background="@color/colorPrimaryBackground"
     android:orientation="vertical">
 
-    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
+    <LinearLayout
+        android:id="@+id/timelineTopLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/calendar"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/text_size_xlarge"/>
+        android:layout_marginTop="12dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/arrowLeftImageView"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_arrow_left" />
+
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/monthTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_xlarge" />
+
+        <ImageView
+            android:id="@+id/arrowRightImageView"
+            android:layout_width="32dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/ic_arrow_right" />
+
+    </LinearLayout>
 
 </LinearLayout>

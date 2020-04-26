@@ -13,6 +13,8 @@ import org.threeten.bp.LocalDate
 
 class CalendarRepository : BaseRepository() {
 
+    var currentMonth = LocalDate.now(DefaultTime.getClock())
+
     private val database = Room.databaseBuilder(
         BaseApplication.context,
         LocalDatabase::class.java, "calendar-database"

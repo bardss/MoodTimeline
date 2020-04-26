@@ -21,7 +21,8 @@ class BaseApplication: Application() {
                 editTimelineItemModule,
                 splashModule,
                 navigationModule,
-                detailsTimelineItemModule
+                detailsTimelineItemModule,
+                calendarModule
             )
         }
     }
