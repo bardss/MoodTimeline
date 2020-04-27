@@ -78,7 +78,7 @@ class TimelinePresenter(
 
     private fun shouldAddMoodBeVisible(moods: List<TimelineMoodBO>): Boolean {
         val searchFromDate = getFromDateFromView()
-        val searchToDate = getToDateFromView()
+        val searchToDate = getToDateFromView().plusDays(1)
         val dateNow = LocalDate.now(DefaultTime.getClock())
         return moods.none { it.date == dateNow } &&
                 dateNow.isAfter(searchFromDate) &&

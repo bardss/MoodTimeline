@@ -3,6 +3,7 @@ package com.jemiola.moodtimeline.views.timeline
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication
 import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
@@ -18,7 +19,7 @@ class TimelineRepository : BaseRepository() {
 
     private val database = Room.databaseBuilder(
         BaseApplication.context,
-        LocalDatabase::class.java, "edit-timetable-mood-database"
+        LocalDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
 
     fun getTimetableMoods(

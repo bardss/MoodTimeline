@@ -16,7 +16,18 @@
         android:id="@+id/stateImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:elevation="4dp" />
+
+    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+        android:id="@+id/dayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-1dp"
         android:elevation="4dp"
-        android:layout_gravity="center"/>
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="visible" />
 
 </FrameLayout>

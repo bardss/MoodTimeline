@@ -12,4 +12,11 @@
     <string name="from_with_semicolon">from:</string>
     <string name="to_with_semicolon">to:</string>
     <string name="calendar">Calendar</string>
+    <string name="monday_short_uppercase">MON</string>
+    <string name="tuesday_short_uppercase">TUE</string>
+    <string name="wednesday_short_uppercase">WED</string>
+    <string name="thursday_short_uppercase">THU</string>
+    <string name="friday_short_uppercase">FRI</string>
+    <string name="saturday_short_uppercase">SAT</string>
+    <string name="sunday_short_uppercase">SUN</string>
 </resources>

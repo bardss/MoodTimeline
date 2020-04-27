@@ -1,7 +1,8 @@
 package com.jemiola.moodtimeline.views.calendar
 
 import com.jemiola.moodtimeline.base.BasePresenter
-import com.jemiola.moodtimeline.utils.DefaultTime
+import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -10,26 +11,94 @@ class CalendarPresenter(
     override val repository: CalendarRepository
 ) : BasePresenter(repository), CalendarContract.Presenter {
 
-    override fun setupCalendarView() {
+    override fun setupCalendar() {
+        val callback = createRepositoryCallback<List<TimelineMoodBO>>(
+            onSuccessAction = { setupCalendarView(it) },
+            onErrorAction = {}
+        )
+        repository.getCurrentMonthMoods(callback)
+    }
+
+    private fun setupCalendarView(moods: List<TimelineMoodBO>) {
         setupMonthText()
+        setupMonthDays(moods)
     }
 
     private fun setupMonthText() {
-        val dateNow = repository.currentMonth
+        val dateNow = repository.currentMonthDate
         val monthFormatter = getDefaultMonthFormatter()
         dateNow.format(monthFormatter)?.let { monthText ->
             view.setMonthName(monthText)
         }
     }
 
+    private fun setupMonthDays(moods: List<TimelineMoodBO>) {
+        view.clearDaysInCalendar()
+        val currentDate = repository.currentMonthDate
+        val numberOfPreviousMonthDays = getPreviousMonthLength(currentDate)
+        val firstDayToShowFromPreviousMonth = getFirstDayToShowFromPreviousMonth(currentDate)
+        for (previousMonthDay in firstDayToShowFromPreviousMonth..numberOfPreviousMonthDays) {
+            view.addNotCurrentMonthDay(previousMonthDay)
+        }
+        val currentMonthDays = currentDate.lengthOfMonth()
+        for (currentMonthDay in 1..currentMonthDays) {
+            if (doesDayHaveMood(currentMonthDay, moods)) {
+                val mood = getCircleMoodForCalendarDay(currentMonthDay, moods)
+                view.addCurrentMonthMoodDay(currentMonthDay, mood)
+            } else view.addCurrentMonthDefaultDay(currentMonthDay)
+        }
+        val daysToShowFromNextMonth = getNumbersOfDaysToShowFromNextMonth(currentDate)
+        for (nextMonthDay in 1..daysToShowFromNextMonth) {
+            view.addNotCurrentMonthDay(nextMonthDay)
+        }
+    }
+
+    private fun getCircleMoodForCalendarDay(
+        checkedDay: Int,
+        moods: List<TimelineMoodBO>
+    ): CircleMoodBO {
+        val currentMonth = repository.currentMonthDate.monthValue
+        val currentYear = repository.currentMonthDate.year
+        val checkedDate = LocalDate.of(currentYear, currentMonth, checkedDay)
+        return moods.first {
+            it.date == checkedDate
+        }.circleMood
+    }
+
+    private fun doesDayHaveMood(checkedDay: Int, moods: List<TimelineMoodBO>): Boolean {
+        val currentMonth = repository.currentMonthDate.monthValue
+        val currentYear = repository.currentMonthDate.year
+        val checkedDate = LocalDate.of(currentYear, currentMonth, checkedDay)
+        return moods.any {
+            it.date == checkedDate
+        }
+    }
+
+    private fun getFirstDayToShowFromPreviousMonth(currentDate: LocalDate): Int {
+        val firstDayOfMonth = currentDate.withDayOfMonth(1)
+        val dayOfWeekOfFirstDayOfMonth = firstDayOfMonth.dayOfWeek.value - 2
+        val numberOfPreviousMonthDays = getPreviousMonthLength(currentDate)
+        return numberOfPreviousMonthDays - dayOfWeekOfFirstDayOfMonth
+    }
+
+    private fun getPreviousMonthLength(currentDate: LocalDate) =
+        currentDate.month.minus(1).length(currentDate.isLeapYear)
+
+    private fun getNumbersOfDaysToShowFromNextMonth(currentDate: LocalDate): Int {
+        val currentMonthDays = currentDate.lengthOfMonth()
+        val lastDayOfMonth = currentDate.withDayOfMonth(currentMonthDays)
+        val dayOfWeekOfLastDayOfMonth = lastDayOfMonth.dayOfWeek.value
+        return 7 - dayOfWeekOfLastDayOfMonth
+    }
+
     override fun openPreviousMonth() {
-        repository.currentMonth = repository.currentMonth.minusMonths(1)
-        setupMonthText()
+        repository.currentMonthDate = repository.currentMonthDate.minusMonths(1)
+        setupCalendar()
     }
 
     override fun openNextMonth() {
-        repository.currentMonth = repository.currentMonth.plusMonths(1)
-        setupMonthText()
+        repository.currentMonthDate = repository.currentMonthDate.plusMonths(1)
+        setupCalendar()
     }
 
     private fun getDefaultMonthFormatter() = DateTimeFormatter.ofPattern("MMMM")

@@ -3,36 +3,36 @@ package com.jemiola.moodtimeline.views.calendar
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication
 import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
-import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
 import com.jemiola.moodtimeline.utils.DefaultTime
 import org.threeten.bp.LocalDate
 
 class CalendarRepository : BaseRepository() {
 
-    var currentMonth = LocalDate.now(DefaultTime.getClock())
+    var currentMonthDate: LocalDate = LocalDate.now(DefaultTime.getClock())
 
     private val database = Room.databaseBuilder(
         BaseApplication.context,
-        LocalDatabase::class.java, "calendar-database"
+        LocalDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
 
-    fun getTimetableMoods(
-        from: LocalDate,
-        to: LocalDate,
+    fun getCurrentMonthMoods(
         callback: OnRepositoryCallback<List<TimelineMoodBO>>
     ) {
+        val monthStartDay = currentMonthDate.withDayOfMonth(1)
+        val monthEndDay = currentMonthDate.withDayOfMonth(currentMonthDate.lengthOfMonth())
         launchCallbackRequest(
             request = {
-                database.timelineMoodDao().getMoodsFromTo(from, to)
+                database.timelineMoodDao().getMoodsFromTo(monthStartDay, monthEndDay)
             },
             onSuccess = {
                 val timelineMoodBOs = convertTimetableMoodDOtoBO(it)
-                val moodsInCorrectOrder = timelineMoodBOs.reversed()
-                callback.onSuccess(moodsInCorrectOrder)
+                callback.onSuccess(timelineMoodBOs)
             },
             onError = { callback.onError() }
         )

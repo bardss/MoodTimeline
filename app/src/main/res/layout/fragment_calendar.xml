@@ -42,4 +42,77 @@
 
     </LinearLayout>
 
+    <GridLayout
+        android:id="@+id/calendarTopBarGridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:columnCount="7">
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/monday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/tuesday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/wednesday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/thursday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/friday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/saturday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/sunday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/calendarDaysGridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="7">
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="@string/sunday_short_uppercase"
+            android:layout_columnWeight="1"
+            android:gravity="center"/>
+
+    </GridLayout>
+
 </LinearLayout>

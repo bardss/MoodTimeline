@@ -3,6 +3,7 @@ package com.jemiola.moodtimeline.customviews
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import com.jemiola.moodtimeline.R
@@ -21,8 +22,13 @@ class MoodCircle : FrameLayout {
     var mood: CircleMoodBO by Delegates.observable(NONE) { _, _, mood ->
         changeBackground(mood)
     }
+    var day: String by Delegates.observable("") { _, _, day ->
+        dayTextView.text = day
+        dayTextView.visibility = View.VISIBLE
+    }
     private val stateImageView: ImageView
     private val moodImageView: ImageView
+    private val dayTextView: ComfortaBoldTextView
 
     constructor(context: Context) : super(context)
 
@@ -38,6 +44,7 @@ class MoodCircle : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_mood_circle, this)
         moodImageView = findViewById(R.id.moodImageView)
         stateImageView = findViewById(R.id.stateImageView)
+        dayTextView = findViewById(R.id.dayTextView)
         setupStatePadding()
     }
 
