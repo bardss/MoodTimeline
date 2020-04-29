@@ -60,7 +60,11 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
     }
 
     private fun setNote(note: String) {
-        binding.noteTextView.text = note
+        if (note.isNotEmpty()) {
+            binding.noteTextView.visibility = View.VISIBLE
+            binding.noteLabelTextView.visibility = View.VISIBLE
+            binding.noteTextView.text = note
+        }
     }
 
     private fun setSelectedMood(mood: CircleMoodBO) {

@@ -39,11 +39,13 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTimelineBinding.inflate(inflater, container, false)
-        setupStoragePermissions()
-        setupTimeline()
-        setupSearchView()
-        setupCalendarView()
+        if (!this::binding.isInitialized) {
+            binding = FragmentTimelineBinding.inflate(inflater, container, false)
+            setupStoragePermissions()
+            setupTimeline()
+            setupSearchView()
+            setupCalendarView()
+        }
         return binding.root
     }
 
@@ -163,11 +165,14 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             AnimUtils.animateMove(500, 0, binding.calendarFragmentLayout)
         } else {
             isCalendarOpened = false
-            animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(R.drawable.ic_calendar))
+            animateIconChangeTo(
+                binding.calendarImageView,
+                ResUtil.getDrawable(R.drawable.ic_calendar)
+            )
             AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(500, 0, binding.timelineRecyclerView)
-            AnimUtils.animateMove(500, - distance, binding.calendarTopLayout)
-            AnimUtils.animateMove(500, - distance, binding.calendarFragmentLayout)
+            AnimUtils.animateMove(500, -distance, binding.calendarTopLayout)
+            AnimUtils.animateMove(500, -distance, binding.calendarFragmentLayout)
         }
     }
 

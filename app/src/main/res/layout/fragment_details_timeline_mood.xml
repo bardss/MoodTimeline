@@ -45,12 +45,14 @@
         android:textSize="@dimen/text_size_xlarge" />
 
     <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+        android:id="@+id/noteLabelTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/note"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_small" />
+        android:textSize="@dimen/text_size_small"
+        android:visibility="gone" />
 
     <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
         android:id="@+id/noteTextView"
@@ -58,7 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_medium" />
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="gone" />
 
     <FrameLayout
         android:layout_width="match_parent"
