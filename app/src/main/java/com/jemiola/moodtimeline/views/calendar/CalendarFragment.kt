@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.GridLayout
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
@@ -12,8 +13,8 @@ import com.jemiola.moodtimeline.customviews.CalendarDayView
 import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
-import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.disableFor
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
@@ -92,7 +93,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
     }
 
     private fun createCalendarDayLayoutParams(): GridLayout.LayoutParams {
-        val dayLayoutParams = GridLayout.LayoutParams()
+        val dayLayoutParams = GridLayout.LayoutParams(ViewGroup.LayoutParams(0, WRAP_CONTENT))
         dayLayoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
         return dayLayoutParams
     }
@@ -109,6 +110,16 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         binding.calendarDaysGridLayout.removeAllViews()
     }
 
+    override fun hideCalendar(doOnAnimationFinished: () -> Unit) {
+        AnimUtils.fadeOut(50, binding.monthTextView)
+        AnimUtils.fadeOut(50, doOnAnimationFinished, binding.calendarDaysGridLayout)
+    }
+
+    override fun showCalendar() {
+        AnimUtils.fadeIn(50, binding.monthTextView)
+        AnimUtils.fadeIn(50, binding.calendarDaysGridLayout)
+    }
+
     private fun openTimelineMoodDetails(mood: TimelineMoodBO) {
         val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
         detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
@@ -119,5 +130,9 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }
+    }
+
+    override fun requestCalendarLayout() {
+//        binding.calendarDaysGridLayout.requestLayout()
     }
 }

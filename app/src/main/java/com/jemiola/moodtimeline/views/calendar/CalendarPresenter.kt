@@ -5,6 +5,7 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 class CalendarPresenter(
     private val view: CalendarContract.View,
@@ -20,8 +21,11 @@ class CalendarPresenter(
     }
 
     private fun setupCalendarView(moods: List<TimelineMoodBO>) {
-        setupMonthText()
-        setupMonthDays(moods)
+        view.hideCalendar {
+            setupMonthText()
+            setupMonthDays(moods)
+            view.showCalendar()
+        }
     }
 
     private fun setupMonthText() {
@@ -51,6 +55,7 @@ class CalendarPresenter(
         for (nextMonthDay in 1..daysToShowFromNextMonth) {
             view.addNotCurrentMonthDay(nextMonthDay)
         }
+        view.requestCalendarLayout()
     }
 
     private fun getMoodForCalendarDay(
