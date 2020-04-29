@@ -124,12 +124,12 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
     }
 
     private fun onPictureActionUp(duration: Int, view: View) {
-        if (pictureHighlighted) AnimUtils.animateAlpha(duration, 1f, 0.7f, view)
+        if (pictureHighlighted) AnimUtils.animateAlpha(duration, 0.7f, view)
         pictureHighlighted = false
     }
 
     private fun onPictureActionDown(duration: Int, view: View) {
-        if (!pictureHighlighted) AnimUtils.animateAlpha(duration, 0.7f, 1f, view)
+        if (!pictureHighlighted) AnimUtils.animateAlpha(duration, 1f, view)
         pictureHighlighted = true
         Handler().postDelayed({ onPictureActionUp(duration, view) }, 3000)
     }

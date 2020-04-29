@@ -11,9 +11,12 @@ import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.customviews.CalendarDayView
 import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
+import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.disableFor
+import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
@@ -77,13 +80,14 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         }
     }
 
-    override fun addCurrentMonthMoodDay(day: Int, mood: CircleMoodBO) {
+    override fun addCurrentMonthMoodDay(day: Int, mood: TimelineMoodBO) {
         context?.let { notNullContext ->
             val moodDayView = createMoodDayView(notNullContext)
             binding.calendarDaysGridLayout.addView(moodDayView)
             moodDayView.day = day
-            moodDayView.mood = mood
+            moodDayView.mood = mood.circleMood
             moodDayView.layoutParams = createCalendarDayLayoutParams()
+            moodDayView.setOnClickListener { openTimelineMoodDetails(mood) }
         }
     }
 
@@ -103,5 +107,17 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
 
     override fun clearDaysInCalendar() {
         binding.calendarDaysGridLayout.removeAllViews()
+    }
+
+    private fun openTimelineMoodDetails(mood: TimelineMoodBO) {
+        val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
+        detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
+        pushFragment(detailsTimelineMoodFragment)
+    }
+
+    private fun createBundleWithTimelineMood(mood: TimelineMoodBO): Bundle {
+        return Bundle().apply {
+            putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
+        }
     }
 }

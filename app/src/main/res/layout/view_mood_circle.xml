@@ -20,7 +20,7 @@
         android:elevation="4dp" />
 
     <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-        android:id="@+id/dayTextView"
+        android:id="@+id/circleDayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -28,6 +28,6 @@
         android:elevation="4dp"
         android:textColor="@color/colorTitle"
         android:textSize="@dimen/text_size_medium"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </FrameLayout>

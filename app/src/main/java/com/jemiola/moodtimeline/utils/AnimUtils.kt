@@ -19,14 +19,10 @@ object AnimUtils {
         buttonAnimator.start()
     }
 
-    fun animateAlpha(duration2: Int, from: Float, to: Float, view: View){
-//        val alphaAnimation = AlphaAnimation(from, to).apply {
-//            this.duration = duration.toLong()
-//        }
-//        view.startAnimation(alphaAnimation)
+    fun animateAlpha(durationToSet: Int, to: Float, view: View) {
         view.animate().apply {
             alpha(to)
-            duration = duration2.toLong()
+            duration = durationToSet.toLong()
             setListener(
                 object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
@@ -40,13 +36,40 @@ object AnimUtils {
     }
 
     fun fadeIn(duration: Int, vararg views: View) {
+        fadeIn(duration, {}, *views)
+    }
+
+    fun fadeOut(duration: Int, vararg views: View) {
+        fadeOut(duration, {}, *views)
+    }
+
+    fun fadeIn(duration: Int, doOnEnd: () -> Unit = {}, vararg views: View) {
         for (view in views) {
             view.alpha = 0f
             view.visibility = View.VISIBLE
             view.animate()
                 .alpha(1f)
                 .setDuration(duration.toLong())
-                .setListener(null)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        doOnEnd.invoke()
+                    }
+                })
+        }
+    }
+
+    fun fadeOut(duration: Int, doOnEnd: () -> Unit = {}, vararg views: View) {
+        for (view in views) {
+            view.alpha = 1f
+            view.visibility = View.VISIBLE
+            view.animate()
+                .alpha(0f)
+                .setDuration(duration.toLong())
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        doOnEnd.invoke()
+                    }
+                })
         }
     }
 }

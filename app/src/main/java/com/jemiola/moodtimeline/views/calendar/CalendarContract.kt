@@ -1,6 +1,7 @@
 package com.jemiola.moodtimeline.views.calendar
 
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 
 interface CalendarContract {
     interface Presenter {
@@ -13,7 +14,7 @@ interface CalendarContract {
         fun setMonthName(format: String)
         fun addNotCurrentMonthDay(day: Int)
         fun addCurrentMonthDefaultDay(day: Int)
-        fun addCurrentMonthMoodDay(day: Int, mood: CircleMoodBO)
+        fun addCurrentMonthMoodDay(day: Int, mood: TimelineMoodBO)
         fun clearDaysInCalendar()
     }
 }

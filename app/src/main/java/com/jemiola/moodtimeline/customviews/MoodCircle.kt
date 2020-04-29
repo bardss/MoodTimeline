@@ -44,7 +44,7 @@ class MoodCircle : FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_mood_circle, this)
         moodImageView = findViewById(R.id.moodImageView)
         stateImageView = findViewById(R.id.stateImageView)
-        dayTextView = findViewById(R.id.dayTextView)
+        dayTextView = findViewById(R.id.circleDayTextView)
         setupStatePadding()
     }
 

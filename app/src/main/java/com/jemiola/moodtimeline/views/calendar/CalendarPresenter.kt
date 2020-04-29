@@ -43,7 +43,7 @@ class CalendarPresenter(
         val currentMonthDays = currentDate.lengthOfMonth()
         for (currentMonthDay in 1..currentMonthDays) {
             if (doesDayHaveMood(currentMonthDay, moods)) {
-                val mood = getCircleMoodForCalendarDay(currentMonthDay, moods)
+                val mood = getMoodForCalendarDay(currentMonthDay, moods)
                 view.addCurrentMonthMoodDay(currentMonthDay, mood)
             } else view.addCurrentMonthDefaultDay(currentMonthDay)
         }
@@ -53,16 +53,16 @@ class CalendarPresenter(
         }
     }
 
-    private fun getCircleMoodForCalendarDay(
+    private fun getMoodForCalendarDay(
         checkedDay: Int,
         moods: List<TimelineMoodBO>
-    ): CircleMoodBO {
+    ): TimelineMoodBO {
         val currentMonth = repository.currentMonthDate.monthValue
         val currentYear = repository.currentMonthDate.year
         val checkedDate = LocalDate.of(currentYear, currentMonth, checkedDay)
         return moods.first {
             it.date == checkedDate
-        }.circleMood
+        }
     }
 
     private fun doesDayHaveMood(checkedDay: Int, moods: List<TimelineMoodBO>): Boolean {

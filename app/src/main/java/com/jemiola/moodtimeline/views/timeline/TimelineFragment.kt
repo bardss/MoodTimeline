@@ -2,11 +2,13 @@ package com.jemiola.moodtimeline.views.timeline
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jemiola.moodtimeline.R
@@ -133,11 +135,13 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isSearchOpened) {
             isSearchOpened = true
+            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(R.drawable.ic_close))
             val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
             AnimUtils.animateMove(500, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(500, 0, binding.searchTopLayout)
         } else {
             isSearchOpened = false
+            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(R.drawable.ic_search))
             AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(500, distance, binding.searchTopLayout) {
                 setupSearchDefaultValues()
@@ -151,6 +155,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isCalendarOpened) {
             isCalendarOpened = true
+            animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(R.drawable.ic_close))
             val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
             AnimUtils.animateMove(500, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(500, distance, binding.timelineRecyclerView)
@@ -158,12 +163,21 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             AnimUtils.animateMove(500, 0, binding.calendarFragmentLayout)
         } else {
             isCalendarOpened = false
+            animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(R.drawable.ic_calendar))
             AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(500, 0, binding.timelineRecyclerView)
             AnimUtils.animateMove(500, - distance, binding.calendarTopLayout)
             AnimUtils.animateMove(500, - distance, binding.calendarFragmentLayout)
         }
     }
+
+    private fun animateIconChangeTo(iconImageView: ImageView, drawable: Drawable?) {
+        AnimUtils.fadeOut(100, {
+            iconImageView.setImageDrawable(drawable)
+            AnimUtils.fadeIn(100, iconImageView)
+        }, iconImageView)
+    }
+
 
     private fun initialSearchTopLayoutMoveOutOfScreen() {
         val distance = binding.timelineTopLayout.width
