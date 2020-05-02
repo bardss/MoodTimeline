@@ -3,6 +3,7 @@ package com.jemiola.moodtimeline.customviews
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.utils.ImageUtils
+import java.io.File
 
 const val REQUEST_IMAGE_GALLERY = 36
 const val PICTURE_QUALITY = 60
@@ -46,13 +48,17 @@ class PickPhotoView : FrameLayout {
         if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
                 val pathToPhoto = ImageUtils.getPathFromUri(uri)
-                setPathAsSelectedPicture(pathToPhoto, true)
+                val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                if (storageDir != null) {
+                    val pathToOptimisedFile = ImageUtils.saveOptimisedPictureAndReturnPath(pathToPhoto, storageDir)
+                    setPathAsSelectedPicture(pathToOptimisedFile)
+                }
             }
         }
     }
 
-    fun setPathAsSelectedPicture(path: String?, isAddingPicture: Boolean = false) {
-        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path, PICTURE_QUALITY, isAddingPicture)
+    fun setPathAsSelectedPicture(path: String?) {
+        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
             this.picturePath = path
             selectedPictureImageView.setImageDrawable(pictureBitmap)

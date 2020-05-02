@@ -72,7 +72,7 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
     }
 
     private fun setPathAsSelectedPicture(path: String?) {
-        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path, PICTURE_QUALITY)
+        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
             binding.selectedPictureImageView.setImageDrawable(pictureBitmap)
         }

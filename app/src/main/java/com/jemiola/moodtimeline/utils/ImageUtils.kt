@@ -11,10 +11,14 @@ import android.util.Log
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.jemiola.moodtimeline.base.BaseApplication
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+
+const val IMAGE_QUALITY_COMPRESS = 30
 
 object ImageUtils {
     fun getPathFromUri(uri: Uri): String? {
@@ -42,36 +46,38 @@ object ImageUtils {
         }
     }
 
-    fun getBitmapDrawableFromPath(
+    fun saveOptimisedPictureAndReturnPath(
         path: String?,
-        quality: Int = 25,
-        isAddingPicture: Boolean = false
-    ): RoundedBitmapDrawable? {
+        storageDir: File
+    ): String? {
         val file = File(path)
         val pictureBitmap = BitmapFactory.decodeFile(path)
-        if (pictureBitmap != null) {
-            val rotateBitmap = performRotation(file, pictureBitmap)
-            if (isAddingPicture) {
-                val resizedBitmap = resizeBitmap(rotateBitmap)
-                resizedBitmap.saveBitmap(file, quality)
-            }
-            val drawable = RoundedBitmapDrawableFactory.create(
-                BaseApplication.context.resources,
-                rotateBitmap
-            )
-            drawable.cornerRadius = 20f
-            return drawable
-        }
-        return null
+        val rotateBitmap = performRotation(file, pictureBitmap)
+        val resizedBitmap = resizeBitmapWhenTooLarge(rotateBitmap)
+        return saveBitmap(resizedBitmap, IMAGE_QUALITY_COMPRESS, storageDir)
     }
 
-    private fun resizeBitmap(source: Bitmap): Bitmap {
-        return Bitmap.createScaledBitmap(
-            source,
-            source.width / 2,
-            source.height / 2,
-            true
-        )
+    fun getBitmapDrawableFromPath(path: String?): RoundedBitmapDrawable? {
+        val pictureBitmap = BitmapFactory.decodeFile(path)
+        return if (pictureBitmap != null) {
+            val drawable = RoundedBitmapDrawableFactory.create(
+                BaseApplication.context.resources,
+                pictureBitmap
+            )
+            drawable.cornerRadius = 20f
+            drawable
+        } else null
+    }
+
+    private fun resizeBitmapWhenTooLarge(source: Bitmap): Bitmap {
+        return if (source.width > 1200 || source.height > 1200) {
+            Bitmap.createScaledBitmap(
+                source,
+                source.width / 2,
+                source.height / 2,
+                true
+            )
+        } else source
     }
 
     private fun performRotation(file: File, bitmap: Bitmap): Bitmap {
@@ -98,16 +104,31 @@ object ImageUtils {
         }
     }
 
-    private fun Bitmap.saveBitmap(file: File, quality: Int) {
+    private fun saveBitmap(
+        bitmapToSave: Bitmap,
+        quality: Int,
+        storageDir: File
+    ): String? {
         try {
-            val fileOutputStream = FileOutputStream(file)
-            this.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream)
+            val fileNameWithTimeStamp = createFileNameWithTimeStamp()
+            val fileToSaveTo = File.createTempFile(fileNameWithTimeStamp, ".jpg", storageDir)
+            val fileOutputStream = FileOutputStream(fileToSaveTo)
+            bitmapToSave.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream)
             fileOutputStream.close()
+            return fileToSaveTo.absolutePath
         } catch (e: FileNotFoundException) {
             Log.e("File not found: ", e.message)
         } catch (e: IOException) {
             Log.e("Error accessing file: ", e.message)
         }
+        return null
+    }
+
+    private fun createFileNameWithTimeStamp(): String {
+        val dateTimeNow = LocalDateTime.now(DefaultTime.getClock())
+        val formatter = DateTimeFormatter.ofPattern("yyyy_MMM_dd_HH_mm_ss")
+        val timeStamp = dateTimeNow.format(formatter)
+        return "mood_timeline_$timeStamp"
     }
 
     private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
