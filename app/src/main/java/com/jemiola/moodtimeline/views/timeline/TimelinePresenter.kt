@@ -17,7 +17,20 @@ class TimelinePresenter(
     override val repository: TimelineRepository
 ) : BasePresenter(repository), TimelineContract.Presenter {
 
-    override fun requestTimelineMoods() {
+    override fun setupTimetableMoods() {
+        val callback = createRepositoryCallback<Int>(
+            onSuccessAction = { onGetTimetableMoodsCountSuccess(it) },
+            onErrorAction = {}
+        )
+        repository.getTimetableMoodsCount(callback)
+    }
+
+    private fun onGetTimetableMoodsCountSuccess(moodsCount: Int) {
+        if (moodsCount == 0) view.showAddEmptyView()
+        else requestTimetableMoods()
+    }
+
+    private fun requestTimetableMoods() {
         val fromDate = getFromDateFromView()
         val toDate = getToDateFromView()
         val callback = createRepositoryCallback<List<TimelineMoodBO>>(
@@ -78,7 +91,7 @@ class TimelinePresenter(
 
     }
 
-    private fun createAddTimelineMood(): TimelineMoodBO {
+    override fun createAddTimelineMood(): TimelineMoodBO {
         return TimelineMoodBO(
             id = null,
             date = LocalDate.now(DefaultTime.getClock()),

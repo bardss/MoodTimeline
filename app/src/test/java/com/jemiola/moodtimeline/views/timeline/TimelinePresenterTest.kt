@@ -18,7 +18,7 @@ class TimelinePresenterTest {
     @Test
     fun `refreshTimelineMoods invokes getTimetableMoods on repository`() {
         every { repository.getTimetableMoods(any()) } returns Unit
-        presenter.requestTimelineMoods()
+        presenter.setupTimetableMoods()
         verify(exactly = 1) { repository.getTimetableMoods(any()) }
     }
 
@@ -39,7 +39,7 @@ class TimelinePresenterTest {
         every { repository.getTimetableMoods(any()) } answers {
             (firstArg() as OnRepositoryCallback<List<TimelineMoodBO>>).onSuccess(result)
         }
-        presenter.requestTimelineMoods()
+        presenter.setupTimetableMoods()
         verify(exactly = 1) { view.setTimelineMoods(result) }
         unmockkAll()
     }

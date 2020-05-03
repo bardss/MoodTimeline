@@ -16,6 +16,8 @@ import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.customviews.RalewayEditText
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
+import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
@@ -54,7 +56,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun onStart() {
         super.onStart()
-        presenter.requestTimelineMoods()
+        presenter.setupTimetableMoods()
     }
 
     private fun setupStoragePermissions() {
@@ -269,25 +271,53 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     override fun showSearchEmptyView() {
-        if (binding.timelineRecyclerView.visibility != View.GONE) {
-            AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, {
-                binding.timelineRecyclerView.visibility = View.GONE
-            }, binding.timelineRecyclerView)
-        }
-        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.searchEmptyViewLayout)
+        hideViewWhenVisible(binding.timelineRecyclerView)
+        showViewWhenHidden(binding.searchEmptyViewLayout)
+
     }
 
     override fun showTimelineRecyclerView() {
-        if (binding.timelineRecyclerView.visibility == View.GONE) {
-            AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, {
-                binding.timelineRecyclerView.visibility = View.VISIBLE
-            }, binding.timelineRecyclerView)
+        showViewWhenHidden(binding.timelineRecyclerView)
+        showViewWhenHidden(binding.calendarImageView)
+        showViewWhenHidden(binding.searchImageView)
+        hideViewWhenVisible(binding.searchEmptyViewLayout)
+        hideViewWhenVisible(binding.addEmptyViewLayout)
+    }
+
+    private fun showViewWhenHidden(view: View) {
+        if (view.visibility == View.GONE || view.visibility == View.INVISIBLE) {
+            AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, { view.visibility = View.VISIBLE }, view)
         }
-        if (binding.searchEmptyViewLayout.visibility != View.GONE) {
-            AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, {
-                binding.searchEmptyViewLayout.visibility = View.GONE
-            }, binding.searchEmptyViewLayout)
+    }
+
+    private fun hideViewWhenVisible(view: View) {
+        if (view.visibility != View.GONE) {
+            AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, { view.visibility = View.GONE }, view)
         }
+    }
+
+    override fun showAddEmptyView() {
+        setupAddEmptyViewMoodCircle()
+        setupAddEmptyViewVisibility()
+        setupAddEmptyViewOnClick()
+    }
+
+    private fun setupAddEmptyViewOnClick() {
+        binding.addEmptyViewLayout.setOnClickListener {
+            openEditTimelineMoodActivity(presenter.createAddTimelineMood())
+        }
+    }
+
+    private fun setupAddEmptyViewVisibility() {
+        binding.calendarImageView.visibility = View.INVISIBLE
+        binding.searchImageView.visibility = View.INVISIBLE
+        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.timelineRecyclerView)
+        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.addEmptyViewLayout)
+    }
+
+    private fun setupAddEmptyViewMoodCircle() {
+        binding.addEmptyViewCircle.mood = CircleMoodBO.VERY_GOOD
+        binding.addEmptyViewCircle.state = CircleStateBO.ADD
     }
 
 }

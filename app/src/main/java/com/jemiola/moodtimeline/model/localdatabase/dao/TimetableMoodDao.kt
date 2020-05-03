@@ -12,6 +12,9 @@ interface TimetableMoodDao {
     @Query("SELECT * FROM timelinemooddo WHERE date BETWEEN :fromDate AND :toDate")
     fun getMoodsFromTo(fromDate: LocalDate, toDate: LocalDate): List<TimelineMoodDO>
 
+    @Query("SELECT COUNT(*) FROM timelinemooddo")
+    fun getMoodsCount(): Int
+
     @Insert
     fun insert(timelineMood: TimelineMoodDO)
 

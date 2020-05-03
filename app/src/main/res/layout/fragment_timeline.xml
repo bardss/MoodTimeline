@@ -123,23 +123,48 @@
         android:id="@+id/searchEmptyViewLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_marginBottom="124dp"
+        android:gravity="center"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/ic_face_bad"/>
+            android:elevation="5dp"
+            android:background="@drawable/ic_face_bad" />
 
         <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:textColor="@color/colorBottomMenuInactive"
             android:layout_marginTop="8dp"
-            android:text="@string/moods_not_found"/>
+            android:text="@string/moods_not_found"
+            android:textColor="@color/colorBottomMenuInactive"
+            android:textSize="@dimen/text_size_large" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addEmptyViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="124dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.jemiola.moodtimeline.customviews.MoodCircle
+            android:id="@+id/addEmptyViewCircle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/add_first_mood"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_large" />
 
     </LinearLayout>
 
@@ -163,7 +188,7 @@
             android:id="@+id/calendarFragmentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </FrameLayout>
 

@@ -40,6 +40,16 @@ class TimelineRepository : BaseRepository() {
         )
     }
 
+    fun getTimetableMoodsCount(
+        callback: OnRepositoryCallback<Int>
+    ) {
+        launchCallbackRequest(
+            request = { database.timelineMoodDao().getMoodsCount() },
+            onSuccess = { callback.onSuccess(it) },
+            onError = { callback.onError() }
+        )
+    }
+
     private fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDO>): List<TimelineMoodBO> {
         return timetableMoodDOs.map {
             TimelineMoodBO(
