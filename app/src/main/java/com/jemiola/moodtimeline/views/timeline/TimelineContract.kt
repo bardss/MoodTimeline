@@ -13,7 +13,7 @@ interface TimelineContract {
         fun createAddTimelineMood(): TimelineMoodBO
     }
     interface View {
-        fun openEditTimelineMoodActivity(mood: TimelineMoodBO)
+        fun openEditTimelineMoodActivity(mood: TimelineMoodBO, isAddingFirstMood: Boolean = false)
         fun openTimelineMoodDetails(mood: TimelineMoodBO)
         fun setTimelineMoods(moods: List<TimelineMoodBO>)
         fun getFromDate(): String

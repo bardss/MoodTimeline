@@ -151,7 +151,7 @@
         android:layout_marginBottom="124dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <com.jemiola.moodtimeline.customviews.MoodCircle
             android:id="@+id/addEmptyViewCircle"

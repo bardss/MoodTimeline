@@ -13,6 +13,10 @@ abstract class BaseFragment : Fragment(), KoinComponent {
         super.onDestroy()
     }
 
+    open fun onBackPressed(): Boolean {
+        return false
+    }
+
     fun pushFragment(fragment: Fragment) {
         (activity as? NavigationContract.View)?.pushFragment(fragment)
     }

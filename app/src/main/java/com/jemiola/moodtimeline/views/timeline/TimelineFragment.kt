@@ -77,19 +77,26 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         (adapter as TimelineAdapter).setTimelineMoods(moods)
     }
 
-    override fun openEditTimelineMoodActivity(mood: TimelineMoodBO) {
+    override fun openEditTimelineMoodActivity(mood: TimelineMoodBO, isAddingFirstMood: Boolean) {
         val editTimelineMoodFragment = EditTimelineMoodFragment()
-        editTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
+        editTimelineMoodFragment.arguments = createBundleEditTimelineMood(mood, isAddingFirstMood)
         pushFragment(editTimelineMoodFragment)
     }
 
     override fun openTimelineMoodDetails(mood: TimelineMoodBO) {
         val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
-        detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
+        detailsTimelineMoodFragment.arguments = createBundleDetailsTimelineMood(mood)
         pushFragment(detailsTimelineMoodFragment)
     }
 
-    private fun createBundleWithTimelineMood(mood: TimelineMoodBO): Bundle {
+    private fun createBundleEditTimelineMood(mood: TimelineMoodBO, isAddingFirstMood: Boolean): Bundle {
+        return Bundle().apply {
+            putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
+            putBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, isAddingFirstMood)
+        }
+    }
+
+    private fun createBundleDetailsTimelineMood(mood: TimelineMoodBO): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }
@@ -304,7 +311,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     private fun setupAddEmptyViewOnClick() {
         binding.addEmptyViewLayout.setOnClickListener {
-            openEditTimelineMoodActivity(presenter.createAddTimelineMood())
+            openEditTimelineMoodActivity(presenter.createAddTimelineMood(), true)
         }
     }
 

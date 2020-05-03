@@ -41,6 +41,14 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         setupOnMoodChangeAction()
     }
 
+    override fun onBackPressed(): Boolean {
+        val isAddingFirstMood =  arguments?.getBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, false)
+        if (isAddingFirstMood == false) {
+            navigateBack()
+        }
+        return true
+    }
+
     private fun saveOpenedMoodId() {
         val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
         mood?.let { presenter.saveOpenedMoodId(it.id) }

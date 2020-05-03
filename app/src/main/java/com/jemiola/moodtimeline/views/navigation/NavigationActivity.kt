@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
+import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.ActivityNavigationBinding
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.timeline.TimelineFragment
@@ -29,10 +30,10 @@ class NavigationActivity : BaseActivity(),
     override val numberOfRootFragments: Int = 3
     override fun getRootFragment(index: Int): Fragment =
         when (index) {
-            TAB_STATISTICS -> TimelineFragment()
+            TAB_STATISTICS -> Fragment()
             TAB_TIMELINE -> TimelineFragment()
-            TAB_SETTINGS -> TimelineFragment()
-            else -> TimelineFragment()
+            TAB_SETTINGS -> Fragment()
+            else -> Fragment()
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +58,11 @@ class NavigationActivity : BaseActivity(),
     }
 
     override fun onBackPressed() {
-        if (navigation.currentStack?.size == 1) super.onBackPressed()
-        else navigation.popFragment()
+        val topFragment = navigation.currentStack?.lastElement() as? BaseFragment
+        if (topFragment?.onBackPressed() == false) {
+            if (navigation.currentStack?.size == 1) super.onBackPressed()
+            else navigation.popFragment()
+        }
     }
 
     private fun createFragNavController(): FragNavController {
@@ -87,7 +91,7 @@ class NavigationActivity : BaseActivity(),
     }
 
     private fun highlightTimeline() {
-        navigation.switchTab(TAB_STATISTICS)
+        navigation.switchTab(TAB_TIMELINE)
         highlightNavigationOption(
             binding.menuBottomView.timelineImageView,
             binding.menuBottomView.timelineTextView
