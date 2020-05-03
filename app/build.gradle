@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -57,6 +59,10 @@ dependencies {
     implementation 'com.yanzhenjie:permission:1.1.0'
     kapt "androidx.room:room-compiler:2.2.5"
     kapt "android.arch.persistence.room:compiler:1.1.1"
+
+    // crashlytics
+    implementation 'com.google.firebase:firebase-analytics:17.4.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // unit tests
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'

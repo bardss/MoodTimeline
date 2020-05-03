@@ -12,3 +12,4 @@
 .externalNativeBuild
 .cxx
 gradlew.bat
+google-services.json
