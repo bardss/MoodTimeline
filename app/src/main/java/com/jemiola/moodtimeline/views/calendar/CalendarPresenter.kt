@@ -1,10 +1,11 @@
 package com.jemiola.moodtimeline.views.calendar
 
 import com.jemiola.moodtimeline.base.BasePresenter
-import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
+import org.threeten.bp.Month
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.TextStyle
 import java.util.*
 
 class CalendarPresenter(
@@ -30,8 +31,8 @@ class CalendarPresenter(
 
     private fun setupMonthText() {
         val dateNow = repository.currentMonthDate
-        val monthFormatter = getDefaultMonthFormatter()
-        dateNow.format(monthFormatter)?.let { monthText ->
+        val month = getFormattedMonth(dateNow.month)
+        month?.let { monthText ->
             view.setMonthName(monthText)
         }
     }
@@ -106,5 +107,5 @@ class CalendarPresenter(
         setupCalendar()
     }
 
-    private fun getDefaultMonthFormatter() = DateTimeFormatter.ofPattern("MMMM")
+    private fun getFormattedMonth(month: Month) = month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
 }

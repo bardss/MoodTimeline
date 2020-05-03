@@ -4,6 +4,7 @@ import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 class TimelineAdapterPresenter {
 
@@ -15,7 +16,7 @@ class TimelineAdapterPresenter {
     }
 
     fun getFormattedDate(date: LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("MMMM d")
+        val formatter = DateTimeFormatter.ofPattern("MMMM d").withLocale(Locale.ENGLISH)
         return date.format(formatter).capitalize()
     }
 }

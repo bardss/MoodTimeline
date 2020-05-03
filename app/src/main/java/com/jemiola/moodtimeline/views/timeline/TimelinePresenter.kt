@@ -10,6 +10,7 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 class TimelinePresenter(
     private val view: TimelineContract.View,
@@ -101,7 +102,8 @@ class TimelinePresenter(
         return defaultToDate.format(formatter)
     }
 
-    private fun getDefaultSearchDateFormatter() = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+    private fun getDefaultSearchDateFormatter() =
+        DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.ENGLISH)
 
     override fun createDateTextFrom(dayOfMonth: Int, monthOfYear: Int, year: Int): String {
         val selectedDate = LocalDate.of(year, monthOfYear, dayOfMonth)
@@ -119,7 +121,7 @@ class TimelinePresenter(
         return getMilisFromDate(toDate)
     }
 
-    private fun getMilisFromDate(date: LocalDate): Long{
+    private fun getMilisFromDate(date: LocalDate): Long {
         return LocalDateTime
             .of(date, LocalTime.NOON)
             .atZone(DefaultTime.getZone())

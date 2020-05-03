@@ -17,6 +17,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 const val IMAGE_QUALITY_COMPRESS = 30
 
@@ -126,7 +127,7 @@ object ImageUtils {
 
     private fun createFileNameWithTimeStamp(): String {
         val dateTimeNow = LocalDateTime.now(DefaultTime.getClock())
-        val formatter = DateTimeFormatter.ofPattern("yyyy_MMM_dd_HH_mm_ss")
+        val formatter = DateTimeFormatter.ofPattern("yyyy_MMM_dd_HH_mm_ss").withLocale(Locale.ENGLISH)
         val timeStamp = dateTimeNow.format(formatter)
         return "mood_timeline_$timeStamp"
     }

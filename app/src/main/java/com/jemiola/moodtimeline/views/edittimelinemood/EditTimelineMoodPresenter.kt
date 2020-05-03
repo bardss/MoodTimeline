@@ -7,6 +7,7 @@ import com.jemiola.moodtimeline.utils.DefaultTime
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 class EditTimelineMoodPresenter(
     private val view: EditTimelineMoodContract.View,
@@ -26,7 +27,7 @@ class EditTimelineMoodPresenter(
     }
 
     override fun getFormattedDate(date: LocalDate): String {
-        val formatter = DateTimeFormatter.ofPattern("MMMM d")
+        val formatter = DateTimeFormatter.ofPattern("MMMM d").withLocale(Locale.ENGLISH)
         return date.format(formatter).capitalize()
     }
 
