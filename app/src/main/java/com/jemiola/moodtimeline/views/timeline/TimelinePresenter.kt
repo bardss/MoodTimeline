@@ -27,6 +27,15 @@ class TimelinePresenter(
         repository.getTimetableMoods(fromDate, toDate, callback)
     }
 
+    fun searchTimelineMoods() {
+        val fromDate = getFromDateFromView()
+        val toDate = getToDateFromView()
+        val callback = createRepositoryCallback<List<TimelineMoodBO>>(
+            onSuccessAction = { onSearchTimelineMoodsSuccess(it) },
+            onErrorAction = {}
+        )
+        repository.getTimetableMoods(fromDate, toDate, callback)
+    }
 
     private fun getFromDateFromView(): LocalDate {
         val fromDateText = view.getFromDate()
@@ -41,14 +50,14 @@ class TimelinePresenter(
     }
 
     private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBO>) {
-        val moods = addAddMoodIfNeeded(result)
+        val moods = addSpecialMoodsIfNeeded(result)
         view.setTimelineMoods(moods)
     }
 
-    private fun addAddMoodIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {
+    private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {
         val editableMoods = moodsFromRepository.toMutableList()
         return when {
-            true -> {
+            shouldAddMoodBeVisible(editableMoods) -> {
                 val addTimelineItem = createAddTimelineMood()
                 editableMoods.pushToFront(addTimelineItem)
             }
@@ -57,6 +66,16 @@ class TimelinePresenter(
             }
             else -> moodsFromRepository
         }
+    }
+
+    private fun onSearchTimelineMoodsSuccess(moodsFromRepository: List<TimelineMoodBO>) {
+        if (moodsFromRepository.isEmpty()) view.showSearchEmptyView()
+        else {
+            val moods = addSpecialMoodsIfNeeded(moodsFromRepository)
+            view.showTimelineRecyclerView()
+            view.setTimelineMoods(moods)
+        }
+
     }
 
     private fun createAddTimelineMood(): TimelineMoodBO {

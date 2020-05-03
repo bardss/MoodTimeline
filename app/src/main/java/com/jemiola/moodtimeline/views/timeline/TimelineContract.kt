@@ -17,5 +17,7 @@ interface TimelineContract {
         fun setTimelineMoods(moods: List<TimelineMoodBO>)
         fun getFromDate(): String
         fun getToDate(): String
+        fun showSearchEmptyView()
+        fun showTimelineRecyclerView()
     }
 }

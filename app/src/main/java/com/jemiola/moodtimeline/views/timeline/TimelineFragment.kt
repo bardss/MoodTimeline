@@ -27,6 +27,9 @@ import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import java.util.*
 
+const val MOVE_ANIM_DURATION = 500
+const val EMPTY_VIEW_ANIM_DURATION = 100
+
 class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
@@ -139,13 +142,13 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isSearchOpened = true
             animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(R.drawable.ic_close))
             val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
-            AnimUtils.animateMove(500, hideDistance, binding.timelineTopLayout)
-            AnimUtils.animateMove(500, 0, binding.searchTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.searchTopLayout)
         } else {
             isSearchOpened = false
             animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(R.drawable.ic_search))
-            AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
-            AnimUtils.animateMove(500, distance, binding.searchTopLayout) {
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
                 setupSearchDefaultValues()
             }
         }
@@ -159,20 +162,20 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isCalendarOpened = true
             animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(R.drawable.ic_close))
             val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
-            AnimUtils.animateMove(500, hideDistance, binding.timelineTopLayout)
-            AnimUtils.animateMove(500, distance, binding.timelineRecyclerView)
-            AnimUtils.animateMove(500, 0, binding.calendarTopLayout)
-            AnimUtils.animateMove(500, 0, binding.calendarFragmentLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.timelineRecyclerView)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarFragmentLayout)
         } else {
             isCalendarOpened = false
             animateIconChangeTo(
                 binding.calendarImageView,
                 ResUtil.getDrawable(R.drawable.ic_calendar)
             )
-            AnimUtils.animateMove(500, 0, binding.timelineTopLayout)
-            AnimUtils.animateMove(500, 0, binding.timelineRecyclerView)
-            AnimUtils.animateMove(500, -distance, binding.calendarTopLayout)
-            AnimUtils.animateMove(500, -distance, binding.calendarFragmentLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineRecyclerView)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarTopLayout)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout)
         }
     }
 
@@ -186,17 +189,17 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     private fun initialSearchTopLayoutMoveOutOfScreen() {
         val distance = binding.timelineTopLayout.width
-        AnimUtils.animateMove(500, distance, binding.searchTopLayout) {
+        AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
             binding.searchTopLayout.visibility = View.VISIBLE
         }
     }
 
     private fun initialCalendarTopLayoutMoveOutOfScreen() {
         val distance = binding.timelineTopLayout.width
-        AnimUtils.animateMove(500, -distance, binding.calendarTopLayout) {
+        AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarTopLayout) {
             binding.calendarTopLayout.visibility = View.VISIBLE
         }
-        AnimUtils.animateMove(500, -distance, binding.calendarFragmentLayout) {
+        AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout) {
             binding.calendarFragmentLayout.visibility = View.VISIBLE
         }
     }
@@ -237,7 +240,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             val fromText = binding.fromEditText.text
             val toText = binding.toEditText.text
             if (fromText?.isNotEmpty() == true && toText?.isNotEmpty() == true) {
-                presenter.requestTimelineMoods()
+                presenter.searchTimelineMoods()
             }
             setupDatePickerBlockades(fromDatePicker, toDatePicker)
         }
@@ -263,6 +266,28 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun getToDate(): String {
         return binding.toEditText.text.toString()
+    }
+
+    override fun showSearchEmptyView() {
+        if (binding.timelineRecyclerView.visibility != View.GONE) {
+            AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, {
+                binding.timelineRecyclerView.visibility = View.GONE
+            }, binding.timelineRecyclerView)
+        }
+        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.searchEmptyViewLayout)
+    }
+
+    override fun showTimelineRecyclerView() {
+        if (binding.timelineRecyclerView.visibility == View.GONE) {
+            AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, {
+                binding.timelineRecyclerView.visibility = View.VISIBLE
+            }, binding.timelineRecyclerView)
+        }
+        if (binding.searchEmptyViewLayout.visibility != View.GONE) {
+            AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, {
+                binding.searchEmptyViewLayout.visibility = View.GONE
+            }, binding.searchEmptyViewLayout)
+        }
     }
 
 }
