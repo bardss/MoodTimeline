@@ -20,8 +20,6 @@ import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
-const val PICTURE_QUALITY = 60
-
 class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.View {
 
     override val presenter: DetailsTimelineMoodPresenter by inject { parametersOf(this) }

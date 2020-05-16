@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/calendarLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -42,69 +43,68 @@
 
     </LinearLayout>
 
-    <GridLayout
+    <androidx.gridlayout.widget.GridLayout
         android:id="@+id/calendarTopBarGridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:columnCount="7">
+        app:columnCount="7">
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/monday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/tuesday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/wednesday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/thursday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/friday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/saturday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="0dp"
             android:layout_height="46dp"
+            android:gravity="center"
             android:text="@string/sunday_short_uppercase"
-            android:layout_columnWeight="1"
-            android:gravity="center"/>
+            app:layout_columnWeight="1" />
 
-    </GridLayout>
+    </androidx.gridlayout.widget.GridLayout>
 
-    <GridLayout
+    <androidx.gridlayout.widget.GridLayout
         android:id="@+id/calendarDaysGridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="7">
-    </GridLayout>
+        app:columnCount="7"/>
 
 </LinearLayout>

@@ -5,40 +5,40 @@
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/veryGoodCircle"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
+        android:layout_width="@dimen/choose_mood_circle_size"
+        android:layout_height="@dimen/choose_mood_circle_size"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"/>
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/goodCircle"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
+        android:layout_width="@dimen/choose_mood_circle_size"
+        android:layout_height="@dimen/choose_mood_circle_size"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"/>
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/badCircle"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
+        android:layout_width="@dimen/choose_mood_circle_size"
+        android:layout_height="@dimen/choose_mood_circle_size"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"/>
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/veryBadCircle"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
+        android:layout_width="@dimen/choose_mood_circle_size"
+        android:layout_height="@dimen/choose_mood_circle_size"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"/>
 
     <com.jemiola.moodtimeline.customviews.MoodCircle
         android:id="@+id/mediocreCircle"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
+        android:layout_width="@dimen/choose_mood_circle_size"
+        android:layout_height="@dimen/choose_mood_circle_size"
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"/>

@@ -33,4 +33,8 @@ object ResUtil {
         return BaseApplication.context.getDrawable(resourceId)
     }
 
+    fun getDimenDp(resourceId: Int): Int {
+        val resources = BaseApplication.context.resources
+        return (resources.getDimension(resourceId) / resources.displayMetrics.density).toInt()
+    }
 }

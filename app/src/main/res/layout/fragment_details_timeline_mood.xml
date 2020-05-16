@@ -28,65 +28,81 @@
         android:elevation="2dp"
         android:translationY="2dp" />
 
-    <com.jemiola.moodtimeline.customviews.MoodCircle
-        android:id="@+id/moodCircle"
-        android:layout_width="61dp"
-        android:layout_height="61dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp" />
-
-    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-        android:id="@+id/dayTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/text_size_xlarge" />
-
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:id="@+id/noteLabelTextView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/note"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_small"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="-12dp">
 
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:id="@+id/noteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_medium"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_marginTop="16dp">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:elevation="5dp"
-            app:cardCornerRadius="8dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/selectedPictureImageView"
+            <com.jemiola.moodtimeline.customviews.MoodCircle
+                android:id="@+id/moodCircle"
+                android:layout_width="61dp"
+                android:layout_height="61dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp" />
+
+            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+                android:id="@+id/dayTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:alpha="0.7"
-                android:clipChildren="true" />
+                android:layout_marginTop="3dp"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/text_size_xlarge" />
 
-        </androidx.cardview.widget.CardView>
+            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                android:id="@+id/noteLabelTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/note"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="gone" />
 
-    </FrameLayout>
+            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                android:id="@+id/noteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginTop="16dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:elevation="5dp"
+                    app:cardCornerRadius="8dp">
+
+                    <ImageView
+                        android:id="@+id/selectedPictureImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:alpha="0.7"
+                        android:clipChildren="true" />
+
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </LinearLayout>

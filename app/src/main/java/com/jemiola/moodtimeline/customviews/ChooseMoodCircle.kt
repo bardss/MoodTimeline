@@ -8,11 +8,12 @@ import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
 import kotlin.properties.Delegates
 
 const val ANIM_DURATION = 300
-val MARGIN_BETWEEN_CIRCLES = SizeUtils.dp2px(10f)
+val MARGIN_BETWEEN_CIRCLES = ResUtil.getDimenDp(R.dimen.choose_mood_circle_margin)
 
 class ChooseMoodCircle : FrameLayout {
 

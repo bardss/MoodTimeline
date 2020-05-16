@@ -50,42 +50,57 @@
         android:elevation="2dp"
         android:translationY="2dp" />
 
-    <com.jemiola.moodtimeline.customviews.ChooseMoodCircle
-        android:id="@+id/chooseMoodCircle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="-12dp">
 
-    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-        android:id="@+id/editedDayTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/text_size_xlarge" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/note"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_small" />
+            <com.jemiola.moodtimeline.customviews.ChooseMoodCircle
+                android:id="@+id/chooseMoodCircle"
+                android:layout_width="match_parent"
+                android:layout_height="61dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp" />
 
-    <com.jemiola.moodtimeline.customviews.RalewayEditText
-        android:id="@+id/noteEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:backgroundTint="@color/colorMoodNone"
-        android:textSize="@dimen/text_size_medium" />
+            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+                android:id="@+id/editedDayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/text_size_xlarge" />
 
-    <com.jemiola.moodtimeline.customviews.PickPhotoView
-        android:id="@+id/pickPhotoView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/note"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size_small" />
+
+            <com.jemiola.moodtimeline.customviews.RalewayEditText
+                android:id="@+id/noteEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:backgroundTint="@color/colorMoodNone"
+                android:textSize="@dimen/text_size_medium" />
+
+            <com.jemiola.moodtimeline.customviews.PickPhotoView
+                android:id="@+id/pickPhotoView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </LinearLayout>
