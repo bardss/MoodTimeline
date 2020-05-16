@@ -32,7 +32,7 @@ class TimelineRepository : BaseRepository() {
                 database.timelineMoodDao().getMoodsFromTo(from, to)
             },
             onSuccess = {
-                val timelineMoodBOs = convertTimetableMoodDOtoBO(it)
+                val timelineMoodBOs = convertTimelineMoodDOtoBO(it)
                 val moodsInCorrectOrder = timelineMoodBOs.reversed()
                 callback.onSuccess(moodsInCorrectOrder)
             },
@@ -50,7 +50,7 @@ class TimelineRepository : BaseRepository() {
         )
     }
 
-    private fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDO>): List<TimelineMoodBO> {
+    private fun convertTimelineMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDO>): List<TimelineMoodBO> {
         return timetableMoodDOs.map {
             TimelineMoodBO(
                 id = it.id,

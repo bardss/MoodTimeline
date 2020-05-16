@@ -1,7 +1,5 @@
 package com.jemiola.moodtimeline.base
 
-import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import kotlin.coroutines.CoroutineContext
@@ -16,10 +14,11 @@ abstract class BaseRepository : KoinComponent, CoroutineScope {
         coroutineContext.cancelChildren()
     }
 
-    fun <T: Any> launchCallbackRequest(
+    fun <T : Any> launchCallbackRequest(
         request: () -> T,
         onSuccess: (T) -> Unit,
-        onError: (Throwable) -> Unit) {
+        onError: (Throwable) -> Unit
+    ) {
         try {
             launch {
                 val response = request.invoke()

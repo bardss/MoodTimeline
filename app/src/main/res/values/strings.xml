@@ -19,6 +19,6 @@
     <string name="friday_short_uppercase">FRI</string>
     <string name="saturday_short_uppercase">SAT</string>
     <string name="sunday_short_uppercase">SUN</string>
-    <string name="moods_not_found">Moods not found</string>
+    <string name="moods_not_found">Moods\nnot found</string>
     <string name="add_first_mood">Add first mood</string>
 </resources>
