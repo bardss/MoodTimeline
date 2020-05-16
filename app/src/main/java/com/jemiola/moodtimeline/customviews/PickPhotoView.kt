@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.utils.ImageUtils
+import com.jemiola.moodtimeline.utils.ResUtil
 import java.io.File
 
 const val REQUEST_IMAGE_GALLERY = 36
@@ -20,6 +21,7 @@ const val PICTURE_QUALITY = 60
 class PickPhotoView : FrameLayout {
 
     private val selectedPictureImageView: ImageView
+    private val editPictureImageView: ImageView
     private var fragment: Fragment? = null
 
     var picturePath: String? = null
@@ -37,6 +39,7 @@ class PickPhotoView : FrameLayout {
     init {
         LayoutInflater.from(context).inflate(R.layout.view_pick_photo, this)
         selectedPictureImageView = findViewById(R.id.selectedPictureImageView)
+        editPictureImageView = findViewById(R.id.editPictureImageView)
         setupPickPhotoOnClick()
     }
 
@@ -61,6 +64,7 @@ class PickPhotoView : FrameLayout {
         val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
             this.picturePath = path
+            editPictureImageView.setImageDrawable(ResUtil.getDrawable(R.drawable.ic_edit))
             selectedPictureImageView.setImageDrawable(pictureBitmap)
         }
     }

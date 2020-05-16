@@ -9,7 +9,6 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
-import com.jemiola.moodtimeline.utils.SizeUtils
 import kotlin.properties.Delegates
 
 const val ANIM_DURATION = 300
@@ -54,6 +53,10 @@ class ChooseMoodCircle : FrameLayout {
 
     private fun setupInitialState() {
         mediocreCircle.state = CircleStateBO.EDIT
+        veryGoodCircle.state = CircleStateBO.CHOOSE_MOOD
+        goodCircle.state = CircleStateBO.CHOOSE_MOOD
+        badCircle.state = CircleStateBO.CHOOSE_MOOD
+        veryBadCircle.state = CircleStateBO.CHOOSE_MOOD
         mediocreCircle.setOnClickListener { expand() }
         veryGoodCircle.setOnClickListener { selectMood(CircleMoodBO.VERY_GOOD) }
         goodCircle.setOnClickListener { selectMood(CircleMoodBO.GOOD) }
@@ -71,7 +74,7 @@ class ChooseMoodCircle : FrameLayout {
 
     private fun expand() {
         if (!expanded) {
-            mediocreCircle.state = CircleStateBO.DEFAULT
+            mediocreCircle.state = CircleStateBO.CHOOSE_MOOD
             mediocreCircle.mood = CircleMoodBO.MEDIOCRE
             mediocreCircle.setOnClickListener { selectMood(CircleMoodBO.MEDIOCRE) }
             circleExpandAnimation()

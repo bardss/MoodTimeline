@@ -12,6 +12,7 @@ import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentDetailsTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ImageUtils
@@ -67,6 +68,7 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
 
     private fun setSelectedMood(mood: CircleMoodBO) {
         binding.moodCircle.mood = mood
+        binding.moodCircle.state = CircleStateBO.DEFAULT
     }
 
     private fun setPathAsSelectedPicture(path: String?) {

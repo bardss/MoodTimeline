@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 
 class CalendarMoodDayView : FrameLayout {
 
@@ -18,6 +19,7 @@ class CalendarMoodDayView : FrameLayout {
     var mood: CircleMoodBO = CircleMoodBO.NONE
         set(value) {
             dayMoodCircle.mood = value
+            dayMoodCircle.state = CircleStateBO.DEFAULT
             field = value
         }
 

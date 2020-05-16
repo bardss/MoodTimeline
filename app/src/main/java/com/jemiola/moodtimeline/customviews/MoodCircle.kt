@@ -1,6 +1,7 @@
 package com.jemiola.moodtimeline.customviews
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ class MoodCircle : FrameLayout {
         dayTextView.visibility = View.VISIBLE
     }
     private val stateImageView: ImageView
+    private val circleImageView: ImageView
     private val moodImageView: ImageView
     private val dayTextView: ComfortaBoldTextView
 
@@ -42,8 +44,9 @@ class MoodCircle : FrameLayout {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_mood_circle, this)
-        moodImageView = findViewById(R.id.moodImageView)
+        circleImageView = findViewById(R.id.circleImageView)
         stateImageView = findViewById(R.id.stateImageView)
+        moodImageView = findViewById(R.id.moodImageView)
         dayTextView = findViewById(R.id.circleDayTextView)
         setupStatePadding()
     }
@@ -51,25 +54,27 @@ class MoodCircle : FrameLayout {
     private fun setupStatePadding() {
         viewTreeObserver.addOnGlobalLayoutListener {
             stateImageView.layoutParams = stateImageView.layoutParams.apply {
-                width = (moodImageView.width / 3) * 2
-                height = (moodImageView.height / 3) * 2
+                width = (circleImageView.width / 3) * 2
+                height = (circleImageView.height / 3) * 2
             }
         }
     }
 
     private fun changeBackground(mood: CircleMoodBO) {
-        moodImageView.setImageDrawable(
-            ResUtil.getDrawable(mood.backgroundId)
-        )
+        circleImageView.setImageDrawable(ResUtil.getDrawable(mood.backgroundId))
+        moodImageView.setImageDrawable(ResUtil.getDrawable(mood.moodDrawable))
     }
 
     private fun changeState(state: CircleStateBO) {
         when (state) {
             EDIT -> ResUtil.getDrawable(R.drawable.ic_edit)
             ADD -> ResUtil.getDrawable(R.drawable.ic_plus)
-            DEFAULT -> null
+            DEFAULT -> ResUtil.getDrawable(R.drawable.ic_mood_none)
+            CHOOSE_MOOD -> null
         }.also { stateDrawable ->
             stateImageView.setImageDrawable(stateDrawable)
+            if (stateDrawable != null) moodImageView.visibility = View.GONE
+            else moodImageView.visibility = View.VISIBLE
         }
     }
 }
