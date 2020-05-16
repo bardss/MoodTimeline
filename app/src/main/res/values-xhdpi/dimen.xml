@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="text_size_search">18sp</dimen>
     <dimen name="choose_mood_circle_size">61dp</dimen>
     <dimen name="choose_mood_circle_margin">10dp</dimen>
 </resources>

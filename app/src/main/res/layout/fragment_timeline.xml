@@ -70,7 +70,7 @@
                 android:layout_weight="2"
                 android:focusable="false"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_search" />
 
             <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
                 android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                 android:layout_weight="2"
                 android:focusable="false"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_search" />
 
         </LinearLayout>
 

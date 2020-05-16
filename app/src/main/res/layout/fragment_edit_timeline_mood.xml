@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="12dp" />
+                android:layout_marginTop="18dp" />
 
             <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
                 android:id="@+id/editedDayTextView"
