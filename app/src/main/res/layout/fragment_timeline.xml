@@ -151,7 +151,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="124dp"
-        android:gravity="center"
+        android:gravity="bottom|center"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -171,6 +171,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/timelineContentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="4dp"
@@ -180,7 +181,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/timelineRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -191,6 +192,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/comeBackLaterLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/come_back_tomorrow_to_add_next_mood"
+                android:textSize="@dimen/text_size_large" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_come_back_later" />
+
+        </LinearLayout>
 
     </FrameLayout>
 

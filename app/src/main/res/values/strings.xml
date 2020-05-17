@@ -21,4 +21,5 @@
     <string name="sunday_short_uppercase">SUN</string>
     <string name="moods_not_found">Moods\nnot found</string>
     <string name="add_first_mood">Add first mood</string>
+    <string name="come_back_tomorrow_to_add_next_mood">Come back tomorrow\nto add next mood</string>
 </resources>

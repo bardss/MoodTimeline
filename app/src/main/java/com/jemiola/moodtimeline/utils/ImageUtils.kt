@@ -53,9 +53,11 @@ object ImageUtils {
     ): String? {
         val file = File(path)
         val pictureBitmap = BitmapFactory.decodeFile(path)
-        val rotateBitmap = performRotation(file, pictureBitmap)
-        val resizedBitmap = resizeBitmapWhenTooLarge(rotateBitmap)
-        return saveBitmap(resizedBitmap, IMAGE_QUALITY_COMPRESS, storageDir)
+        return if (pictureBitmap != null) {
+            val rotateBitmap = performRotation(file, pictureBitmap)
+            val resizedBitmap = resizeBitmapWhenTooLarge(rotateBitmap)
+            saveBitmap(resizedBitmap, IMAGE_QUALITY_COMPRESS, storageDir)
+        } else null
     }
 
     fun getBitmapDrawableFromPath(path: String?): RoundedBitmapDrawable? {

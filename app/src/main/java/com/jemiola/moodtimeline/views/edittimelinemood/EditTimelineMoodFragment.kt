@@ -42,7 +42,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     override fun onBackPressed(): Boolean {
-        val isAddingFirstMood =  arguments?.getBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, false)
+        val isAddingFirstMood = arguments?.getBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, false)
         if (isAddingFirstMood == false) {
             navigateBack()
         }

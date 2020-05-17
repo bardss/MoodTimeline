@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     private lateinit var binding: FragmentTimelineBinding
     private var isSearchOpened = false
     private var isCalendarOpened = false
+    private var counterComeBackLaterInflater = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +58,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun onStart() {
         super.onStart()
+        counterComeBackLaterInflater = 0
         presenter.setupTimetableMoods()
     }
 
@@ -89,7 +92,10 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         pushFragment(detailsTimelineMoodFragment)
     }
 
-    private fun createBundleEditTimelineMood(mood: TimelineMoodBO, isAddingFirstMood: Boolean): Bundle {
+    private fun createBundleEditTimelineMood(
+        mood: TimelineMoodBO,
+        isAddingFirstMood: Boolean
+    ): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
             putBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, isAddingFirstMood)
@@ -173,6 +179,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.timelineRecyclerView)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.comeBackLaterLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarFragmentLayout)
         } else {
@@ -183,6 +190,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             )
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineRecyclerView)
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.comeBackLaterLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout)
         }
@@ -307,6 +315,25 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         setupAddEmptyViewMoodCircle()
         setupAddEmptyViewVisibility()
         setupAddEmptyViewOnClick()
+    }
+
+    override fun setupComeBackLaterView() {
+        binding.timelineRecyclerView.post {
+            val timelineContentLayoutHeight = binding.timelineContentLayout.height
+            val timelineListHeight = binding.timelineRecyclerView.height
+            val comeBackLaterViewHeight = binding.comeBackLaterLayout.height
+            if (timelineListHeight < 100 && counterComeBackLaterInflater < 5) {
+                counterComeBackLaterInflater += 1
+                Handler().postDelayed({ setupComeBackLaterView() }, 1000)
+            } else {
+                val contentSum = timelineListHeight + comeBackLaterViewHeight
+                if (timelineContentLayoutHeight > contentSum) {
+                    AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.comeBackLaterLayout)
+                } else if (binding.comeBackLaterLayout.visibility != View.INVISIBLE) {
+                    AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, binding.comeBackLaterLayout)
+                }
+            }
+        }
     }
 
     private fun setupAddEmptyViewOnClick() {

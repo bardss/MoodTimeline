@@ -65,6 +65,13 @@ class TimelinePresenter(
     private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBO>) {
         val moods = addSpecialMoodsIfNeeded(result)
         view.setTimelineMoods(moods)
+        if (moodsWithoutAddMoodState(moods)) {
+            view.setupComeBackLaterView()
+        }
+    }
+
+    private fun moodsWithoutAddMoodState(moods: List<TimelineMoodBO>): Boolean {
+        return moods.none { it.circleState == CircleStateBO.ADD}
     }
 
     private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {

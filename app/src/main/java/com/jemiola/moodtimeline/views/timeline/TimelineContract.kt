@@ -21,5 +21,6 @@ interface TimelineContract {
         fun showSearchEmptyView()
         fun showTimelineRecyclerView()
         fun showAddEmptyView()
+        fun setupComeBackLaterView()
     }
 }

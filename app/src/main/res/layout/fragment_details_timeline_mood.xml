@@ -76,7 +76,8 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="230dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
@@ -96,13 +97,7 @@
                         android:clipChildren="true" />
 
                 </androidx.cardview.widget.CardView>
-
             </FrameLayout>
-
-
         </LinearLayout>
-
-
     </ScrollView>
-
 </LinearLayout>
