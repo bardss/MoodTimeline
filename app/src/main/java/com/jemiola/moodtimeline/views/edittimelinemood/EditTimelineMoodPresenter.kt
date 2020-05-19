@@ -19,10 +19,11 @@ class EditTimelineMoodPresenter(
     }
 
     override fun setupView(mood: TimelineMoodBO) {
+        view.showAllDefaultViews()
         when (mood.circleState) {
             EDIT -> view.setupEditView(mood)
-            ADD -> view.setupAddView(mood)
-            DEFAULT -> view.navigateBack()
+            ADD -> view.setupAddView(mood.date)
+            else -> view.navigateBack()
         }
     }
 
@@ -63,5 +64,10 @@ class EditTimelineMoodPresenter(
             circleMood = mood,
             picturePath = picturePath
         )
+    }
+
+    fun setupAddMoodOnboardingView() {
+
+
     }
 }

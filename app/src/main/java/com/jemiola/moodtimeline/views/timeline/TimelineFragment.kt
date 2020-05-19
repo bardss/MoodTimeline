@@ -98,7 +98,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     ): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
-            putBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, isAddingFirstMood)
+            putBoolean(ExtraKeys.IS_ADD_MOOD_ONBOARDING, isAddingFirstMood)
         }
     }
 

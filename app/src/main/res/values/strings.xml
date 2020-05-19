@@ -22,4 +22,8 @@
     <string name="moods_not_found">Moods\nnot found</string>
     <string name="add_first_mood">Add first mood</string>
     <string name="come_back_tomorrow_to_add_next_mood">Come back tomorrow\nto add next mood</string>
+    <string name="next_underlined"><u>Next</u></string>
+    <string name="how_do_you_feel">How do you feel?</string>
+    <string name="whats_on_your_mind">What’s on your mind</string>
+    <string name="choose_photo">Choose photo</string>
 </resources>

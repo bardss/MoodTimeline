@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ScrollView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
@@ -12,16 +13,19 @@ import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.DefaultTime
 import com.jemiola.moodtimeline.utils.ResUtil
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
+const val ANIM_DURATION = 200
 
 class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
 
     override val presenter: EditTimelineMoodPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentEditTimelineMoodBinding
+    private var isAddMoodOnboarding: Boolean? = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +35,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         binding = FragmentEditTimelineMoodBinding.inflate(inflater, container, false)
         setUnderlineColor(R.color.colorMoodNone)
         binding.pickPhotoView.setFragment(this)
+        isAddMoodOnboarding = arguments?.getBoolean(ExtraKeys.IS_ADD_MOOD_ONBOARDING, false)
         saveOpenedMoodId()
         setupView()
         return binding.root
@@ -42,8 +47,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     override fun onBackPressed(): Boolean {
-        val isAddingFirstMood = arguments?.getBoolean(ExtraKeys.IS_ADDING_FIRST_MOOD, false)
-        if (isAddingFirstMood == false) {
+        if (isAddMoodOnboarding == false) {
             navigateBack()
         }
         return true
@@ -55,34 +59,43 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     private fun setupView() {
-        val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
-        mood?.let { presenter.setupView(it) }
+        if (isAddMoodOnboarding == true) {
+            showOnboardingChooseMoodView()
+        } else {
+
+            val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
+            mood?.let { presenter.setupView(it) }
+        }
     }
 
     private fun setupOnMoodChangeAction() {
         binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
-            if (mood == CircleMoodBO.NONE) binding.acceptImageView.visibility = View.INVISIBLE
-            else AnimUtils.fadeIn(500, binding.acceptImageView)
             binding.noteEditText.backgroundTintList = ResUtil.getColorAsColorStateList(mood.colorId)
+            if (isAddMoodOnboarding == true && binding.noteEditText.visibility != View.VISIBLE) {
+                setupOnboardingViewAfterChooseMood()
+            } else {
+                if (mood == CircleMoodBO.NONE) binding.acceptImageView.visibility = View.INVISIBLE
+                else AnimUtils.fadeIn(500, binding.acceptImageView)
+            }
         }
     }
 
     override fun setupEditView(mood: TimelineMoodBO) {
-        binding.titleTextView.text = ResUtil.getString(R.string.edit_note)
+        changeTitle(ResUtil.getString(R.string.edit_note))
         binding.acceptImageView.setOnClickListener { presenter.editMood() }
         binding.acceptImageView.visibility = View.VISIBLE
         fillMoodData(mood)
     }
 
-    override fun setupAddView(mood: TimelineMoodBO) {
-        binding.titleTextView.text = ResUtil.getString(R.string.add_note)
+    override fun setupAddView(date: LocalDate) {
+        changeTitle(ResUtil.getString(R.string.add_note))
         binding.acceptImageView.setOnClickListener { presenter.addMood() }
-        setItemDate(mood.date)
+        setMoodDate(date)
     }
 
     private fun fillMoodData(mood: TimelineMoodBO) {
         setUnderlineColor(mood.circleMood.colorId)
-        setItemDate(mood.date)
+        setMoodDate(mood.date)
         setNote(mood.note)
         setSelectedMood(mood.circleMood)
         setSelectedImage(mood.picturePath)
@@ -101,7 +114,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         popFragment()
     }
 
-    private fun setItemDate(date: LocalDate) {
+    private fun setMoodDate(date: LocalDate) {
         val formattedDate = presenter.getFormattedDate(date)
         binding.editedDayTextView.text = formattedDate
     }
@@ -128,5 +141,121 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
 
     override fun getPicturePath(): String {
         return binding.pickPhotoView.picturePath ?: ""
+    }
+
+    override fun showAllDefaultViews() {
+        AnimUtils.fadeIn(
+            ANIM_DURATION,
+            binding.editedDayTextView,
+            binding.noteLabelTextView,
+            binding.noteEditText,
+            binding.pickPhotoView
+        )
+    }
+
+    private fun showOnboardingChooseMoodView() {
+        setMoodDate(LocalDate.now(DefaultTime.getClock()))
+        changeTitle(ResUtil.getString(R.string.how_do_you_feel))
+        binding.acceptImageView.setOnClickListener { presenter.addMood() }
+        AnimUtils.fadeIn(ANIM_DURATION, binding.onboardingChooseMoodImageView)
+    }
+
+    private fun setupNextButtonAddNoteOnClick() {
+        binding.onboardingNextTextView.setOnClickListener {
+            setupOnboardingViewAfterAddNote()
+        }
+    }
+
+    private fun setupNextButtonAddPictureOnClick() {
+        binding.onboardingNextTextView.setOnClickListener {
+            setupOnboardingViewAfterAddPicture()
+        }
+    }
+
+    private fun setupOnboardingViewAfterChooseMood() {
+        changeTitle(ResUtil.getString(R.string.whats_on_your_mind))
+        setupNextButtonAddNoteOnClick()
+        AnimUtils.animateAlpha(
+            ANIM_DURATION,
+            0.5F,
+            binding.chooseMoodCircle
+        )
+        AnimUtils.fadeOut(
+            ANIM_DURATION, {
+                AnimUtils.fadeIn(
+                    ANIM_DURATION,
+                    binding.editedDayTextView,
+                    binding.noteLabelTextView,
+                    binding.noteEditText,
+                    binding.onboardingAddNoteImageView,
+                    binding.onboardingNextTextView
+                )
+            },
+            binding.onboardingChooseMoodImageView
+        )
+    }
+    private fun setupOnboardingViewAfterAddNote() {
+        changeTitle(ResUtil.getString(R.string.choose_photo))
+        setupNextButtonAddPictureOnClick()
+        AnimUtils.animateAlpha(
+            ANIM_DURATION,
+            0.5F,
+            binding.chooseMoodCircle,
+            binding.editedDayTextView,
+            binding.noteLabelTextView,
+            binding.noteEditText
+        )
+        AnimUtils.fadeOut(
+            ANIM_DURATION, {
+                AnimUtils.fadeIn(
+                    ANIM_DURATION, {
+                        scrollToBottomContentScrollView()
+                    },
+                    binding.pickPhotoView,
+                    binding.onboardingAddPictureImageView,
+                    binding.onboardingNextTextView
+                )
+            },
+            binding.onboardingAddNoteImageView
+        )
+    }
+
+    private fun setupOnboardingViewAfterAddPicture() {
+        changeTitle(ResUtil.getString(R.string.add_note))
+        AnimUtils.fadeIn(500, binding.acceptImageView)
+        AnimUtils.animateAlpha(
+            ANIM_DURATION,
+            1F,
+            binding.chooseMoodCircle,
+            binding.chooseMoodCircle,
+            binding.editedDayTextView,
+            binding.noteLabelTextView,
+            binding.noteEditText
+        )
+        scrollToTopContentScrollView()
+        AnimUtils.fadeOut(
+            ANIM_DURATION, {
+                binding.onboardingAddPictureImageView.visibility = View.GONE
+                binding.onboardingNextTextView.visibility = View.GONE
+            },
+            binding.onboardingAddPictureImageView,
+            binding.onboardingNextTextView
+        )
+    }
+
+    private fun changeTitle(title: String) {
+        if (binding.titleTextView.visibility == View.VISIBLE) {
+            AnimUtils.fadeOut(ANIM_DURATION, binding.titleTextView)
+        }
+        binding.titleTextView.text = title
+        AnimUtils.fadeIn(ANIM_DURATION, binding.titleTextView)
+    }
+
+    private fun scrollToBottomContentScrollView() {
+        binding.contentScrollView.fullScroll(ScrollView.FOCUS_DOWN)
+    }
+
+    private fun scrollToTopContentScrollView() {
+        binding.contentScrollView.fullScroll(ScrollView.FOCUS_UP)
     }
 }

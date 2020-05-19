@@ -77,7 +77,7 @@ class TimelinePresenter(
     private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {
         val editableMoods = moodsFromRepository.toMutableList()
         return when {
-            true -> {
+            shouldAddMoodBeVisible(moodsFromRepository) -> {
                 val addTimelineItem = createAddTimelineMood()
                 editableMoods.pushToFront(addTimelineItem)
             }

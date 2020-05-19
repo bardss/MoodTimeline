@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryBackground"
-    android:orientation="vertical"
     android:padding="18dp">
 
     <LinearLayout
+        android:id="@+id/topBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -40,8 +40,10 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/topBarDividerView"
         android:layout_width="match_parent"
         android:layout_height="4dp"
+        android:layout_below="@id/topBarLayout"
         android:layout_marginStart="2dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="2dp"
@@ -51,14 +53,15 @@
         android:translationY="2dp" />
 
     <ScrollView
+        android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/topBarDividerView"
         android:layout_marginTop="-12dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <com.jemiola.moodtimeline.customviews.ChooseMoodCircle
                 android:id="@+id/chooseMoodCircle"
@@ -67,37 +70,92 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="18dp" />
 
-            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-                android:id="@+id/editedDayTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="3dp"
-                android:textColor="@color/colorTitle"
-                android:textSize="@dimen/text_size_xlarge" />
-
-            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            <ImageView
+                android:id="@+id/onboardingChooseMoodImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/chooseMoodCircle"
+                android:layout_marginTop="22dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_onboarding_choose_mood"
+                android:visibility="gone" />
+
+            <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+                android:id="@+id/editedDayTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chooseMoodCircle"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/text_size_xlarge"
+                android:visibility="gone" />
+
+            <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                android:id="@+id/noteLabelTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editedDayTextView"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="3dp"
                 android:text="@string/note"
                 android:textColor="@color/colorText"
-                android:textSize="@dimen/text_size_small" />
+                android:textSize="@dimen/text_size_small"
+                android:visibility="gone" />
 
             <com.jemiola.moodtimeline.customviews.RalewayEditText
                 android:id="@+id/noteEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/noteLabelTextView"
                 android:layout_marginTop="6dp"
                 android:backgroundTint="@color/colorMoodNone"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/onboardingAddNoteImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/noteEditText"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_onboarding_add_note"
+                android:visibility="gone" />
 
             <com.jemiola.moodtimeline.customviews.PickPhotoView
                 android:id="@+id/pickPhotoView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/noteEditText"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="12dp" />
-        </LinearLayout>
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/onboardingAddPictureImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pickPhotoView"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="-6dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_onboarding_add_picture"
+                android:visibility="gone" />
+        </RelativeLayout>
     </ScrollView>
-</LinearLayout>
+
+    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+        android:id="@+id/onboardingNextTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_underlined"
+        android:textColor="@color/colorBottomMenuInactive"
+        android:textSize="@dimen/text_size_large"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="12dp"
+        android:visibility="visible"/>
+
+</RelativeLayout>

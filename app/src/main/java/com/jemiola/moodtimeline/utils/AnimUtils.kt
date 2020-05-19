@@ -19,19 +19,21 @@ object AnimUtils {
         buttonAnimator.start()
     }
 
-    fun animateAlpha(durationToSet: Int, to: Float, view: View) {
-        view.animate().apply {
-            alpha(to)
-            duration = durationToSet.toLong()
-            setListener(
-                object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        view.alpha = to
-                        super.onAnimationEnd(animation)
+    fun animateAlpha(durationToSet: Int, to: Float, vararg views: View) {
+        views.forEach {  view ->
+            view.animate().apply {
+                alpha(to)
+                duration = durationToSet.toLong()
+                setListener(
+                    object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            view.alpha = to
+                            super.onAnimationEnd(animation)
+                        }
                     }
-                }
-            )
-            start()
+                )
+                start()
+            }
         }
     }
 

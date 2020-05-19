@@ -18,7 +18,8 @@ interface EditTimelineMoodContract {
         fun getMoodNote(): String
         fun getSelectedMood(): CircleMoodBO
         fun setupEditView(mood: TimelineMoodBO)
-        fun setupAddView(mood: TimelineMoodBO)
+        fun setupAddView(date: LocalDate)
         fun getPicturePath(): String
+        fun showAllDefaultViews()
     }
 }
