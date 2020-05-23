@@ -16,6 +16,7 @@ import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ImageUtils
+import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.disableFor
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -72,6 +73,16 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
     }
 
     private fun setPathAsSelectedPicture(path: String?) {
+        if (path != null && path.isNotEmpty()) {
+            if (!PermissionsUtil.isStoragePermissionGranted()) {
+                PermissionsUtil.askForStoragePermission(context) { setupPictureInImageView(path) }
+            } else {
+                setupPictureInImageView(path)
+            }
+        }
+    }
+
+    private fun setupPictureInImageView(path: String?) {
         val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
             binding.selectedPictureImageView.setImageDrawable(pictureBitmap)

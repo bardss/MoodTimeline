@@ -48,7 +48,6 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     ): View? {
         if (!this::binding.isInitialized) {
             binding = FragmentTimelineBinding.inflate(inflater, container, false)
-            setupStoragePermissions()
             setupTimeline()
             setupSearchView()
             setupCalendarView()
@@ -60,12 +59,6 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         super.onStart()
         counterComeBackLaterInflater = 0
         presenter.setupTimetableMoods()
-    }
-
-    private fun setupStoragePermissions() {
-        if (!PermissionsUtil.isStoragePermissionGranted()) {
-            PermissionsUtil.askForStoragePermission()
-        }
     }
 
     private fun setupTimeline() {

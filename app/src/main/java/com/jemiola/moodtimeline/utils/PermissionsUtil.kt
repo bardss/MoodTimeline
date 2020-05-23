@@ -1,10 +1,11 @@
 package com.jemiola.moodtimeline.utils
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import com.jemiola.moodtimeline.base.BaseApplication
 import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.Permission
+import com.yanzhenjie.permission.runtime.Permission
 
 object PermissionsUtil {
 
@@ -17,12 +18,20 @@ object PermissionsUtil {
                 storageReadPermission == PackageManager.PERMISSION_GRANTED
     }
 
-    fun askForStoragePermission() {
-        AndPermission
-            .with(BaseApplication.context)
-            .requestCode(0)
-            .permission(Permission.STORAGE)
-            .start()
+    fun askForStoragePermission(
+        context: Context?,
+        onDeniedAction: () -> Unit = {},
+        onGrantedAction: () -> Unit = {}
+    ) {
+        if (context != null) {
+            AndPermission
+                .with(context)
+                .runtime()
+                .permission(Permission.Group.STORAGE)
+                .onDenied { onDeniedAction() }
+                .onGranted { onGrantedAction() }
+                .start()
+        }
     }
 
 }

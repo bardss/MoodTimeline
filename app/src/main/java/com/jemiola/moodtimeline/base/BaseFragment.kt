@@ -1,7 +1,6 @@
 package com.jemiola.moodtimeline.base
 
 import androidx.fragment.app.Fragment
-import com.jemiola.moodtimeline.views.navigation.NavigationActivity
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import org.koin.core.KoinComponent
 

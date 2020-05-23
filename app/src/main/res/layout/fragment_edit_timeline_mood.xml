@@ -68,15 +68,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="18dp" />
+                android:layout_marginTop="26dp" />
 
             <ImageView
                 android:id="@+id/onboardingChooseMoodImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/chooseMoodCircle"
-                android:layout_marginTop="22dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_onboarding_choose_mood"
                 android:visibility="gone" />
@@ -86,8 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/chooseMoodCircle"
-                android:gravity="center"
                 android:layout_marginTop="4dp"
+                android:gravity="center"
                 android:textColor="@color/colorTitle"
                 android:textSize="@dimen/text_size_xlarge"
                 android:visibility="gone" />
@@ -97,10 +97,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editedDayTextView"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="3dp"
+                android:layout_marginTop="22dp"
                 android:text="@string/note"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorBottomMenuInactive"
                 android:textSize="@dimen/text_size_small"
                 android:visibility="gone" />
 
@@ -120,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/noteEditText"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginEnd="12dp"
                 android:src="@drawable/ic_onboarding_add_note"
                 android:visibility="gone" />
@@ -129,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/noteEditText"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="26dp"
                 android:layout_marginBottom="12dp"
                 android:visibility="gone" />
 
@@ -141,6 +142,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="-6dp"
                 android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
                 android:src="@drawable/ic_onboarding_add_picture"
                 android:visibility="gone" />
         </RelativeLayout>
@@ -150,12 +152,13 @@
         android:id="@+id/onboardingNextTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/next_underlined"
         android:textColor="@color/colorBottomMenuInactive"
         android:textSize="@dimen/text_size_large"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="12dp"
-        android:visibility="visible"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -12,11 +12,10 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.utils.ImageUtils
+import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
-import java.io.File
 
 const val REQUEST_IMAGE_GALLERY = 36
-const val PICTURE_QUALITY = 60
 
 class PickPhotoView : FrameLayout {
 
@@ -53,7 +52,8 @@ class PickPhotoView : FrameLayout {
                 val pathToPhoto = ImageUtils.getPathFromUri(uri)
                 val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                 if (storageDir != null) {
-                    val pathToOptimisedFile = ImageUtils.saveOptimisedPictureAndReturnPath(pathToPhoto, storageDir)
+                    val pathToOptimisedFile =
+                        ImageUtils.saveOptimisedPictureAndReturnPath(pathToPhoto, storageDir)
                     setPathAsSelectedPicture(pathToOptimisedFile)
                 }
             }
@@ -70,11 +70,21 @@ class PickPhotoView : FrameLayout {
     }
 
     private fun setupPickPhotoOnClick() {
-        setOnClickListener {
-            val photoPickerIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            photoPickerIntent.type = "image/*"
-            fragment?.startActivityForResult(photoPickerIntent, REQUEST_IMAGE_GALLERY)
+        setOnClickListener { onPickPhotoClick() }
+    }
+
+    private fun onPickPhotoClick() {
+        if (!PermissionsUtil.isStoragePermissionGranted()) {
+            PermissionsUtil.askForStoragePermission(context) { pickPhoto() }
+        } else if (PermissionsUtil.isStoragePermissionGranted()) {
+            pickPhoto()
         }
+    }
+
+    private fun pickPhoto() {
+        val photoPickerIntent =
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        photoPickerIntent.type = "image/*"
+        fragment?.startActivityForResult(photoPickerIntent, REQUEST_IMAGE_GALLERY)
     }
 }

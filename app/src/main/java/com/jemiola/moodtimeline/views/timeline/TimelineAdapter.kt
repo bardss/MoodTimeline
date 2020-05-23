@@ -12,6 +12,7 @@ import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.ImageUtils
+import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
 import org.koin.core.KoinComponent
@@ -110,11 +111,13 @@ class TimelineAdapter(
         pictureImageView: ImageView,
         pictureLayout: ViewGroup
     ) {
-        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
-        if (pictureBitmap != null) {
-            pictureLayout.visibility = View.VISIBLE
-            pictureImageView.setImageDrawable(pictureBitmap)
-        } else pictureLayout.visibility = View.GONE
+        if (PermissionsUtil.isStoragePermissionGranted()) {
+            val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
+            if (pictureBitmap != null) {
+                pictureLayout.visibility = View.VISIBLE
+                pictureImageView.setImageDrawable(pictureBitmap)
+            } else pictureLayout.visibility = View.GONE
+        }
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
