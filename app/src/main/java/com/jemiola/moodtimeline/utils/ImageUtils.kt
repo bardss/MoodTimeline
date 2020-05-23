@@ -10,6 +10,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.net.toUri
 import com.jemiola.moodtimeline.base.BaseApplication
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -47,16 +48,28 @@ object ImageUtils {
         }
     }
 
-    fun saveOptimisedPictureAndReturnPath(
+    fun saveOptimisedPictureFromPathAndReturnPath(
         path: String?,
         storageDir: File
     ): String? {
-        val file = File(path)
         val pictureBitmap = BitmapFactory.decodeFile(path)
         return if (pictureBitmap != null) {
+            val file = File(path)
             val rotateBitmap = performRotation(file, pictureBitmap)
             val resizedBitmap = resizeBitmapWhenTooLarge(rotateBitmap)
             saveBitmap(resizedBitmap, IMAGE_QUALITY_COMPRESS, storageDir)
+        } else null
+    }
+
+    fun overwriteOptimisedPictureFromPathAndReturnPath(
+        path: String?
+    ): String? {
+        val pictureBitmap = BitmapFactory.decodeFile(path)
+        return if (pictureBitmap != null) {
+            val file = File(path)
+            val rotateBitmap = performRotation(file, pictureBitmap)
+            val resizedBitmap = resizeBitmapWhenTooLarge(rotateBitmap)
+            overwriteBitmap(resizedBitmap, IMAGE_QUALITY_COMPRESS, file)
         } else null
     }
 
@@ -113,8 +126,7 @@ object ImageUtils {
         storageDir: File
     ): String? {
         try {
-            val fileNameWithTimeStamp = createFileNameWithTimeStamp()
-            val fileToSaveTo = File.createTempFile(fileNameWithTimeStamp, ".jpg", storageDir)
+            val fileToSaveTo = createFileWithTimeStamp(storageDir)
             val fileOutputStream = FileOutputStream(fileToSaveTo)
             bitmapToSave.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream)
             fileOutputStream.close()
@@ -127,9 +139,40 @@ object ImageUtils {
         return null
     }
 
+    private fun overwriteBitmap(
+        bitmapToSave: Bitmap,
+        quality: Int,
+        fileToOverwrite: File
+    ): String? {
+        try {
+            val fileOutputStream = FileOutputStream(fileToOverwrite)
+            bitmapToSave.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream)
+            fileOutputStream.close()
+            return fileToOverwrite.absolutePath
+        } catch (e: FileNotFoundException) {
+            Log.e("File not found: ", e.message)
+        } catch (e: IOException) {
+            Log.e("Error accessing file: ", e.message)
+        }
+        return null
+    }
+
+    fun createFileAndGetURI(
+        storageDir: File
+    ): Uri {
+        val photoFile = createFileWithTimeStamp(storageDir)
+        return photoFile.toUri()
+    }
+
+    fun createFileWithTimeStamp(storageDir: File): File {
+        val fileNameWithTimeStamp = createFileNameWithTimeStamp()
+        return File.createTempFile(fileNameWithTimeStamp, ".jpg", storageDir)
+    }
+
     private fun createFileNameWithTimeStamp(): String {
         val dateTimeNow = LocalDateTime.now(DefaultTime.getClock())
-        val formatter = DateTimeFormatter.ofPattern("yyyy_MMM_dd_HH_mm_ss").withLocale(Locale.ENGLISH)
+        val formatter =
+            DateTimeFormatter.ofPattern("yyyy_MMM_dd_HH_mm_ss").withLocale(Locale.ENGLISH)
         val timeStamp = dateTimeNow.format(formatter)
         return "mood_timeline_$timeStamp"
     }

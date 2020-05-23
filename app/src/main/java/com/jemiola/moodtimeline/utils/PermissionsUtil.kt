@@ -18,6 +18,28 @@ object PermissionsUtil {
                 storageReadPermission == PackageManager.PERMISSION_GRANTED
     }
 
+    fun isCameraPermissionGranted(): Boolean {
+        val cameraPermission =
+            BaseApplication.context.checkCallingOrSelfPermission(Manifest.permission.CAMERA)
+        return cameraPermission == PackageManager.PERMISSION_GRANTED
+    }
+
+    fun askForCameraPermission(
+        context: Context?,
+        onDeniedAction: () -> Unit = {},
+        onGrantedAction: () -> Unit = {}
+    ) {
+        if (context != null) {
+            AndPermission
+                .with(context)
+                .runtime()
+                .permission(Permission.Group.CAMERA)
+                .onDenied { onDeniedAction() }
+                .onGranted { onGrantedAction() }
+                .start()
+        }
+    }
+
     fun askForStoragePermission(
         context: Context?,
         onDeniedAction: () -> Unit = {},
