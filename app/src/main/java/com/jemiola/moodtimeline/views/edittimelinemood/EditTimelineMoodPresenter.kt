@@ -65,9 +65,4 @@ class EditTimelineMoodPresenter(
             picturePath = picturePath
         )
     }
-
-    fun setupAddMoodOnboardingView() {
-
-
-    }
 }
