@@ -1,10 +1,9 @@
 package com.jemiola.moodtimeline.views.calendar
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.gridlayout.widget.GridLayout
 import com.jemiola.moodtimeline.R
@@ -15,6 +14,7 @@ import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.OnSwipeListener
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.disableFor
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
@@ -45,6 +45,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         setupMonthChange()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupMonthChange() {
         val disableTime = 1000
         binding.arrowLeftImageView.setOnClickListener {
@@ -54,6 +55,22 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         binding.arrowRightImageView.setOnClickListener {
             it.disableFor(disableTime)
             presenter.openNextMonth()
+        }
+        binding.calendarTopBarGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
+        binding.calendarDaysGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
+    }
+
+    private fun createMonthSwipeListener(disableTime: Int): OnSwipeListener {
+        return object : OnSwipeListener(context) {
+            override fun onSwipeRight() {
+                binding.calendarTopBarGridLayout.disableFor(disableTime)
+                presenter.openPreviousMonth()
+            }
+
+            override fun onSwipeLeft() {
+                binding.calendarTopBarGridLayout.disableFor(disableTime)
+                presenter.openNextMonth()
+            }
         }
     }
 
