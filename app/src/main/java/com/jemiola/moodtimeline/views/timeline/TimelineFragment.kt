@@ -9,6 +9,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +22,6 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.AnimUtils
-import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.calendar.CalendarFragment
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
@@ -70,7 +70,13 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun setTimelineMoods(moods: List<TimelineMoodBO>) {
         val adapter = binding.timelineRecyclerView.adapter
+        val animationId =
+            if (adapter?.itemCount == 0) R.anim.layout_animation_fade_in
+            else R.anim.layout_animation_fall_down
+        val animation = AnimationUtils.loadLayoutAnimation(context, animationId)
         (adapter as TimelineAdapter).setTimelineMoods(moods)
+        binding.timelineRecyclerView.layoutAnimation = animation
+        binding.timelineRecyclerView.scheduleLayoutAnimation()
     }
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBO, isAddingFirstMood: Boolean) {

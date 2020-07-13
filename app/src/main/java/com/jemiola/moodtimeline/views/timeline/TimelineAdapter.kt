@@ -3,9 +3,12 @@ package com.jemiola.moodtimeline.views.timeline
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.jemiola.moodtimeline.R
+import com.jemiola.moodtimeline.base.BaseApplication.Companion.context
 import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
 import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
