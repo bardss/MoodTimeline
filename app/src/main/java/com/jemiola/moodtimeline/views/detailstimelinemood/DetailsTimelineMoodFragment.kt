@@ -14,6 +14,7 @@ import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
@@ -45,12 +46,13 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
 
 
     private fun fillMoodData() {
-        val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
+        val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
         mood?.let {
             setItemDate(mood.date)
             setNote(mood.note)
             setSelectedMood(mood.circleMood)
-            setPathAsSelectedPicture(mood.picturePath)
+            //TODO: Zmienic
+            setPathAsSelectedPicture(mood.picturePath[0])
         }
     }
 

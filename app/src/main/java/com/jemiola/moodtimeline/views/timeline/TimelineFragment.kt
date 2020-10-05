@@ -21,6 +21,7 @@ import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.calendar.CalendarFragment
@@ -68,7 +69,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         }
     }
 
-    override fun setTimelineMoods(moods: List<TimelineMoodBO>) {
+    override fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
         val adapter = binding.timelineRecyclerView.adapter
         val animationId =
             if (adapter?.itemCount == 0) R.anim.layout_animation_fade_in
@@ -79,20 +80,20 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         binding.timelineRecyclerView.scheduleLayoutAnimation()
     }
 
-    override fun openEditTimelineMoodActivity(mood: TimelineMoodBO, isAddingFirstMood: Boolean) {
+    override fun openEditTimelineMoodActivity(mood: TimelineMoodBOv2, isAddingFirstMood: Boolean) {
         val editTimelineMoodFragment = EditTimelineMoodFragment()
         editTimelineMoodFragment.arguments = createBundleEditTimelineMood(mood, isAddingFirstMood)
         pushFragment(editTimelineMoodFragment)
     }
 
-    override fun openTimelineMoodDetails(mood: TimelineMoodBO) {
+    override fun openTimelineMoodDetails(mood: TimelineMoodBOv2) {
         val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
         detailsTimelineMoodFragment.arguments = createBundleDetailsTimelineMood(mood)
         pushFragment(detailsTimelineMoodFragment)
     }
 
     private fun createBundleEditTimelineMood(
-        mood: TimelineMoodBO,
+        mood: TimelineMoodBOv2,
         isAddingFirstMood: Boolean
     ): Bundle {
         return Bundle().apply {
@@ -101,7 +102,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         }
     }
 
-    private fun createBundleDetailsTimelineMood(mood: TimelineMoodBO): Bundle {
+    private fun createBundleDetailsTimelineMood(mood: TimelineMoodBOv2): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }

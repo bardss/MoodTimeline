@@ -5,9 +5,9 @@ import com.jemiola.moodtimeline.base.BaseApplication
 import com.jemiola.moodtimeline.base.BaseRepository
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
-import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
+import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
 import com.jemiola.moodtimeline.utils.DefaultTime
 import org.threeten.bp.LocalDate
@@ -22,13 +22,13 @@ class CalendarRepository : BaseRepository() {
     ).build()
 
     fun getCurrentMonthMoods(
-        callback: OnRepositoryCallback<List<TimelineMoodBO>>
+        callback: OnRepositoryCallback<List<TimelineMoodBOv2>>
     ) {
         val monthStartDay = currentMonthDate.withDayOfMonth(1)
         val monthEndDay = currentMonthDate.withDayOfMonth(currentMonthDate.lengthOfMonth())
         launchCallbackRequest(
             request = {
-                database.timelineMoodDao().getMoodsFromTo(monthStartDay, monthEndDay)
+                database.timelineMoodDaoV2().getMoodsFromTo(monthStartDay, monthEndDay)
             },
             onSuccess = {
                 val timelineMoodBOs = convertTimetableMoodDOtoBO(it)
@@ -38,14 +38,14 @@ class CalendarRepository : BaseRepository() {
         )
     }
 
-    private fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDO>): List<TimelineMoodBO> {
+    private fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDOv2>): List<TimelineMoodBOv2> {
         return timetableMoodDOs.map {
-            TimelineMoodBO(
+            TimelineMoodBOv2(
                 id = it.id,
                 date = it.date,
                 note = it.note,
                 circleMood = CircleMoodBO.from(it.mood),
-                picturePath = it.picturePath
+                picturePath = it.picturesPaths
             )
         }
     }

@@ -12,6 +12,7 @@ import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodRepositor
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.navigation.NavigationPresenter
 import com.jemiola.moodtimeline.views.navigation.NavigationRepository
+import com.jemiola.moodtimeline.views.splash.SplashContract
 import com.jemiola.moodtimeline.views.splash.SplashPresenter
 import com.jemiola.moodtimeline.views.splash.SplashRepository
 import com.jemiola.moodtimeline.views.timeline.TimelineAdapterPresenter
@@ -19,7 +20,6 @@ import com.jemiola.moodtimeline.views.timeline.TimelineContract
 import com.jemiola.moodtimeline.views.timeline.TimelinePresenter
 import com.jemiola.moodtimeline.views.timeline.TimelineRepository
 import org.koin.dsl.module
-import java.util.*
 
 val navigationModule = module {
     single { NavigationRepository() }
@@ -59,5 +59,7 @@ val calendarModule = module {
 
 val splashModule = module {
     single { SplashRepository() }
-    factory { SplashPresenter(get()) }
+    factory { (view: SplashContract.View) ->
+        SplashPresenter(view, get())
+    }
 }

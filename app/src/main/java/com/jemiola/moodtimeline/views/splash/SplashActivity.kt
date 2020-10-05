@@ -8,16 +8,21 @@ import com.jemiola.moodtimeline.base.BaseActivity
 import com.jemiola.moodtimeline.views.navigation.NavigationActivity
 import com.jemiola.moodtimeline.views.timeline.TimelineFragment
 import org.koin.core.inject
+import org.koin.core.parameter.parametersOf
 
 const val splashDelayMilis = 2000L
 
-class SplashActivity : BaseActivity() {
+class SplashActivity : BaseActivity(), SplashContract.View {
 
-    override val presenter: SplashPresenter by inject()
+    override val presenter: SplashPresenter by inject { parametersOf(this)  }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        presenter.executeDatabaseMigrations()
+    }
+
+    override fun onMigrationsEnd() {
         openNextActivityWithDelay()
     }
 

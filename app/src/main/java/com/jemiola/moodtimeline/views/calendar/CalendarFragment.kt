@@ -13,6 +13,7 @@ import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.OnSwipeListener
 import com.jemiola.moodtimeline.utils.ResUtil
@@ -98,7 +99,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         }
     }
 
-    override fun addCurrentMonthMoodDay(day: Int, mood: TimelineMoodBO) {
+    override fun addCurrentMonthMoodDay(day: Int, mood: TimelineMoodBOv2) {
         context?.let { notNullContext ->
             val moodDayView = createMoodDayView(notNullContext)
             binding.calendarDaysGridLayout.addView(moodDayView)
@@ -137,13 +138,13 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         AnimUtils.fadeIn(50, binding.calendarDaysGridLayout)
     }
 
-    private fun openTimelineMoodDetails(mood: TimelineMoodBO) {
+    private fun openTimelineMoodDetails(mood: TimelineMoodBOv2) {
         val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
         detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
         pushFragment(detailsTimelineMoodFragment)
     }
 
-    private fun createBundleWithTimelineMood(mood: TimelineMoodBO): Bundle {
+    private fun createBundleWithTimelineMood(mood: TimelineMoodBOv2): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }

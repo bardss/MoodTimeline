@@ -24,4 +24,14 @@ class Converters {
     fun fromInt(mood: MoodDO): String {
         return mood.toString()
     }
+
+    @TypeConverter
+    fun toToListOfStrings(paths: String): List<String> {
+        return paths.split(",").map { it.trim() }
+    }
+
+    @TypeConverter
+    fun fromListOfStrings(paths: List<String>): String {
+        return paths.joinToString(",")
+    }
 }

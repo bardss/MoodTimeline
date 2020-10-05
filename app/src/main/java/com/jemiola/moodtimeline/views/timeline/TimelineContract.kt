@@ -1,6 +1,6 @@
 package com.jemiola.moodtimeline.views.timeline
 
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 
 interface TimelineContract {
     interface Presenter {
@@ -10,12 +10,13 @@ interface TimelineContract {
         fun createDateTextFrom(dayOfMonth: Int, monthOfYear: Int, year: Int): String
         fun getSearchFromDateLong(): Long
         fun getSearchToDateLong(): Long
-        fun createAddTimelineMood(): TimelineMoodBO
+        fun createAddTimelineMood(): TimelineMoodBOv2
     }
+
     interface View {
-        fun openEditTimelineMoodActivity(mood: TimelineMoodBO, isAddingFirstMood: Boolean = false)
-        fun openTimelineMoodDetails(mood: TimelineMoodBO)
-        fun setTimelineMoods(moods: List<TimelineMoodBO>)
+        fun openEditTimelineMoodActivity(mood: TimelineMoodBOv2, isAddingFirstMood: Boolean = false)
+        fun openTimelineMoodDetails(mood: TimelineMoodBOv2)
+        fun setTimelineMoods(moods: List<TimelineMoodBOv2>)
         fun getFromDate(): String
         fun getToDate(): String
         fun showSearchEmptyView()

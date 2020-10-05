@@ -1,10 +1,9 @@
 package com.jemiola.moodtimeline.views.calendar
 
 import com.jemiola.moodtimeline.base.BasePresenter
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Month
-import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.TextStyle
 import java.util.*
 
@@ -14,14 +13,14 @@ class CalendarPresenter(
 ) : BasePresenter(repository), CalendarContract.Presenter {
 
     override fun setupCalendar() {
-        val callback = createRepositoryCallback<List<TimelineMoodBO>>(
+        val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
             onSuccessAction = { setupCalendarView(it) },
             onErrorAction = {}
         )
         repository.getCurrentMonthMoods(callback)
     }
 
-    private fun setupCalendarView(moods: List<TimelineMoodBO>) {
+    private fun setupCalendarView(moods: List<TimelineMoodBOv2>) {
         view.hideCalendar {
             setupMonthText()
             setupMonthDays(moods)
@@ -37,7 +36,7 @@ class CalendarPresenter(
         }
     }
 
-    private fun setupMonthDays(moods: List<TimelineMoodBO>) {
+    private fun setupMonthDays(moods: List<TimelineMoodBOv2>) {
         view.clearDaysInCalendar()
         val currentDate = repository.currentMonthDate
         val numberOfPreviousMonthDays = getPreviousMonthLength(currentDate)
@@ -61,8 +60,8 @@ class CalendarPresenter(
 
     private fun getMoodForCalendarDay(
         checkedDay: Int,
-        moods: List<TimelineMoodBO>
-    ): TimelineMoodBO {
+        moods: List<TimelineMoodBOv2>
+    ): TimelineMoodBOv2 {
         val currentMonth = repository.currentMonthDate.monthValue
         val currentYear = repository.currentMonthDate.year
         val checkedDate = LocalDate.of(currentYear, currentMonth, checkedDay)
@@ -71,7 +70,7 @@ class CalendarPresenter(
         }
     }
 
-    private fun doesDayHaveMood(checkedDay: Int, moods: List<TimelineMoodBO>): Boolean {
+    private fun doesDayHaveMood(checkedDay: Int, moods: List<TimelineMoodBOv2>): Boolean {
         val currentMonth = repository.currentMonthDate.monthValue
         val currentYear = repository.currentMonthDate.year
         val checkedDate = LocalDate.of(currentYear, currentMonth, checkedDay)
@@ -107,5 +106,6 @@ class CalendarPresenter(
         setupCalendar()
     }
 
-    private fun getFormattedMonth(month: Month) = month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+    private fun getFormattedMonth(month: Month) =
+        month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
 }

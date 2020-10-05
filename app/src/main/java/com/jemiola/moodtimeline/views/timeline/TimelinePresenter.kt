@@ -4,6 +4,7 @@ import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.DefaultTime
 import com.jemiola.moodtimeline.utils.pushToFront
 import org.threeten.bp.LocalDate
@@ -33,7 +34,7 @@ class TimelinePresenter(
     private fun requestTimetableMoods() {
         val fromDate = getFromDateFromView()
         val toDate = getToDateFromView()
-        val callback = createRepositoryCallback<List<TimelineMoodBO>>(
+        val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
             onSuccessAction = { onGetTimetableMoodsSuccess(it) },
             onErrorAction = {}
         )
@@ -43,7 +44,7 @@ class TimelinePresenter(
     fun searchTimelineMoods() {
         val fromDate = getFromDateFromView()
         val toDate = getToDateFromView()
-        val callback = createRepositoryCallback<List<TimelineMoodBO>>(
+        val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
             onSuccessAction = { onSearchTimelineMoodsSuccess(it) },
             onErrorAction = {}
         )
@@ -62,7 +63,7 @@ class TimelinePresenter(
         return LocalDate.parse(fromDateText, formatter)
     }
 
-    private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBO>) {
+    private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBOv2>) {
         val moods = addSpecialMoodsIfNeeded(result)
         view.setTimelineMoods(moods)
         if (moodsWithoutAddMoodState(moods)) {
@@ -70,11 +71,11 @@ class TimelinePresenter(
         }
     }
 
-    private fun moodsWithoutAddMoodState(moods: List<TimelineMoodBO>): Boolean {
+    private fun moodsWithoutAddMoodState(moods: List<TimelineMoodBOv2>): Boolean {
         return moods.none { it.circleState == CircleStateBO.ADD}
     }
 
-    private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBO>): List<TimelineMoodBO> {
+    private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBOv2>): List<TimelineMoodBOv2> {
         val editableMoods = moodsFromRepository.toMutableList()
         return when {
             shouldAddMoodBeVisible(moodsFromRepository) -> {
@@ -88,7 +89,7 @@ class TimelinePresenter(
         }
     }
 
-    private fun onSearchTimelineMoodsSuccess(moodsFromRepository: List<TimelineMoodBO>) {
+    private fun onSearchTimelineMoodsSuccess(moodsFromRepository: List<TimelineMoodBOv2>) {
         if (moodsFromRepository.isEmpty()) view.showSearchEmptyView()
         else {
             val moods = addSpecialMoodsIfNeeded(moodsFromRepository)
@@ -98,25 +99,25 @@ class TimelinePresenter(
 
     }
 
-    override fun createAddTimelineMood(): TimelineMoodBO {
-        return TimelineMoodBO(
+    override fun createAddTimelineMood(): TimelineMoodBOv2 {
+        return TimelineMoodBOv2(
             id = null,
             date = LocalDate.now(DefaultTime.getClock()),
             note = "",
             circleMood = CircleMoodBO.NONE,
             circleState = CircleStateBO.ADD,
-            picturePath = ""
+            picturePath = listOf()
         )
     }
 
     private fun createMoodsWithFirstEditableMood(
-        moodsFromRepository: MutableList<TimelineMoodBO>
-    ): List<TimelineMoodBO> {
+        moodsFromRepository: MutableList<TimelineMoodBOv2>
+    ): List<TimelineMoodBOv2> {
         moodsFromRepository[0].circleState = CircleStateBO.EDIT
         return moodsFromRepository
     }
 
-    private fun shouldAddMoodBeVisible(moods: List<TimelineMoodBO>): Boolean {
+    private fun shouldAddMoodBeVisible(moods: List<TimelineMoodBOv2>): Boolean {
         val searchFromDate = getFromDateFromView()
         val searchToDate = getToDateFromView().plusDays(1)
         val dateNow = LocalDate.now(DefaultTime.getClock())
@@ -125,7 +126,7 @@ class TimelinePresenter(
                 dateNow.isBefore(searchToDate)
     }
 
-    private fun shouldEditMoodBeVisible(moods: List<TimelineMoodBO>): Boolean {
+    private fun shouldEditMoodBeVisible(moods: List<TimelineMoodBOv2>): Boolean {
         return moods.any { it.date == LocalDate.now(DefaultTime.getClock()) }
     }
 

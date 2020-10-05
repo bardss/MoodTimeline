@@ -11,6 +11,7 @@ import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
@@ -23,7 +24,7 @@ class TimelineAdapter(
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>(), KoinComponent {
 
     private val adapterPresenter: TimelineAdapterPresenter by inject()
-    private var moods: List<TimelineMoodBO> = listOf()
+    private var moods: List<TimelineMoodBOv2> = listOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -63,7 +64,7 @@ class TimelineAdapter(
         setupOnClicks(holder, mood)
     }
 
-    private fun setupOnClicks(holder: ViewHolder, mood: TimelineMoodBO) {
+    private fun setupOnClicks(holder: ViewHolder, mood: TimelineMoodBOv2) {
         holder.timelineItemLayout.setOnClickListener {
             adapterPresenter.onItemClick(mood, view)
         }
@@ -71,7 +72,7 @@ class TimelineAdapter(
 
     private fun setupText(
         holder: ViewHolder,
-        mood: TimelineMoodBO
+        mood: TimelineMoodBOv2
     ) {
         holder.dateTextView.text = adapterPresenter.getFormattedDate(mood.date)
         holder.noteTextView.text = mood.note
@@ -79,7 +80,7 @@ class TimelineAdapter(
 
     private fun setupMoodCircle(
         holder: ViewHolder,
-        mood: TimelineMoodBO
+        mood: TimelineMoodBOv2
     ) {
         holder.moodCircle.state = mood.circleState
         holder.moodCircle.mood = mood.circleMood
@@ -93,15 +94,16 @@ class TimelineAdapter(
             )
             holder.lineView.visibility = View.VISIBLE
             holder.noteTextView.visibility = View.VISIBLE
+            //TODO: Do przekimny wyświetlanie
             setPathAsSelectedPicture(
-                mood.picturePath,
+                mood.picturePath[0],
                 holder.pictureImageView,
                 holder.pictureLayout
             )
         }
     }
 
-    fun setTimelineMoods(moods: List<TimelineMoodBO>) {
+    fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
         this.moods = moods
         notifyDataSetChanged()
     }

@@ -7,8 +7,8 @@ import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
 import com.jemiola.moodtimeline.model.data.databaseobjects.MoodDO
-import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 
 class EditTimelineMoodRepository : BaseRepository() {
 
@@ -23,35 +23,35 @@ class EditTimelineMoodRepository : BaseRepository() {
         this.openedMoodId = openedMoodId
     }
 
-    fun addMood(timelineMood: TimelineMoodBO, callback: OnRepositoryCallback<Unit>) {
+    fun addMood(timelineMood: TimelineMoodBOv2, callback: OnRepositoryCallback<Unit>) {
         launchCallbackRequest(
             request = {
                 val timelineMoodDO = convertMoodBOtoDO(timelineMood)
-                database.timelineMoodDao().insert(timelineMoodDO)
+                database.timelineMoodDaoV2().insert(timelineMoodDO)
             },
             onSuccess = { callback.onSuccess(it) },
             onError = { callback.onError() }
         )
     }
 
-    fun editMood(timelineMood: TimelineMoodBO, callback: OnRepositoryCallback<Unit>) {
+    fun editMood(timelineMood: TimelineMoodBOv2, callback: OnRepositoryCallback<Unit>) {
         launchCallbackRequest(
             request = {
                 val timelineMoodDO = convertMoodBOtoDO(timelineMood)
-                database.timelineMoodDao().update(timelineMoodDO)
+                database.timelineMoodDaoV2().update(timelineMoodDO)
             },
             onSuccess = { callback.onSuccess(it) },
             onError = { callback.onError() }
         )
     }
 
-    private fun convertMoodBOtoDO(mood: TimelineMoodBO): TimelineMoodDO {
-        return TimelineMoodDO(
+    private fun convertMoodBOtoDO(mood: TimelineMoodBOv2): TimelineMoodDOv2 {
+        return TimelineMoodDOv2(
             id = openedMoodId,
             note = mood.note,
             date = mood.date,
             mood = MoodDO.from(mood.circleMood),
-            picturePath = mood.picturePath
+            picturesPaths = mood.picturePath
         )
     }
 
