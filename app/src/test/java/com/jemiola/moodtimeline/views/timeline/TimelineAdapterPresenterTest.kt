@@ -21,7 +21,7 @@ class TimelineAdapterPresenterTest {
             note = "",
             circleMood = CircleMoodBO.BAD,
             circleState = circleMoodState,
-            picturePath = ""
+            picturePaths = ""
         )
         val view: TimelineContract.View = mockk()
         every { view.openEditTimelineMoodActivity(any()) } returns Unit
@@ -38,7 +38,7 @@ class TimelineAdapterPresenterTest {
             note = "",
             circleMood = CircleMoodBO.BAD,
             circleState = circleMoodState,
-            picturePath = ""
+            picturePaths = ""
         )
         val view: TimelineContract.View = mockk()
         every { view.openEditTimelineMoodActivity(any()) } returns Unit
@@ -55,7 +55,7 @@ class TimelineAdapterPresenterTest {
             note = "",
             circleMood = CircleMoodBO.BAD,
             circleState = circleMoodState,
-            picturePath = ""
+            picturePaths = ""
         )
         val view: TimelineContract.View = mockk()
         every { view.openTimelineMoodDetails(any()) } returns Unit

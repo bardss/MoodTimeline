@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.customviews.pickphoto.PickPhotoFragment
 import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.DefaultTime
 import com.jemiola.moodtimeline.utils.ResUtil
@@ -21,7 +22,7 @@ import org.threeten.bp.LocalDate
 
 const val ANIM_DURATION = 200
 
-class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
+class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, PickPhotoFragment {
 
     override val presenter: EditTimelineMoodPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentEditTimelineMoodBinding
@@ -33,8 +34,8 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditTimelineMoodBinding.inflate(inflater, container, false)
+        binding.picturesLayout.setPickPhotoFragment(this)
         setUnderlineColor(R.color.colorMoodNone)
-        binding.pickPhotoView.setFragment(this)
         isAddMoodOnboarding = arguments?.getBoolean(ExtraKeys.IS_ADD_MOOD_ONBOARDING, false)
         saveOpenedMoodId()
         setupView()
@@ -54,7 +55,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     private fun saveOpenedMoodId() {
-        val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
+        val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
         mood?.let { presenter.saveOpenedMoodId(it.id) }
     }
 
@@ -62,8 +63,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         if (isAddMoodOnboarding == true) {
             showOnboardingChooseMoodView()
         } else {
-
-            val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBO
+            val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
             mood?.let { presenter.setupView(it) }
         }
     }
@@ -80,7 +80,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         }
     }
 
-    override fun setupEditView(mood: TimelineMoodBO) {
+    override fun setupEditView(mood: TimelineMoodBOv2) {
         changeTitle(ResUtil.getString(R.string.edit_note))
         binding.acceptImageView.setOnClickListener { presenter.editMood() }
         binding.acceptImageView.visibility = View.VISIBLE
@@ -93,12 +93,12 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         setMoodDate(date)
     }
 
-    private fun fillMoodData(mood: TimelineMoodBO) {
+    private fun fillMoodData(mood: TimelineMoodBOv2) {
         setUnderlineColor(mood.circleMood.colorId)
         setMoodDate(mood.date)
         setNote(mood.note)
         setSelectedMood(mood.circleMood)
-        setSelectedImage(mood.picturePath)
+        setSelectedImages(mood.picturesPaths)
     }
 
     private fun setUnderlineColor(color: Int) {
@@ -106,8 +106,8 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
             ResUtil.getColorAsColorStateList(color)
     }
 
-    private fun setSelectedImage(picturePath: String) {
-        binding.pickPhotoView.setPathAsSelectedPicture(picturePath)
+    private fun setSelectedImages(picturePaths: List<String>) {
+        binding.picturesLayout.setPictures(picturePaths)
     }
 
     override fun navigateBack() {
@@ -128,7 +128,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        binding.pickPhotoView.onActivityResult(requestCode, resultCode, data)
+        binding.picturesLayout.onPicturePicked(requestCode, resultCode, data)
     }
 
     override fun getMoodNote(): String {
@@ -139,8 +139,8 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
         return binding.chooseMoodCircle.selectedMood
     }
 
-    override fun getPicturePath(): String {
-        return binding.pickPhotoView.picturePath ?: ""
+    override fun getPicturePaths(): List<String> {
+        return binding.picturesLayout.getPicturePaths()
     }
 
     override fun showAllDefaultViews() {
@@ -149,7 +149,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
             binding.editedDayTextView,
             binding.noteLabelTextView,
             binding.noteEditText,
-            binding.pickPhotoView
+            binding.picturesLayout
         )
     }
 
@@ -194,6 +194,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
             binding.onboardingChooseMoodImageView
         )
     }
+
     private fun setupOnboardingViewAfterAddNote() {
         changeTitle(ResUtil.getString(R.string.choose_photo))
         setupNextButtonAddPictureOnClick()
@@ -211,7 +212,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View {
                     ANIM_DURATION, {
                         scrollToBottomContentScrollView()
                     },
-                    binding.pickPhotoView,
+                    binding.picturesLayout,
                     binding.onboardingAddPictureImageView,
                     binding.onboardingNextTextView
                 )

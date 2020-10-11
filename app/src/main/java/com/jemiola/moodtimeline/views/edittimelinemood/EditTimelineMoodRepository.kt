@@ -51,7 +51,7 @@ class EditTimelineMoodRepository : BaseRepository() {
             note = mood.note,
             date = mood.date,
             mood = MoodDO.from(mood.circleMood),
-            picturesPaths = mood.picturePath
+            picturesPaths = mood.picturesPaths
         )
     }
 

@@ -2,11 +2,12 @@ package com.jemiola.moodtimeline.views.edittimelinemood
 
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import org.threeten.bp.LocalDate
 
 interface EditTimelineMoodContract {
     interface Presenter {
-        fun setupView(mood: TimelineMoodBO)
+        fun setupView(mood: TimelineMoodBOv2)
         fun getFormattedDate(date: LocalDate): String
         fun addMood()
         fun editMood()
@@ -17,9 +18,9 @@ interface EditTimelineMoodContract {
         fun navigateBack()
         fun getMoodNote(): String
         fun getSelectedMood(): CircleMoodBO
-        fun setupEditView(mood: TimelineMoodBO)
+        fun setupEditView(mood: TimelineMoodBOv2)
         fun setupAddView(date: LocalDate)
-        fun getPicturePath(): String
+        fun getPicturePaths(): List<String>
         fun showAllDefaultViews()
     }
 }

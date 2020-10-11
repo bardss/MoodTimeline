@@ -45,7 +45,7 @@ class CalendarRepository : BaseRepository() {
                 date = it.date,
                 note = it.note,
                 circleMood = CircleMoodBO.from(it.mood),
-                picturePath = it.picturesPaths
+                picturesPaths = it.picturesPaths
             )
         }
     }

@@ -19,7 +19,7 @@ class EditTimelineMoodPresenter(
         repository.setOpenedMoodId(id)
     }
 
-    override fun setupView(mood: TimelineMoodBO) {
+    override fun setupView(mood: TimelineMoodBOv2) {
         view.showAllDefaultViews()
         when (mood.circleState) {
             EDIT -> view.setupEditView(mood)
@@ -58,12 +58,12 @@ class EditTimelineMoodPresenter(
     private fun createTimelineMoodBOFromView(): TimelineMoodBOv2 {
         val noteFromView = view.getMoodNote()
         val mood = view.getSelectedMood()
-        val picturePath = view.getPicturePath()
+        val picturesPaths = view.getPicturePaths()
         return TimelineMoodBOv2(
             date = LocalDate.now(DefaultTime.getClock()),
             note = noteFromView,
             circleMood = mood,
-            picturePath = listOf(picturePath)
+            picturesPaths = picturesPaths
         )
     }
 }

@@ -33,7 +33,7 @@ class TimelinePresenterTest {
             note = "",
             circleMood = CircleMoodBO.NONE,
             circleState = CircleStateBO.ADD,
-            picturePath = ""
+            picturePaths = ""
         )
         val result: List<TimelineMoodBO> = listOf(testMoodBO)
         every { repository.getTimetableMoods(any()) } answers {

@@ -10,7 +10,6 @@ import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
 import com.jemiola.moodtimeline.customviews.MoodCircle
 import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
@@ -96,7 +95,7 @@ class TimelineAdapter(
             holder.noteTextView.visibility = View.VISIBLE
             //TODO: Do przekimny wyświetlanie
             setPathAsSelectedPicture(
-                mood.picturePath[0],
+                mood.picturesPaths[0],
                 holder.pictureImageView,
                 holder.pictureLayout
             )

@@ -73,31 +73,13 @@
                 android:textSize="@dimen/text_size_medium"
                 android:visibility="gone" />
 
-            <FrameLayout
+            <com.jemiola.moodtimeline.customviews.pickphoto.PickPhotoLayout
+                android:id="@+id/pictures_layout"
                 android:layout_width="match_parent"
-                android:layout_height="230dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="26dp"
-                android:layout_marginBottom="12dp">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:elevation="5dp"
-                    app:cardCornerRadius="8dp">
-
-                    <ImageView
-                        android:id="@+id/selectedPictureImageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:adjustViewBounds="true"
-                        android:alpha="0.7"
-                        android:clipChildren="true" />
-
-                </androidx.cardview.widget.CardView>
-            </FrameLayout>
+                android:layout_marginBottom="12dp"
+                app:mode="ONLY_SHOW"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
-import android.view.MotionEvent.ACTION_DOWN
-import android.view.MotionEvent.ACTION_UP
 import android.view.View
 import android.view.ViewGroup
 import com.jemiola.moodtimeline.base.BaseFragment
@@ -13,11 +11,8 @@ import com.jemiola.moodtimeline.databinding.FragmentDetailsTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
-import com.jemiola.moodtimeline.utils.ImageUtils
-import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.disableFor
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -27,7 +22,6 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
 
     override val presenter: DetailsTimelineMoodPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentDetailsTimelineMoodBinding
-    private var pictureHighlighted = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +45,7 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
             setItemDate(mood.date)
             setNote(mood.note)
             setSelectedMood(mood.circleMood)
-            //TODO: Zmienic
-            setPathAsSelectedPicture(mood.picturePath[0])
+            setPathAsSelectedPicture(mood.picturesPaths)
         }
     }
 
@@ -74,26 +67,12 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
         binding.moodCircle.state = CircleStateBO.DEFAULT
     }
 
-    private fun setPathAsSelectedPicture(path: String?) {
-        if (path != null && path.isNotEmpty()) {
-            if (!PermissionsUtil.isStoragePermissionGranted()) {
-                PermissionsUtil.askForStoragePermission(context) { setupPictureInImageView(path) }
-            } else {
-                setupPictureInImageView(path)
-            }
-        }
-    }
-
-    private fun setupPictureInImageView(path: String?) {
-        val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
-        if (pictureBitmap != null) {
-            binding.selectedPictureImageView.setImageDrawable(pictureBitmap)
-        }
+    private fun setPathAsSelectedPicture(paths: List<String>) {
+        binding.picturesLayout.setPictures(paths)
     }
 
     private fun setupAnimations() {
         setupMoodCircleBounceAnimation()
-        setupPictureAlphaAnimation()
     }
 
     private fun setupMoodCircleBounceAnimation() {
@@ -126,29 +105,4 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
             it.disableFor(1000)
         }
     }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setupPictureAlphaAnimation() {
-        val duration = 250
-        binding.selectedPictureImageView.setOnTouchListener { view, event ->
-            when (event.action) {
-                ACTION_DOWN -> onPictureActionDown(duration, view)
-                ACTION_UP -> onPictureActionUp(duration, view)
-            }
-            view.disableFor(duration)
-            true
-        }
-    }
-
-    private fun onPictureActionUp(duration: Int, view: View) {
-        if (pictureHighlighted) AnimUtils.animateAlpha(duration, 0.7f, view)
-        pictureHighlighted = false
-    }
-
-    private fun onPictureActionDown(duration: Int, view: View) {
-        if (!pictureHighlighted) AnimUtils.animateAlpha(duration, 1f, view)
-        pictureHighlighted = true
-        Handler().postDelayed({ onPictureActionUp(duration, view) }, 3000)
-    }
-
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PickPhotoLayout">
+        <attr name="mode" format="enum">
+            <enum name="ONLY_SHOW" value="0"/>
+            <enum name="ENABLE_ADD" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>

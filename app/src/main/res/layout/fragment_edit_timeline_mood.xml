@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryBackground"
     android:padding="18dp">
 
@@ -125,20 +126,20 @@
                 android:src="@drawable/ic_onboarding_add_note"
                 android:visibility="gone" />
 
-            <com.jemiola.moodtimeline.customviews.PickPhotoView
-                android:id="@+id/pickPhotoView"
+            <com.jemiola.moodtimeline.customviews.pickphoto.PickPhotoLayout
+                android:id="@+id/picturesLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/noteEditText"
                 android:layout_marginTop="26dp"
                 android:layout_marginBottom="12dp"
-                android:visibility="gone" />
+                app:mode="ENABLE_ADD"/>
 
             <ImageView
                 android:id="@+id/onboardingAddPictureImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/pickPhotoView"
+                android:layout_below="@id/picturesLayout"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="-6dp"
                 android:layout_marginEnd="12dp"

@@ -9,5 +9,5 @@ data class TimelineMoodBO(
     val note: String,
     val circleMood: CircleMoodBO,
     var circleState: CircleStateBO = CircleStateBO.DEFAULT,
-    val picturePath: String
+    val picturePaths: List<String>
 ) : Serializable

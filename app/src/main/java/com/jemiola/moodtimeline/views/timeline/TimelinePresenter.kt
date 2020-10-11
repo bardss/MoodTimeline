@@ -3,7 +3,6 @@ package com.jemiola.moodtimeline.views.timeline
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.DefaultTime
 import com.jemiola.moodtimeline.utils.pushToFront
@@ -106,7 +105,7 @@ class TimelinePresenter(
             note = "",
             circleMood = CircleMoodBO.NONE,
             circleState = CircleStateBO.ADD,
-            picturePath = listOf()
+            picturesPaths = listOf()
         )
     }
 
