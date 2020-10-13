@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryBackground">
 
-    <include
-        android:id="@+id/menuBottomView"
-        layout="@layout/layout_bottom_menu"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"/>
-
     <FrameLayout
         android:id="@+id/fragmentContainerLayout"
         android:layout_width="match_parent"
@@ -19,6 +11,13 @@
         android:layout_above="@+id/menuBottomView"
         android:layout_marginBottom="-22dp"
         android:background="@color/colorPrimaryBackground" />
+
+    <include
+        android:id="@+id/menuBottomView"
+        layout="@layout/layout_bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
     <View
         android:id="@+id/bottomMenuShadowView"

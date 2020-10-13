@@ -9,6 +9,7 @@ import com.jemiola.moodtimeline.base.BaseActivity
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.ActivityNavigationBinding
 import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.views.settings.SettingsFragment
 import com.jemiola.moodtimeline.views.timeline.TimelineFragment
 import com.ncapdevi.fragnav.FragNavController
 import org.koin.core.inject
@@ -32,7 +33,7 @@ class NavigationActivity : BaseActivity(),
         when (index) {
             TAB_STATISTICS -> Fragment()
             TAB_TIMELINE -> TimelineFragment()
-            TAB_SETTINGS -> Fragment()
+            TAB_SETTINGS -> SettingsFragment()
             else -> Fragment()
         }
 
@@ -76,19 +77,19 @@ class NavigationActivity : BaseActivity(),
 
     private fun setupBottomNavigationClicks() {
         with(binding.menuBottomView) {
-            statisticsLayout.setOnClickListener { highlightStatistics() }
+//            statisticsLayout.setOnClickListener { highlightStatistics() }
             timelineLayout.setOnClickListener { highlightTimeline() }
             settingsLayout.setOnClickListener { highlightSettings() }
         }
     }
 
-    private fun highlightStatistics() {
-        navigation.switchTab(TAB_STATISTICS)
-        highlightNavigationOption(
-            binding.menuBottomView.statisticsImageView,
-            binding.menuBottomView.statisticsTextView
-        )
-    }
+//    private fun highlightStatistics() {
+//        navigation.switchTab(TAB_STATISTICS)
+//        highlightNavigationOption(
+//            binding.menuBottomView.statisticsImageView,
+//            binding.menuBottomView.statisticsTextView
+//        )
+//    }
 
     private fun highlightTimeline() {
         navigation.switchTab(TAB_TIMELINE)
@@ -116,10 +117,10 @@ class NavigationActivity : BaseActivity(),
     private fun unhighlightAllNavigationOptions() {
         val inactiveColor = ResUtil.getColor(R.color.colorBottomMenuInactive)
         with(binding.menuBottomView) {
-            statisticsImageView.setColorFilter(inactiveColor)
+//            statisticsImageView.setColorFilter(inactiveColor)
             timelineImageView.setColorFilter(inactiveColor)
             settingsImageView.setColorFilter(inactiveColor)
-            statisticsTextView.setTextColor(inactiveColor)
+//            statisticsTextView.setTextColor(inactiveColor)
             timelineTextView.setTextColor(inactiveColor)
             settingsTextView.setTextColor(inactiveColor)
         }
