@@ -133,6 +133,7 @@
                 android:layout_below="@id/noteEditText"
                 android:layout_marginTop="26dp"
                 android:layout_marginBottom="12dp"
+                android:visibility="gone"
                 app:mode="ENABLE_ADD"/>
 
             <ImageView

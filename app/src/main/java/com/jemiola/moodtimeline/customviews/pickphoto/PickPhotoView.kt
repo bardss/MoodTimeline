@@ -114,7 +114,7 @@ class PickPhotoView(
     }
 
     private fun setupOnPickPhotoClick() {
-        setOnClickListener { setupOnPickPhotoClick() }
+        setOnClickListener { onClickWithAddMode() }
     }
 
     private fun setupOnlyShowView() {
@@ -132,8 +132,8 @@ class PickPhotoView(
         val duration = 250
         setOnTouchListener { view, event ->
             when (event.action) {
-                ACTION_DOWN -> onPictureActionDown(duration, view)
-                ACTION_UP -> onPictureActionUp(duration, view)
+                ACTION_DOWN -> onPictureActionDown(duration, selectedPictureImageView)
+                ACTION_UP -> onPictureActionUp(duration, selectedPictureImageView)
             }
             view.disableFor(duration)
             true
