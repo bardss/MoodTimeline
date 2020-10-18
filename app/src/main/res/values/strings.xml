@@ -27,4 +27,7 @@
     <string name="whats_on_your_mind">What’s on your mind</string>
     <string name="choose_photo">Choose photo</string>
     <string name="gallery">Gallery</string>
+    <string name="set_pin_to_access_app">Set PIN to access app</string>
+    <string name="export_moods_to_pdf">Export moods to PDF</string>
+    <string name="theme">Theme</string>
 </resources>

@@ -78,8 +78,12 @@ class NavigationActivity : BaseActivity(),
     private fun setupBottomNavigationClicks() {
         with(binding.menuBottomView) {
 //            statisticsLayout.setOnClickListener { highlightStatistics() }
-            timelineLayout.setOnClickListener { highlightTimeline() }
-            settingsLayout.setOnClickListener { highlightSettings() }
+            timelineLayout.setOnClickListener {
+                highlightTimeline()
+            }
+            settingsLayout.setOnClickListener {
+                highlightSettings()
+            }
         }
     }
 
@@ -100,7 +104,7 @@ class NavigationActivity : BaseActivity(),
     }
 
     private fun highlightSettings() {
-        navigation.switchTab(TAB_STATISTICS)
+        navigation.switchTab(TAB_SETTINGS)
         highlightNavigationOption(
             binding.menuBottomView.settingsImageView,
             binding.menuBottomView.settingsTextView
