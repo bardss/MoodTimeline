@@ -7,5 +7,7 @@ interface NavigationContract {
     interface View {
         fun popFragment()
         fun pushFragment(fragment: Fragment)
+        fun hideBottomMenu()
+        fun showBottomMenu()
     }
 }

@@ -22,7 +22,8 @@ class BaseApplication: Application() {
                 splashModule,
                 navigationModule,
                 detailsTimelineItemModule,
-                calendarModule
+                calendarModule,
+                settingsModule
             )
         }
     }

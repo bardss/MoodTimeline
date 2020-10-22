@@ -23,5 +23,6 @@ interface TimelineContract {
         fun showTimelineRecyclerView()
         fun showAddEmptyView()
         fun setupComeBackLaterView()
+        fun showBottomMenu()
     }
 }

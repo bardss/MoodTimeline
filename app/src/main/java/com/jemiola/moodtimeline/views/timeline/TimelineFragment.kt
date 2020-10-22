@@ -20,7 +20,6 @@ import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
@@ -143,10 +142,10 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     private fun setupSearchEditTextColors() {
         binding.fromEditText.backgroundTintList =
-            ResUtil.getColorAsColorStateList(R.color.colorTitle)
-        binding.fromEditText.setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorMoodNone))
-        binding.toEditText.backgroundTintList = ResUtil.getColorAsColorStateList(R.color.colorTitle)
-        binding.toEditText.setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorMoodNone))
+            ResUtil.getColorAsColorStateList(resources, R.color.colorTitle)
+        binding.fromEditText.setHintTextColor(ResUtil.getColorAsColorStateList(resources, R.color.colorMoodNone))
+        binding.toEditText.backgroundTintList = ResUtil.getColorAsColorStateList(resources, R.color.colorTitle)
+        binding.toEditText.setHintTextColor(ResUtil.getColorAsColorStateList(resources, R.color.colorMoodNone))
     }
 
     private fun onSearchClick() {
@@ -155,13 +154,13 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isSearchOpened) {
             isSearchOpened = true
-            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(R.drawable.ic_close))
+            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(resources, R.drawable.ic_close))
             val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.searchTopLayout)
         } else {
             isSearchOpened = false
-            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(R.drawable.ic_search))
+            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(resources, R.drawable.ic_search))
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
                 setupSearchDefaultValues()
@@ -175,7 +174,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isCalendarOpened) {
             isCalendarOpened = true
-            animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(R.drawable.ic_close))
+            animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(resources, R.drawable.ic_close))
             val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.timelineRecyclerView)
@@ -186,7 +185,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isCalendarOpened = false
             animateIconChangeTo(
                 binding.calendarImageView,
-                ResUtil.getDrawable(R.drawable.ic_calendar)
+                ResUtil.getDrawable(resources, R.drawable.ic_calendar)
             )
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineRecyclerView)
@@ -343,6 +342,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun setupAddEmptyViewVisibility() {
+        hideBottomMenu()
         binding.calendarImageView.visibility = View.INVISIBLE
         binding.searchImageView.visibility = View.INVISIBLE
         AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.timelineRecyclerView)

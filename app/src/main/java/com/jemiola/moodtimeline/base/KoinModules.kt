@@ -12,6 +12,9 @@ import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodRepositor
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.navigation.NavigationPresenter
 import com.jemiola.moodtimeline.views.navigation.NavigationRepository
+import com.jemiola.moodtimeline.views.settings.SettingsContract
+import com.jemiola.moodtimeline.views.settings.SettingsPresenter
+import com.jemiola.moodtimeline.views.settings.SettingsRepository
 import com.jemiola.moodtimeline.views.splash.SplashContract
 import com.jemiola.moodtimeline.views.splash.SplashPresenter
 import com.jemiola.moodtimeline.views.splash.SplashRepository
@@ -61,5 +64,12 @@ val splashModule = module {
     single { SplashRepository() }
     factory { (view: SplashContract.View) ->
         SplashPresenter(view, get())
+    }
+}
+
+val settingsModule = module {
+    single { SettingsRepository() }
+    factory { (view: SettingsContract.View) ->
+        SettingsPresenter(view, get())
     }
 }

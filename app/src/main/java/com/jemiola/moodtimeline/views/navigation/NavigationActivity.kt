@@ -1,6 +1,7 @@
 package com.jemiola.moodtimeline.views.navigation
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -113,13 +114,13 @@ class NavigationActivity : BaseActivity(),
 
     private fun highlightNavigationOption(imageView: ImageView, textView: TextView) {
         unhighlightAllNavigationOptions()
-        val highlightColor = ResUtil.getColor(R.color.colorBottomMenuActive)
+        val highlightColor = ResUtil.getColor(resources, R.color.colorBottomMenuActive)
         imageView.setColorFilter(highlightColor)
         textView.setTextColor(highlightColor)
     }
 
     private fun unhighlightAllNavigationOptions() {
-        val inactiveColor = ResUtil.getColor(R.color.colorBottomMenuInactive)
+        val inactiveColor = ResUtil.getColor(resources, R.color.colorBottomMenuInactive)
         with(binding.menuBottomView) {
 //            statisticsImageView.setColorFilter(inactiveColor)
             timelineImageView.setColorFilter(inactiveColor)
@@ -150,4 +151,15 @@ class NavigationActivity : BaseActivity(),
         }
     }
 
+    override fun hideBottomMenu() {
+        if (binding.menuBottomView.bottomMenuLayout.visibility != View.GONE) {
+            binding.menuBottomView.bottomMenuLayout.visibility = View.GONE
+        }
+    }
+
+    override fun showBottomMenu() {
+        if (binding.menuBottomView.bottomMenuLayout.visibility != View.VISIBLE) {
+            binding.menuBottomView.bottomMenuLayout.visibility = View.VISIBLE
+        }
+    }
 }

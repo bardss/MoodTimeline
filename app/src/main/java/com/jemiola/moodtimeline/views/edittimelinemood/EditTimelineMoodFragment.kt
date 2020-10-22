@@ -70,7 +70,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     private fun setupOnMoodChangeAction() {
         binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
-            binding.noteEditText.backgroundTintList = ResUtil.getColorAsColorStateList(mood.colorId)
+            binding.noteEditText.backgroundTintList = ResUtil.getColorAsColorStateList(resources, mood.colorId)
             if (isAddMoodOnboarding == true && binding.noteEditText.visibility != View.VISIBLE) {
                 setupOnboardingViewAfterChooseMood()
             } else {
@@ -81,14 +81,14 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
     }
 
     override fun setupEditView(mood: TimelineMoodBOv2) {
-        changeTitle(ResUtil.getString(R.string.edit_note))
+        changeTitle(ResUtil.getString(resources, R.string.edit_note))
         binding.acceptImageView.setOnClickListener { presenter.editMood() }
         binding.acceptImageView.visibility = View.VISIBLE
         fillMoodData(mood)
     }
 
     override fun setupAddView(date: LocalDate) {
-        changeTitle(ResUtil.getString(R.string.add_note))
+        changeTitle(ResUtil.getString(resources, R.string.add_note))
         binding.acceptImageView.setOnClickListener { presenter.addMood() }
         setMoodDate(date)
     }
@@ -103,7 +103,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     private fun setUnderlineColor(color: Int) {
         binding.noteEditText.backgroundTintList =
-            ResUtil.getColorAsColorStateList(color)
+            ResUtil.getColorAsColorStateList(resources, color)
     }
 
     private fun setSelectedImages(picturePaths: List<String>) {
@@ -155,7 +155,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     private fun showOnboardingChooseMoodView() {
         setMoodDate(LocalDate.now(DefaultTime.getClock()))
-        changeTitle(ResUtil.getString(R.string.how_do_you_feel))
+        changeTitle(ResUtil.getString(resources, R.string.how_do_you_feel))
         binding.acceptImageView.setOnClickListener { presenter.addMood() }
         AnimUtils.fadeIn(ANIM_DURATION, binding.onboardingChooseMoodImageView)
     }
@@ -173,7 +173,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
     }
 
     private fun setupOnboardingViewAfterChooseMood() {
-        changeTitle(ResUtil.getString(R.string.whats_on_your_mind))
+        changeTitle(ResUtil.getString(resources, R.string.whats_on_your_mind))
         setupNextButtonAddNoteOnClick()
         AnimUtils.animateAlpha(
             ANIM_DURATION,
@@ -196,7 +196,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
     }
 
     private fun setupOnboardingViewAfterAddNote() {
-        changeTitle(ResUtil.getString(R.string.choose_photo))
+        changeTitle(ResUtil.getString(resources, R.string.choose_photo))
         setupNextButtonAddPictureOnClick()
         AnimUtils.animateAlpha(
             ANIM_DURATION,
@@ -222,7 +222,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
     }
 
     private fun setupOnboardingViewAfterAddPicture() {
-        changeTitle(ResUtil.getString(R.string.add_note))
+        changeTitle(ResUtil.getString(resources, R.string.add_note))
         AnimUtils.fadeIn(500, binding.acceptImageView)
         AnimUtils.animateAlpha(
             ANIM_DURATION,

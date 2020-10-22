@@ -3,7 +3,9 @@ package com.jemiola.moodtimeline.views.calendar
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.gridlayout.widget.GridLayout
 import com.jemiola.moodtimeline.R
@@ -12,7 +14,6 @@ import com.jemiola.moodtimeline.customviews.CalendarDayView
 import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.OnSwipeListener
@@ -32,7 +33,9 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        if (!this::binding.isInitialized) {
+            binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        }
         return binding.root
     }
 
@@ -84,7 +87,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
             val dayView = createDayView(notNullContext)
             binding.calendarDaysGridLayout.addView(dayView)
             dayView.day = day
-            dayView.dayTextView.setTextColor(ResUtil.getColor(R.color.colorMoodNone))
+            dayView.dayTextView.setTextColor(ResUtil.getColor(resources, R.color.colorMoodNone))
             dayView.layoutParams = createCalendarDayLayoutParams()
         }
     }
@@ -94,7 +97,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
             val dayView = createDayView(notNullContext)
             binding.calendarDaysGridLayout.addView(dayView)
             dayView.day = day
-            dayView.dayTextView.setTextColor(ResUtil.getColor(R.color.colorTitle))
+            dayView.dayTextView.setTextColor(ResUtil.getColor(resources, R.color.colorTitle))
             dayView.layoutParams = createCalendarDayLayoutParams()
         }
     }

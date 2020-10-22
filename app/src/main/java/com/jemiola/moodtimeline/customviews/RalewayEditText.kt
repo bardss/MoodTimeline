@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatTextView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.utils.ResUtil
 
@@ -22,8 +21,8 @@ class RalewayEditText : AppCompatEditText {
 
     init {
         typeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
-        backgroundTintList = ResUtil.getColorAsColorStateList(R.color.colorAccent)
-        setHintTextColor(ResUtil.getColorAsColorStateList(R.color.colorAccent))
-        setTextColor(ResUtil.getColor(R.color.colorText))
+        backgroundTintList = ResUtil.getColorAsColorStateList(context.resources, R.color.colorAccent)
+        setHintTextColor(ResUtil.getColorAsColorStateList(context.resources, R.color.colorAccent))
+        setTextColor(ResUtil.getColor(context.resources, R.color.colorText))
     }
 }

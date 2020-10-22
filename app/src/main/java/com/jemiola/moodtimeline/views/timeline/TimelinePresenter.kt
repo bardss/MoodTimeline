@@ -27,7 +27,10 @@ class TimelinePresenter(
 
     private fun onGetTimetableMoodsCountSuccess(moodsCount: Int) {
         if (moodsCount == 0) view.showAddEmptyView()
-        else requestTimetableMoods()
+        else {
+            view.showBottomMenu()
+            requestTimetableMoods()
+        }
     }
 
     private fun requestTimetableMoods() {

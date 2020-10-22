@@ -94,7 +94,7 @@ class PickPhotoView(
         val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
             this.picturePath = path
-            editPictureImageView.setImageDrawable(ResUtil.getDrawable(R.drawable.ic_edit))
+            editPictureImageView.setImageDrawable(ResUtil.getDrawable(context.resources, R.drawable.ic_edit))
             selectedPictureImageView.setImageDrawable(pictureBitmap)
         }
     }
@@ -198,7 +198,7 @@ class PickPhotoView(
             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             takePhotoFileUri = ImageUtils.createFileAndGetURI(storageDir)
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, takePhotoFileUri)
-            val chooser = Intent.createChooser(galleryPhoto, ResUtil.getString(R.string.gallery))
+            val chooser = Intent.createChooser(galleryPhoto, ResUtil.getString(context.resources, R.string.gallery))
             chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
             pickPhotoFragment?.startActivityForResult(chooser, REQUEST_PHOTO)
         }

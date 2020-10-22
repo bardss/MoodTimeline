@@ -1,7 +1,6 @@
 package com.jemiola.moodtimeline.customviews
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -61,15 +60,15 @@ class MoodCircle : FrameLayout {
     }
 
     private fun changeBackground(mood: CircleMoodBO) {
-        circleImageView.setImageDrawable(ResUtil.getDrawable(mood.backgroundId))
-        moodImageView.setImageDrawable(ResUtil.getDrawable(mood.moodDrawable))
+        circleImageView.setImageDrawable(ResUtil.getDrawable(context.resources, mood.backgroundId))
+        moodImageView.setImageDrawable(ResUtil.getDrawable(context.resources, mood.moodDrawable))
     }
 
     private fun changeState(state: CircleStateBO) {
         when (state) {
-            EDIT -> ResUtil.getDrawable(R.drawable.ic_edit)
-            ADD -> ResUtil.getDrawable(R.drawable.ic_plus)
-            DEFAULT -> ResUtil.getDrawable(R.drawable.ic_mood_none)
+            EDIT -> ResUtil.getDrawable(context.resources, R.drawable.ic_edit)
+            ADD -> ResUtil.getDrawable(context.resources, R.drawable.ic_plus)
+            DEFAULT -> ResUtil.getDrawable(context.resources, R.drawable.ic_mood_none)
             CHOOSE_MOOD -> null
         }.also { stateDrawable ->
             stateImageView.setImageDrawable(stateDrawable)

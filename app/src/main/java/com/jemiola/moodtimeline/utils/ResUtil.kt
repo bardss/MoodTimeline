@@ -1,35 +1,36 @@
 package com.jemiola.moodtimeline.utils
 
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.jemiola.moodtimeline.base.BaseApplication
 
 object ResUtil {
 
-    fun getString(resourceId: Int): String {
+    fun getString(resources: Resources, resourceId: Int): String {
         return BaseApplication.context.getString(resourceId)
     }
 
-    fun getFormattedString(resourceId: Int, vararg textsToFormat: String?): String {
+    fun getFormattedString(resources: Resources, resourceId: Int, vararg textsToFormat: String?): String {
         return String.format(
             BaseApplication.context.getString(resourceId),
             *textsToFormat
         )
     }
 
-    fun getColor(resourceId: Int): Int {
+    fun getColor(resources: Resources, resourceId: Int): Int {
         return BaseApplication.context.resources.getColor(resourceId)
     }
 
-    fun getColorAsColorStateList(resourceId: Int): ColorStateList {
+    fun getColorAsColorStateList(resources: Resources, resourceId: Int): ColorStateList {
         return ColorStateList.valueOf(BaseApplication.context.resources.getColor(resourceId))
     }
 
-    fun getBoolean(resourceId: Int): Boolean {
+    fun getBoolean(resources: Resources, resourceId: Int): Boolean {
         return BaseApplication.context.resources.getBoolean(resourceId)
     }
 
-    fun getDrawable(resourceId: Int): Drawable? {
+    fun getDrawable(resources: Resources, resourceId: Int): Drawable? {
         return BaseApplication.context.getDrawable(resourceId)
     }
 

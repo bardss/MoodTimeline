@@ -23,4 +23,12 @@ abstract class BaseFragment : Fragment(), KoinComponent {
     fun popFragment() {
         (activity as? NavigationContract.View)?.popFragment()
     }
+
+    fun hideBottomMenu() {
+        (activity as? NavigationContract.View)?.hideBottomMenu()
+    }
+
+    fun showBottomMenu() {
+        (activity as? NavigationContract.View)?.showBottomMenu()
+    }
 }
