@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import android.os.Environment
 import com.jemiola.moodtimeline.R
+import com.jemiola.moodtimeline.base.BaseApplication.Companion.context
 import com.jemiola.moodtimeline.model.data.local.MoodPdfPageInfo
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.ImageUtils
@@ -17,15 +18,17 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
+
 private const val PAGE_WIDTH = 595
 private const val PAGE_HEIGHT = 842
-private const val PAGE_MARGIN_TOP = 68f
+private const val PAGE_MARGIN_TOP = 38f
 private const val PAGE_MARGIN_BOTTOM = 58f
+
+private const val TOP_BAR_HEIGHT = 200f
 
 private const val PICTURE_MAX_WIDTH = 200
 private const val PICTURE_MAX_HEIGHT = 150
 
-private const val TEXT_SIZE_TITLE = 32f
 private const val TEXT_SIZE_CONTENT = 16f
 private const val MARGIN_TOP_CONTENT = 128f
 private const val MARGIN_SIDE_CONTENT = 32f
@@ -35,6 +38,9 @@ private const val SPACE_BETWEEN_PICTURES = 12f
 class MoodsPdfGenerator {
 
     private val pdfGeneratorFileManager = PdfGeneratorFileManager()
+    private val defaultTypeface =
+        Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
+    private val boldTypeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
 
     fun generatePdf(context: Context, moods: List<TimelineMoodBOv2>) {
         val document = PdfDocument()
@@ -51,11 +57,12 @@ class MoodsPdfGenerator {
     ) {
         val resources = context.resources
         var currentMoodPage = MoodPdfPageInfo(document.startPage(pageInfo), MARGIN_TOP_CONTENT)
-        drawMoodTimelineTitle(resources, currentMoodPage.page)
+        drawMoodsPdfTopBar(currentMoodPage.page)
+        increasePositionInPage(currentMoodPage, TOP_BAR_HEIGHT)
         val paint = Paint().apply {
             textAlign = Paint.Align.LEFT
             textSize = TEXT_SIZE_CONTENT
-            typeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
+            typeface = defaultTypeface
         }
         moods.forEach { mood ->
             // draw Divider Line
@@ -116,7 +123,7 @@ class MoodsPdfGenerator {
         var position = moodPdfPage.currentPosition
         if (position + estimatedLineHeight > (PAGE_HEIGHT - PAGE_MARGIN_BOTTOM)) {
             document.finishPage(moodPdfPage.page)
-            position = MARGIN_TOP_CONTENT
+            position = PAGE_MARGIN_TOP
             page = document.startPage(pageInfo)
         }
         return MoodPdfPageInfo(page, position)
@@ -150,10 +157,19 @@ class MoodsPdfGenerator {
         paint: Paint
     ): Float {
         val dateValue = getFormatterDate(mood.date)
-        val dateText = "Date: $dateValue"
+        val dateLabelText = "Date: "
+        paint.typeface = boldTypeface
         moodPdfPage.page.canvas.drawText(
-            dateText,
+            dateLabelText,
             MARGIN_SIDE_CONTENT,
+            moodPdfPage.currentPosition,
+            paint
+        )
+        val dateLabelWidth = paint.measureText(dateLabelText)
+        paint.typeface = defaultTypeface
+        moodPdfPage.page.canvas.drawText(
+            dateValue,
+            MARGIN_SIDE_CONTENT + dateLabelWidth,
             moodPdfPage.currentPosition,
             paint
         )
@@ -167,15 +183,29 @@ class MoodsPdfGenerator {
     ): Float {
         var textPositionTaken = 0f
         var linePosition = moodPdfPage.currentPosition
+        val notesLabelText = "Notes: "
+        paint.typeface = boldTypeface
+        moodPdfPage.page.canvas.drawText(
+            notesLabelText,
+            MARGIN_SIDE_CONTENT,
+            moodPdfPage.currentPosition,
+            paint
+        )
+        val dateLabelWidth = paint.measureText(notesLabelText)
+        paint.typeface = defaultTypeface
         if (mood.note.isEmpty()) {
-            val noteText = "Note:  - "
-            moodPdfPage.page.canvas.drawText(noteText, MARGIN_SIDE_CONTENT, linePosition, paint)
+            val noteText = " - "
+            moodPdfPage.page.canvas.drawText(
+                noteText,
+                MARGIN_SIDE_CONTENT + dateLabelWidth,
+                linePosition,
+                paint
+            )
         } else {
             val noteSplitIntoLines = splitNoteIntoLines(mood.note)
-            var noteText: String
             noteSplitIntoLines.forEachIndexed { i, text ->
-                noteText = if (i == 0) "Note: $text" else text
-                moodPdfPage.page.canvas.drawText(noteText, MARGIN_SIDE_CONTENT, linePosition, paint)
+                val sideMargin =  if (i == 0) MARGIN_SIDE_CONTENT + dateLabelWidth else MARGIN_SIDE_CONTENT
+                moodPdfPage.page.canvas.drawText(text, sideMargin, linePosition, paint)
                 val takenSpace = TEXT_SIZE_CONTENT * 2
                 linePosition += takenSpace
                 textPositionTaken += takenSpace
@@ -191,13 +221,16 @@ class MoodsPdfGenerator {
         paint: Paint
     ): Float {
         val moodBitmap = getMoodBitmap(resources, mood)
+        val moodLabelText = "Mood: "
         if (moodBitmap != null) {
+            paint.typeface = boldTypeface
             moodPdfPage.page.canvas.drawText(
-                "Mood: ",
+                moodLabelText,
                 MARGIN_SIDE_CONTENT,
                 moodPdfPage.currentPosition,
                 paint
             )
+            paint.typeface = defaultTypeface
             moodPdfPage.page.canvas.drawBitmap(
                 moodBitmap,
                 MARGIN_SIDE_CONTENT * 3f,
@@ -251,14 +284,20 @@ class MoodsPdfGenerator {
         return date.format(formatter)
     }
 
-    private fun drawMoodTimelineTitle(resources: Resources, page: PdfDocument.Page) {
+    private fun drawMoodsPdfTopBar(page: PdfDocument.Page) {
+        val logoBitmap = BitmapFactory.decodeResource(
+            context.resources,
+            R.drawable.app_logo_text_pdf
+        )
+        val scaledLogoBitmap = ImageUtils.resizeBitmapWhenTooLarge(logoBitmap, 200, 150)
         val paint = Paint()
-        val pageCanvas = page.canvas
-        paint.textAlign = Paint.Align.CENTER
-        paint.textSize = TEXT_SIZE_TITLE
-        val appName = ResUtil.getString(resources, R.string.app_name)
-        val xTitlePlace = (page.info.pageWidth / 2).toFloat()
-        pageCanvas.drawText(appName, xTitlePlace, PAGE_MARGIN_TOP, paint)
+        val xLogoPlace = (PAGE_WIDTH / 2) - (scaledLogoBitmap.width / 2)
+        page.canvas.drawBitmap(
+            scaledLogoBitmap,
+            xLogoPlace.toFloat(),
+            0f,
+            paint
+        )
     }
 
     private fun savePdfToDirectory(context: Context, document: PdfDocument) {
