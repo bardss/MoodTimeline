@@ -20,7 +20,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
-const val IMAGE_QUALITY_COMPRESS = 30
+const val IMAGE_QUALITY_COMPRESS = 40
 
 object ImageUtils {
     fun getPathFromUri(uri: Uri): String? {
@@ -85,8 +85,12 @@ object ImageUtils {
         } else null
     }
 
-    private fun resizeBitmapWhenTooLarge(source: Bitmap): Bitmap {
-        return if (source.width > 1200 || source.height > 1200) {
+    fun resizeBitmapWhenTooLarge(
+        source: Bitmap,
+        maxWidth: Int = 1200,
+        maxHeight: Int = 1200
+    ): Bitmap {
+        return if (source.width > maxWidth || source.height > maxHeight) {
             Bitmap.createScaledBitmap(
                 source,
                 source.width / 2,
@@ -164,7 +168,7 @@ object ImageUtils {
         return photoFile.toUri()
     }
 
-    fun createFileWithTimeStamp(storageDir: File): File {
+    private fun createFileWithTimeStamp(storageDir: File): File {
         val fileNameWithTimeStamp = createFileNameWithTimeStamp()
         return File.createTempFile(fileNameWithTimeStamp, ".jpg", storageDir)
     }

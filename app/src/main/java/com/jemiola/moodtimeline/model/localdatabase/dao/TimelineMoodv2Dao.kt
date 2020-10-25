@@ -1,13 +1,17 @@
 package com.jemiola.moodtimeline.model.localdatabase.dao
 
-import androidx.room.*
-import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import org.threeten.bp.LocalDate
 
 @Dao
 interface TimelineMoodv2Dao {
+    @Query("SELECT * FROM timelinemooddov2")
+    fun getAllMoods(): List<TimelineMoodDOv2>
+
     @Query("SELECT * FROM timelinemooddov2 WHERE date BETWEEN :fromDate AND :toDate")
     fun getMoodsFromTo(fromDate: LocalDate, toDate: LocalDate): List<TimelineMoodDOv2>
 

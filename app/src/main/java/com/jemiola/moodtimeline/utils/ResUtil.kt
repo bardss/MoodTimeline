@@ -31,7 +31,7 @@ object ResUtil {
     }
 
     fun getDrawable(resources: Resources, resourceId: Int): Drawable? {
-        return BaseApplication.context.getDrawable(resourceId)
+        return resources.getDrawable(resourceId)
     }
 
     fun getDimenDp(resourceId: Int): Int {
