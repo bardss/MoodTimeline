@@ -170,5 +170,4 @@ class TimelinePresenter(
             .toInstant()
             .toEpochMilli()
     }
-
 }

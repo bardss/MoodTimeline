@@ -229,7 +229,6 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             setupDatePickerBlockades(pickerFrom, pickerTo)
             setupSearchTextWatchers(pickerFrom, pickerTo)
         }
-
     }
 
     private fun createOnDatePickedListener(editText: RalewayEditText) =

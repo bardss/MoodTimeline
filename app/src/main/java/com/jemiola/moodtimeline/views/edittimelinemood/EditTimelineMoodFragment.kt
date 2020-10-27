@@ -44,7 +44,13 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     override fun onStart() {
         super.onStart()
+        hideBottomMenu()
         setupOnMoodChangeAction()
+    }
+
+    override fun onPause() {
+        showBottomMenu()
+        super.onPause()
     }
 
     override fun onBackPressed(): Boolean {

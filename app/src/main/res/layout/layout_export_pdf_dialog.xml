@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/exportPdfContainerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.95"
+        android:background="@color/colorBottomMenuBackground"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/dialog_background"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp">
+
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/exportMoodsToPdfTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/export_moods_to_pdf"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/fromTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="26dp"
+            android:text="@string/from_with_semicolon"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exportMoodsToPdfTextView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayEditText
+            android:id="@+id/fromEditText"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="2"
+            android:focusable="false"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@id/fromTextView"
+            app:layout_constraintStart_toEndOf="@id/fromTextView"
+            app:layout_constraintTop_toTopOf="@id/fromTextView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/toTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/to_with_semicolon"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="@id/fromTextView"
+            app:layout_constraintTop_toBottomOf="@id/fromEditText" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayEditText
+            android:id="@+id/toEditText"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="2"
+            android:focusable="false"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@id/toTextView"
+            app:layout_constraintStart_toEndOf="@id/toTextView"
+            app:layout_constraintTop_toTopOf="@id/toTextView" />
+
+        <View
+            android:id="@+id/exportMoodsPeriodView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/toEditText" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/export_period"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@id/exportMoodsPeriodView"
+            app:layout_constraintEnd_toEndOf="@id/exportMoodsPeriodView"
+            app:layout_constraintStart_toStartOf="@id/exportMoodsPeriodView"
+            app:layout_constraintTop_toTopOf="@id/exportMoodsPeriodView" />
+
+        <View
+            android:id="@+id/exportAllMoodsView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/exportMoodsPeriodView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/export_all_moods"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@id/exportAllMoodsView"
+            app:layout_constraintEnd_toEndOf="@id/exportAllMoodsView"
+            app:layout_constraintStart_toStartOf="@id/exportAllMoodsView"
+            app:layout_constraintTop_toTopOf="@id/exportAllMoodsView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/closeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/close_underlined"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exportAllMoodsView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

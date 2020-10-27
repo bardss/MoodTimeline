@@ -1,154 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryBackground"
-    android:orientation="vertical"
-    android:padding="18dp">
+    android:layout_height="match_parent">
 
-    <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-        android:id="@+id/titleTextView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/mood"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/text_size_xlarge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryBackground"
+        android:orientation="vertical"
+        android:padding="18dp">
 
-    <View
-        android:id="@+id/titleDividerView"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/top_divider"
-        android:elevation="2dp"
-        android:translationY="2dp"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/mood"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_xlarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/setPinButtonView"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="2dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/settings_button_background_ripple"
-        app:layout_constraintTop_toBottomOf="@id/titleDividerView" />
+        <View
+            android:id="@+id/titleDividerView"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/top_divider"
+            android:elevation="2dp"
+            android:translationY="2dp"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/set_pin_to_access_app"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_large"
-        app:layout_constraintBottom_toBottomOf="@id/setPinButtonView"
-        app:layout_constraintStart_toStartOf="@id/setPinButtonView"
-        app:layout_constraintTop_toTopOf="@id/setPinButtonView" />
+        <View
+            android:id="@+id/setPinButtonView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/titleDividerView" />
 
-    <View
-        android:id="@+id/firstOptionDividerView"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/top_divider"
-        android:elevation="2dp"
-        android:translationY="2dp"
-        app:layout_constraintTop_toBottomOf="@id/setPinButtonView" />
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/set_pin_to_access_app"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="@id/setPinButtonView"
+            app:layout_constraintStart_toStartOf="@id/setPinButtonView"
+            app:layout_constraintTop_toTopOf="@id/setPinButtonView" />
 
-    <View
-        android:id="@+id/exportMoodsPdfButtonView"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="2dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/settings_button_background_ripple"
-        app:layout_constraintTop_toBottomOf="@id/firstOptionDividerView" />
+        <View
+            android:id="@+id/firstOptionDividerView"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/top_divider"
+            android:elevation="2dp"
+            android:translationY="2dp"
+            app:layout_constraintTop_toBottomOf="@id/setPinButtonView" />
 
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/export_moods_to_pdf"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_large"
-        app:layout_constraintBottom_toBottomOf="@id/exportMoodsPdfButtonView"
-        app:layout_constraintStart_toStartOf="@id/exportMoodsPdfButtonView"
-        app:layout_constraintTop_toTopOf="@id/exportMoodsPdfButtonView" />
+        <View
+            android:id="@+id/exportMoodsPdfButtonView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/firstOptionDividerView" />
 
-    <View
-        android:id="@+id/secondOptionDividerView"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/top_divider"
-        android:elevation="2dp"
-        android:translationY="2dp"
-        app:layout_constraintTop_toBottomOf="@id/exportMoodsPdfButtonView" />
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/export_moods_to_pdf"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="@id/exportMoodsPdfButtonView"
+            app:layout_constraintStart_toStartOf="@id/exportMoodsPdfButtonView"
+            app:layout_constraintTop_toTopOf="@id/exportMoodsPdfButtonView" />
 
-    <View
-        android:id="@+id/themeButtonView"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="2dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/settings_button_background_ripple"
-        app:layout_constraintTop_toBottomOf="@id/secondOptionDividerView" />
+        <View
+            android:id="@+id/secondOptionDividerView"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/top_divider"
+            android:elevation="2dp"
+            android:translationY="2dp"
+            app:layout_constraintTop_toBottomOf="@id/exportMoodsPdfButtonView" />
 
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/theme"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/text_size_large"
-        app:layout_constraintBottom_toBottomOf="@id/themeButtonView"
-        app:layout_constraintStart_toStartOf="@id/themeButtonView"
-        app:layout_constraintTop_toTopOf="@id/themeButtonView" />
+        <View
+            android:id="@+id/themeButtonView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/secondOptionDividerView" />
 
-    <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:textSize="@dimen/text_size_large"
-        app:layout_constraintBottom_toBottomOf="@id/themeButtonView"
-        app:layout_constraintEnd_toEndOf="@id/themeButtonView"
-        app:layout_constraintTop_toTopOf="@id/themeButtonView" />
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/theme"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="@id/themeButtonView"
+            app:layout_constraintStart_toStartOf="@id/themeButtonView"
+            app:layout_constraintTop_toTopOf="@id/themeButtonView" />
 
-    <View
-        android:id="@+id/thirdOptionDividerView"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/top_divider"
-        android:elevation="2dp"
-        android:translationY="2dp"
-        app:layout_constraintTop_toBottomOf="@id/themeButtonView" />
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintBottom_toBottomOf="@id/themeButtonView"
+            app:layout_constraintEnd_toEndOf="@id/themeButtonView"
+            app:layout_constraintTop_toTopOf="@id/themeButtonView" />
 
+        <View
+            android:id="@+id/thirdOptionDividerView"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/top_divider"
+            android:elevation="2dp"
+            android:translationY="2dp"
+            app:layout_constraintTop_toBottomOf="@id/themeButtonView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        layout="@layout/layout_export_pdf_dialog"
+        android:id="@+id/exportPdfDialogLayout"/>
+
+</FrameLayout>

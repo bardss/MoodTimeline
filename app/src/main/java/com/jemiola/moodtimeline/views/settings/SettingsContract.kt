@@ -4,9 +4,16 @@ import android.content.Context
 
 interface SettingsContract {
     interface Presenter {
-        fun generateMoodsPdf(context: Context)
+        fun generatePdfWithAllMoods(context: Context)
+        fun generatePdfWithRangeMoods(context: Context)
+        fun setMinMaxRangeDates()
     }
 
     interface View {
+        fun setFromRangeText(date: String)
+        fun setToRangeText(date: String)
+        fun getFromRangeText(): String
+        fun getToRangeText(): String
+        fun setupRangeEditTexts()
     }
 }

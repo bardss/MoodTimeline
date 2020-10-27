@@ -30,4 +30,7 @@
     <string name="set_pin_to_access_app">Set PIN to access app</string>
     <string name="export_moods_to_pdf">Export moods to PDF</string>
     <string name="theme">Theme</string>
+    <string name="export_period">Export period</string>
+    <string name="export_all_moods">Export all moods</string>
+    <string name="close_underlined"><u>Close</u></string>
 </resources>
