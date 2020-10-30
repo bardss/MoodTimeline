@@ -136,13 +136,24 @@
             app:layout_constraintTop_toTopOf="@id/themeButtonView" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/appThemeValueTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/colorBottomMenuInactive"
             app:layout_constraintBottom_toBottomOf="@id/themeButtonView"
             app:layout_constraintEnd_toEndOf="@id/themeButtonView"
             app:layout_constraintTop_toTopOf="@id/themeButtonView" />
+
+        <ImageView
+            android:id="@+id/appThemeValueImageView"
+            android:layout_width="16dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/appThemeValueTextView"
+            app:layout_constraintEnd_toStartOf="@id/appThemeValueTextView"
+            app:layout_constraintTop_toTopOf="@id/appThemeValueTextView" />
 
         <View
             android:id="@+id/thirdOptionDividerView"

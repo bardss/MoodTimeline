@@ -63,4 +63,13 @@ class SettingsPresenter(
         )
         repository.getMoodsFirstAndLastDate(callback)
     }
+
+    override fun saveAppTheme(theme: Int) {
+        repository.saveAppTheme(theme)
+    }
+
+    override fun setupCurrentThemeText() {
+        val appTheme = repository.getAppTheme()
+        view.setCurrentThemeText(appTheme)
+    }
 }

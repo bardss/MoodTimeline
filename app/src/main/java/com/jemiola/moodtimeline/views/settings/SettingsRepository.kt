@@ -9,25 +9,40 @@ import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.FirstAndLastMoodDateText
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
-import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
+import com.jemiola.moodtimeline.model.localdatabase.DatabaseKeys
+import com.jemiola.moodtimeline.model.localdatabase.LocalNoSQLDatabase
+import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.utils.rangepickers.RangeFormatter
 import org.threeten.bp.LocalDate
 
 class SettingsRepository : BaseRepository() {
 
-    private val database = Room.databaseBuilder(
+    private val databaseSQL = Room.databaseBuilder(
         BaseApplication.context,
-        LocalDatabase::class.java, DatabasesNames.moodsDatabase
+        LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
+    private val databaseNoSQL = LocalNoSQLDatabase.getInstance()
 
     private val rangeFormatter = RangeFormatter()
+
+    fun saveAppTheme(themeKey: Int) {
+        val editInstance = databaseNoSQL?.edit()
+        editInstance?.putInt(DatabaseKeys.APP_THEME, themeKey)
+        editInstance?.apply()
+    }
+
+    fun getAppTheme(): Int? {
+        val errorValue = 500
+        val theme = databaseNoSQL?.getInt(DatabaseKeys.APP_THEME, errorValue)
+        return if (theme != 500) theme else null
+    }
 
     fun getAllTimetableMoods(
         callback: OnRepositoryCallback<List<TimelineMoodBOv2>>
     ) {
         launchCallbackRequest(
             request = {
-                database.timelineMoodDaoV2().getAllMoods()
+                databaseSQL.timelineMoodDaoV2().getAllMoods()
             },
             onSuccess = {
                 val timelineMoodBOs = convertTimelineMoodDOtoBO(it)
@@ -45,7 +60,7 @@ class SettingsRepository : BaseRepository() {
     ) {
         launchCallbackRequest(
             request = {
-                database.timelineMoodDaoV2().getMoodsFromTo(from, to)
+                databaseSQL.timelineMoodDaoV2().getMoodsFromTo(from, to)
             },
             onSuccess = {
                 val timelineMoodBOs = convertTimelineMoodDOtoBO(it)
@@ -61,7 +76,7 @@ class SettingsRepository : BaseRepository() {
     ) {
         launchCallbackRequest(
             request = {
-                database.timelineMoodDaoV2().getAllMoods()
+                databaseSQL.timelineMoodDaoV2().getAllMoods()
             },
             onSuccess = {
                 val firstMoodDate = it.first().date

@@ -5,7 +5,7 @@ import com.jemiola.moodtimeline.base.BaseApplication
 import com.jemiola.moodtimeline.base.BaseRepository
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
-import com.jemiola.moodtimeline.model.localdatabase.LocalDatabase
+import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.model.data.databaseobjects.MoodDO
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
@@ -14,7 +14,7 @@ class EditTimelineMoodRepository : BaseRepository() {
 
     private val database = Room.databaseBuilder(
         BaseApplication.context,
-        LocalDatabase::class.java, DatabasesNames.moodsDatabase
+        LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
 
     private var openedMoodId: Int? = null

@@ -32,6 +32,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
             binding = FragmentSettingsBinding.inflate(inflater, container, false)
             setupChangeThemeButton()
             setupGeneratePdfButton()
+            presenter.setupCurrentThemeText()
         }
         return binding.root
     }
@@ -78,13 +79,30 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
+    override fun setCurrentThemeText(appTheme: Int?) {
+        val themeText = when (appTheme) {
+            AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getString(resources, R.string.light)
+            AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getString(resources, R.string.dark)
+            else -> ""
+        }
+        val themeIcon = when (appTheme) {
+            AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getDrawable(resources, R.drawable.ic_sun)
+            AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getDrawable(resources, R.drawable.ic_moon)
+            else -> null
+        }
+        binding.appThemeValueTextView.text = themeText
+        binding.appThemeValueImageView.setImageDrawable(themeIcon)
+    }
+
     private fun setupChangeThemeButton() {
         binding.themeButtonView.setOnClickListener {
-            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            val themeToSet = if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.MODE_NIGHT_NO
             } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                AppCompatDelegate.MODE_NIGHT_YES
             }
+            AppCompatDelegate.setDefaultNightMode(themeToSet)
+            presenter.saveAppTheme(themeToSet)
         }
     }
 

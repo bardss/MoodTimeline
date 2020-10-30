@@ -35,4 +35,6 @@
     <string name="close_underlined"><u>Close</u></string>
     <string name="pdf_generated">PDF generated!</string>
     <string name="pdf_generated_to">PDF generated to directory:</string>
+    <string name="light">LIGHT</string>
+    <string name="dark">DARK</string>
 </resources>

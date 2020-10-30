@@ -25,7 +25,7 @@ class RoomMigrations {
 
     private val database = Room.databaseBuilder(
         BaseApplication.context,
-        LocalDatabase::class.java, DatabasesNames.moodsDatabase
+        LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     )
         .addMigrations(MIGRATION_1_2)
         .build()

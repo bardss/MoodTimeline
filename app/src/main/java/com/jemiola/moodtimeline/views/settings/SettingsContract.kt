@@ -7,6 +7,8 @@ interface SettingsContract {
         fun generatePdfWithAllMoods(context: Context)
         fun generatePdfWithRangeMoods(context: Context)
         fun setMinMaxRangeDates()
+        fun saveAppTheme(theme: Int)
+        fun setupCurrentThemeText()
     }
 
     interface View {
@@ -19,5 +21,6 @@ interface SettingsContract {
         fun stopLoading()
         fun showGeneratePdfSuccessDialog()
         fun toggleExportMoodsDialogVisibility()
+        fun setCurrentThemeText(appTheme: Int?)
     }
 }
