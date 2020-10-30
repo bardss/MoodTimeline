@@ -17,22 +17,36 @@ class SettingsPresenter(
     private val rangeFormatter = RangeFormatter()
 
     override fun generatePdfWithAllMoods(context: Context) {
+        view.startLoading()
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
-            onSuccessAction = { pdfGenerator.generatePdf(context, it) },
-            onErrorAction = { }
+            onSuccessAction = {
+                pdfGenerator.generatePdf(context, it)
+                view.stopLoading()
+                view.showGeneratePdfSuccessDialog()
+            },
+            onErrorAction = {
+                view.stopLoading()
+            }
         )
         repository.getAllTimetableMoods(callback)
     }
 
     override fun generatePdfWithRangeMoods(context: Context) {
+        view.startLoading()
         val fromDateText = view.getFromRangeText()
         val toDateText = view.getToRangeText()
         val formatter = rangeFormatter.getDefaultSearchDateFormatter()
         val fromDate = LocalDate.parse(fromDateText, formatter)
         val toDate = LocalDate.parse(toDateText, formatter)
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
-            onSuccessAction = { pdfGenerator.generatePdf(context, it) },
-            onErrorAction = { }
+            onSuccessAction = {
+                pdfGenerator.generatePdf(context, it)
+                view.stopLoading()
+                view.showGeneratePdfSuccessDialog()
+            },
+            onErrorAction = {
+                view.stopLoading()
+            }
         )
         repository.getAllTimetableMoodsWithRange(callback, fromDate, toDate)
     }

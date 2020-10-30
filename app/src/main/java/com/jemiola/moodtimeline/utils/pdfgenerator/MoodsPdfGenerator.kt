@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
-import android.os.Environment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseApplication.Companion.context
 import com.jemiola.moodtimeline.model.data.local.MoodPdfPageInfo
@@ -43,10 +42,11 @@ class MoodsPdfGenerator {
     private val boldTypeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
 
     fun generatePdf(context: Context, moods: List<TimelineMoodBOv2>) {
+        val moodsFromOldestToNewest = moods.reversed()
         val document = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create()
-        drawMoodsOnPages(context, pageInfo, document, moods)
-        savePdfToDirectory(context, document)
+        drawMoodsOnPages(context, pageInfo, document, moodsFromOldestToNewest)
+        savePdfToDirectory(context, document, moodsFromOldestToNewest)
     }
 
     private fun drawMoodsOnPages(
@@ -201,10 +201,12 @@ class MoodsPdfGenerator {
                 linePosition,
                 paint
             )
+            textPositionTaken += TEXT_SIZE_CONTENT * 2
         } else {
             val noteSplitIntoLines = splitNoteIntoLines(mood.note)
             noteSplitIntoLines.forEachIndexed { i, text ->
-                val sideMargin =  if (i == 0) MARGIN_SIDE_CONTENT + dateLabelWidth else MARGIN_SIDE_CONTENT
+                val sideMargin =
+                    if (i == 0) MARGIN_SIDE_CONTENT + dateLabelWidth else MARGIN_SIDE_CONTENT
                 moodPdfPage.page.canvas.drawText(text, sideMargin, linePosition, paint)
                 val takenSpace = TEXT_SIZE_CONTENT * 2
                 linePosition += takenSpace
@@ -262,7 +264,7 @@ class MoodsPdfGenerator {
     }
 
     private fun getMoodBitmap(resources: Resources, mood: TimelineMoodBOv2): Bitmap? {
-        val circleMoodDrawableId = mood.circleMood.moodDrawable
+        val circleMoodDrawableId = mood.circleMood.moodDrawablePdf
         val moodDrawable = ResUtil.getDrawable(resources, circleMoodDrawableId)
         return moodDrawable?.let { getBitmapFromVectorDrawable(moodDrawable) }
     }
@@ -300,20 +302,23 @@ class MoodsPdfGenerator {
         )
     }
 
-    private fun savePdfToDirectory(context: Context, document: PdfDocument) {
-        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+    private fun savePdfToDirectory(
+        context: Context,
+        document: PdfDocument,
+        moods: List<TimelineMoodBOv2>
+    ) {
+        val from = moods.first().date
+        val to = moods.last().date
         try {
-            storageDir?.let {
-                val file = pdfGeneratorFileManager.createFileWithTimeStamp(
-                    storageDir,
-                    LocalDate.now(),
-                    LocalDate.now().plusDays(1)
-                )
-                val fos = FileOutputStream(file)
-                document.writeTo(fos)
-                document.close()
-                fos.close()
-            }
+            val file = pdfGeneratorFileManager.createFileWithTimeStamp(
+                context,
+                from,
+                to
+            )
+            val fos = FileOutputStream(file)
+            document.writeTo(fos)
+            document.close()
+            fos.close()
         } catch (e: IOException) {
             throw RuntimeException("Error generating file", e)
         }

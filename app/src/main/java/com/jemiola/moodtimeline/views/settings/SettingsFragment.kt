@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
+import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentSettingsBinding
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.utils.pdfgenerator.PDF_GENERATOR_ENVIRONMENT_DIR
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -61,7 +64,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
-    private fun toggleExportMoodsDialogVisibility() {
+    override fun toggleExportMoodsDialogVisibility() {
         val dialog = binding.exportPdfDialogLayout.exportPdfContainerLayout as View
         if (dialog.visibility == View.GONE) {
             hideBottomMenu()
@@ -99,5 +102,21 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
 
     override fun getToRangeText(): String {
         return binding.exportPdfDialogLayout.toEditText.text.toString()
+    }
+
+    override fun showGeneratePdfSuccessDialog() {
+        val storageDir = context?.getExternalFilesDir(PDF_GENERATOR_ENVIRONMENT_DIR)
+        binding.infoDialogLayout.infoDialogTitleTextView.text =
+            ResUtil.getString(resources, R.string.pdf_generated)
+        val pdfGeneratedToText = ResUtil.getString(resources, R.string.pdf_generated_to)
+        val content = "$pdfGeneratedToText\n\n$storageDir"
+        binding.infoDialogLayout.infoDialogContentTextView.text = content
+        AnimUtils.fadeIn(ANIM_DURATION, binding.infoDialogLayout.infoDialogContentLayout)
+        binding.infoDialogLayout.closeTextView.setOnClickListener {
+            AnimUtils.fadeOut(ANIM_DURATION, {
+                toggleExportMoodsDialogVisibility()
+                binding.infoDialogLayout.infoDialogContentLayout.visibility = View.GONE
+            }, binding.infoDialogLayout.infoDialogContentLayout)
+        }
     }
 }

@@ -9,5 +9,7 @@ interface NavigationContract {
         fun pushFragment(fragment: Fragment)
         fun hideBottomMenu()
         fun showBottomMenu()
+        fun startLoading()
+        fun stopLoading()
     }
 }

@@ -15,13 +15,18 @@ class RangePickersUtil {
 
     private val rangeFormatter = RangeFormatter()
 
-    fun setupRangeCalendars(context: Context, fromEditText: EditText, toEditText: EditText) {
+    fun setupRangeCalendars(
+        context: Context,
+        fromEditText: EditText,
+        toEditText: EditText,
+        onChangeValueAction: (() -> Unit)? = null
+    ) {
         val pickerFrom = createDatePicker(context, fromEditText)
         fromEditText.setOnClickListener { pickerFrom.show() }
         val pickerTo = createDatePicker(context, toEditText)
         toEditText.setOnClickListener { pickerTo.show() }
         setupDatePickerBlockades(pickerFrom, pickerTo, fromEditText, toEditText)
-        setupSearchTextWatchers(pickerFrom, pickerTo, fromEditText, toEditText)
+        setupSearchTextWatchers(pickerFrom, pickerTo, fromEditText, toEditText, onChangeValueAction)
     }
 
     private fun createOnDatePickedListener(editText: EditText) =
@@ -44,12 +49,14 @@ class RangePickersUtil {
         fromDatePicker: DatePickerDialog,
         toDatePicker: DatePickerDialog,
         fromEditText: EditText,
-        toEditText: EditText
+        toEditText: EditText,
+        onChangeValueAction: (() -> Unit)? = null
     ) {
         val afterTextChangedAction = { _: Editable? ->
             val fromText = fromEditText.text
             val toText = toEditText.text
             if (fromText?.isNotEmpty() == true && toText?.isNotEmpty() == true) {
+                onChangeValueAction?.invoke()
 //                presenter.searchTimelineMoods()
             }
             setupDatePickerBlockades(fromDatePicker, toDatePicker, fromEditText, toEditText)

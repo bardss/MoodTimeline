@@ -15,5 +15,9 @@ interface SettingsContract {
         fun getFromRangeText(): String
         fun getToRangeText(): String
         fun setupRangeEditTexts()
+        fun startLoading()
+        fun stopLoading()
+        fun showGeneratePdfSuccessDialog()
+        fun toggleExportMoodsDialogVisibility()
     }
 }

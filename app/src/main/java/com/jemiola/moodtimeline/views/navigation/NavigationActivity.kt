@@ -9,6 +9,7 @@ import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.ActivityNavigationBinding
+import com.jemiola.moodtimeline.utils.LoadingHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.settings.SettingsFragment
 import com.jemiola.moodtimeline.views.timeline.TimelineFragment
@@ -27,6 +28,7 @@ class NavigationActivity : BaseActivity(),
     override val presenter: NavigationPresenter by inject { parametersOf(this) }
     private lateinit var binding: ActivityNavigationBinding
     private lateinit var navigation: FragNavController
+    private val loadingHandler = LoadingHandler(this)
     private val actionsToDoOnResume: MutableList<() -> Any?> = mutableListOf()
 
     override val numberOfRootFragments: Int = 3
@@ -161,5 +163,13 @@ class NavigationActivity : BaseActivity(),
         if (binding.menuBottomView.bottomMenuLayout.visibility != View.VISIBLE) {
             binding.menuBottomView.bottomMenuLayout.visibility = View.VISIBLE
         }
+    }
+
+    override fun startLoading() {
+        loadingHandler.showLoading(false)
+    }
+
+    override fun stopLoading() {
+        loadingHandler.stopLoading()
     }
 }

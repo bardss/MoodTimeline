@@ -1,21 +1,16 @@
 package com.jemiola.moodtimeline.views.timeline
 
-import android.app.DatePickerDialog
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
-import com.jemiola.moodtimeline.customviews.RalewayEditText
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
@@ -23,12 +18,12 @@ import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import com.jemiola.moodtimeline.views.calendar.CalendarFragment
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
-import java.util.*
 
 const val MOVE_ANIM_DURATION = 500
 const val EMPTY_VIEW_ANIM_DURATION = 100
@@ -40,6 +35,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     private var isSearchOpened = false
     private var isCalendarOpened = false
     private var counterComeBackLaterInflater = 0
+    private val rangePickersUtil = RangePickersUtil()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,6 +113,18 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         }
     }
 
+    private fun setupSearchCalendars() {
+        context?.let {
+            val fromEditText = binding.fromEditText
+            val toEditText = binding.toEditText
+            rangePickersUtil.setupRangeCalendars(
+                it,
+                fromEditText,
+                toEditText
+            ) { presenter.searchTimelineMoods() }
+        }
+    }
+
     private fun setupCalendarView() {
         setupCalendarFragment()
         binding.timelineTopLayout.post {
@@ -143,9 +151,20 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     private fun setupSearchEditTextColors() {
         binding.fromEditText.backgroundTintList =
             ResUtil.getColorAsColorStateList(resources, R.color.colorTitle)
-        binding.fromEditText.setHintTextColor(ResUtil.getColorAsColorStateList(resources, R.color.colorMoodNone))
-        binding.toEditText.backgroundTintList = ResUtil.getColorAsColorStateList(resources, R.color.colorTitle)
-        binding.toEditText.setHintTextColor(ResUtil.getColorAsColorStateList(resources, R.color.colorMoodNone))
+        binding.fromEditText.setHintTextColor(
+            ResUtil.getColorAsColorStateList(
+                resources,
+                R.color.colorMoodNone
+            )
+        )
+        binding.toEditText.backgroundTintList =
+            ResUtil.getColorAsColorStateList(resources, R.color.colorTitle)
+        binding.toEditText.setHintTextColor(
+            ResUtil.getColorAsColorStateList(
+                resources,
+                R.color.colorMoodNone
+            )
+        )
     }
 
     private fun onSearchClick() {
@@ -154,13 +173,19 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isSearchOpened) {
             isSearchOpened = true
-            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(resources, R.drawable.ic_close))
+            animateIconChangeTo(
+                binding.searchImageView,
+                ResUtil.getDrawable(resources, R.drawable.ic_close)
+            )
             val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.searchTopLayout)
         } else {
             isSearchOpened = false
-            animateIconChangeTo(binding.searchImageView, ResUtil.getDrawable(resources, R.drawable.ic_search))
+            animateIconChangeTo(
+                binding.searchImageView,
+                ResUtil.getDrawable(resources, R.drawable.ic_search)
+            )
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
                 setupSearchDefaultValues()
@@ -174,7 +199,10 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
         if (!isCalendarOpened) {
             isCalendarOpened = true
-            animateIconChangeTo(binding.calendarImageView, ResUtil.getDrawable(resources, R.drawable.ic_close))
+            animateIconChangeTo(
+                binding.calendarImageView,
+                ResUtil.getDrawable(resources, R.drawable.ic_close)
+            )
             val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.timelineRecyclerView)
@@ -217,61 +245,6 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         }
         AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout) {
             binding.calendarFragmentLayout.visibility = View.VISIBLE
-        }
-    }
-
-    private fun setupSearchCalendars() {
-        context?.let { notNullContext ->
-            val pickerFrom = createDatePicker(notNullContext, binding.fromEditText)
-            binding.fromEditText.setOnClickListener { pickerFrom.show() }
-            val pickerTo = createDatePicker(notNullContext, binding.toEditText)
-            binding.toEditText.setOnClickListener { pickerTo.show() }
-            setupDatePickerBlockades(pickerFrom, pickerTo)
-            setupSearchTextWatchers(pickerFrom, pickerTo)
-        }
-    }
-
-    private fun createOnDatePickedListener(editText: RalewayEditText) =
-        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val dateText = presenter.createDateTextFrom(dayOfMonth, monthOfYear + 1, year)
-            editText.setText(dateText)
-        }
-
-    private fun createDatePicker(context: Context, editText: RalewayEditText): DatePickerDialog {
-        return DatePickerDialog(
-            context,
-            createOnDatePickedListener(editText),
-            Calendar.getInstance().get(Calendar.YEAR),
-            Calendar.getInstance().get(Calendar.MONTH),
-            Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        )
-    }
-
-    private fun setupSearchTextWatchers(
-        fromDatePicker: DatePickerDialog,
-        toDatePicker: DatePickerDialog
-    ) {
-        val afterTextChangedAction = { _: Editable? ->
-            val fromText = binding.fromEditText.text
-            val toText = binding.toEditText.text
-            if (fromText?.isNotEmpty() == true && toText?.isNotEmpty() == true) {
-                presenter.searchTimelineMoods()
-            }
-            setupDatePickerBlockades(fromDatePicker, toDatePicker)
-        }
-        binding.fromEditText.doAfterTextChanged(afterTextChangedAction)
-        binding.toEditText.doAfterTextChanged(afterTextChangedAction)
-    }
-
-    private fun setupDatePickerBlockades(
-        fromDatePicker: DatePickerDialog,
-        toDatePicker: DatePickerDialog
-    ) {
-        if (binding.toEditText.text?.isNotEmpty() == true) {
-            fromDatePicker.datePicker.maxDate = presenter.getSearchToDateLong()
-        }
-        if (binding.fromEditText.text?.isNotEmpty() == true) {
-            toDatePicker.datePicker.minDate = presenter.getSearchFromDateLong()
         }
     }
 

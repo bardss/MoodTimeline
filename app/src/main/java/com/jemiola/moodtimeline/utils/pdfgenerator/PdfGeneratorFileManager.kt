@@ -1,13 +1,18 @@
 package com.jemiola.moodtimeline.utils.pdfgenerator
 
+import android.content.Context
+import android.os.Environment
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import java.io.File
 import java.util.*
 
+val PDF_GENERATOR_ENVIRONMENT_DIR: String = Environment.DIRECTORY_DOCUMENTS
+
 class PdfGeneratorFileManager {
-    fun createFileWithTimeStamp(storageDir: File, from: LocalDate, to: LocalDate): File {
+    fun createFileWithTimeStamp(context: Context, from: LocalDate, to: LocalDate): File {
+        val storageDir = context.getExternalFilesDir(PDF_GENERATOR_ENVIRONMENT_DIR)
         val fileNameWithTimeStamp =
             createFileNameWithTimeStamp(
                 from,

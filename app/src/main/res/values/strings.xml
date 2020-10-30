@@ -33,4 +33,6 @@
     <string name="export_period">Export period</string>
     <string name="export_all_moods">Export all moods</string>
     <string name="close_underlined"><u>Close</u></string>
+    <string name="pdf_generated">PDF generated!</string>
+    <string name="pdf_generated_to">PDF generated to directory:</string>
 </resources>

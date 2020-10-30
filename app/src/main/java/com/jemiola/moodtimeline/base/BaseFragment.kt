@@ -31,4 +31,12 @@ abstract class BaseFragment : Fragment(), KoinComponent {
     fun showBottomMenu() {
         (activity as? NavigationContract.View)?.showBottomMenu()
     }
+
+    fun startLoading() {
+        (activity as? NavigationContract.View)?.startLoading()
+    }
+
+    fun stopLoading() {
+        (activity as? NavigationContract.View)?.stopLoading()
+    }
 }
