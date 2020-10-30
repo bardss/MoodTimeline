@@ -47,6 +47,7 @@
             android:background="@drawable/button_background_ripple"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/titleDividerView" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
@@ -56,6 +57,7 @@
             android:text="@string/set_pin_to_access_app"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size_large"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/setPinButtonView"
             app:layout_constraintStart_toStartOf="@id/setPinButtonView"
             app:layout_constraintTop_toTopOf="@id/setPinButtonView" />
@@ -71,6 +73,7 @@
             android:background="@drawable/top_divider"
             android:elevation="2dp"
             android:translationY="2dp"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/setPinButtonView" />
 
         <View
@@ -157,11 +160,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        layout="@layout/layout_export_pdf_dialog"
-        android:id="@+id/exportPdfDialogLayout"/>
+        android:id="@+id/exportPdfDialogLayout"
+        layout="@layout/layout_export_pdf_dialog" />
 
     <include
-        layout="@layout/layout_info_dialog"
-        android:id="@+id/infoDialogLayout"/>
+        android:id="@+id/infoDialogLayout"
+        layout="@layout/layout_info_dialog" />
 
 </FrameLayout>

@@ -3,6 +3,7 @@ package com.jemiola.moodtimeline.customviews.pickphoto
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.children
 import com.jemiola.moodtimeline.R
@@ -46,15 +47,22 @@ class PickPhotoLayout : LinearLayout {
     }
 
     fun setPictures(picturePaths: List<String>) {
-        val numberOfPictures = picturePaths.size
-        for (i in 0 until numberOfPictures) {
-            addView(createPickPhotoView())
-        }
-        forEachPickPhotoViewIndexed { index, view ->
-            picturePaths.getOrNull(index)?.let { path ->
-                view.setPathAsSelectedPicture(path)
+        if (!isPicturePathsEmpty(picturePaths)) {
+            visibility = View.VISIBLE
+            val numberOfPictures = picturePaths.size
+            for (i in 0 until numberOfPictures) {
+                addView(createPickPhotoView())
             }
-        }
+            forEachPickPhotoViewIndexed { index, view ->
+                picturePaths.getOrNull(index)?.let { path ->
+                    view.setPathAsSelectedPicture(path)
+                }
+            }
+        } else visibility = View.GONE
+    }
+
+    private fun isPicturePathsEmpty(picturePaths: List<String>): Boolean {
+        return picturePaths.size == 1 && picturePaths.first() == ""
     }
 
     fun getPicturePaths(): List<String> {
