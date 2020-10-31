@@ -175,7 +175,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isSearchOpened = true
             animateIconChangeTo(
                 binding.searchImageView,
-                ResUtil.getDrawable(resources, R.drawable.ic_close)
+                ResUtil.getDrawable(context, R.drawable.ic_close)
             )
             val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
@@ -184,7 +184,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isSearchOpened = false
             animateIconChangeTo(
                 binding.searchImageView,
-                ResUtil.getDrawable(resources, R.drawable.ic_search)
+                ResUtil.getDrawable(context, R.drawable.ic_search)
             )
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
@@ -201,7 +201,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isCalendarOpened = true
             animateIconChangeTo(
                 binding.calendarImageView,
-                ResUtil.getDrawable(resources, R.drawable.ic_close)
+                ResUtil.getDrawable(context, R.drawable.ic_close)
             )
             val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
@@ -213,7 +213,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             isCalendarOpened = false
             animateIconChangeTo(
                 binding.calendarImageView,
-                ResUtil.getDrawable(resources, R.drawable.ic_calendar)
+                ResUtil.getDrawable(context, R.drawable.ic_calendar)
             )
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineRecyclerView)

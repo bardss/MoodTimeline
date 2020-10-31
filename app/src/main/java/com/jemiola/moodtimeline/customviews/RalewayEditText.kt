@@ -23,6 +23,6 @@ class RalewayEditText : AppCompatEditText {
         typeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
         backgroundTintList = ResUtil.getColorAsColorStateList(context.resources, R.color.colorAccent)
         setHintTextColor(ResUtil.getColorAsColorStateList(context.resources, R.color.colorAccent))
-        setTextColor(ResUtil.getColor(context.resources, R.color.colorText))
+        setTextColor(ResUtil.getColor(context, R.color.colorText))
     }
 }

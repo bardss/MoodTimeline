@@ -1,7 +1,6 @@
 package com.jemiola.moodtimeline.utils.pdfgenerator
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
@@ -87,7 +86,7 @@ class MoodsPdfGenerator {
                 estimatedLineHeightMood, currentMoodPage, pageInfo, document
             )
             val moodLineHeight =
-                drawMoodAndReturnMoodLineHeight(currentMoodPage, resources, mood, paint)
+                drawMoodAndReturnMoodLineHeight(currentMoodPage, mood, paint)
             currentMoodPage = increasePositionInPage(currentMoodPage, moodLineHeight)
 
             // draw Notes
@@ -218,11 +217,10 @@ class MoodsPdfGenerator {
 
     private fun drawMoodAndReturnMoodLineHeight(
         moodPdfPage: MoodPdfPageInfo,
-        resources: Resources,
         mood: TimelineMoodBOv2,
         paint: Paint
     ): Float {
-        val moodBitmap = getMoodBitmap(resources, mood)
+        val moodBitmap = getMoodBitmap(mood)
         val moodLabelText = "Mood: "
         if (moodBitmap != null) {
             paint.typeface = boldTypeface
@@ -263,9 +261,9 @@ class MoodsPdfGenerator {
         return scaledBitmap.height + SPACE_BETWEEN_PICTURES * 2
     }
 
-    private fun getMoodBitmap(resources: Resources, mood: TimelineMoodBOv2): Bitmap? {
+    private fun getMoodBitmap(mood: TimelineMoodBOv2): Bitmap? {
         val circleMoodDrawableId = mood.circleMood.moodDrawablePdf
-        val moodDrawable = ResUtil.getDrawable(resources, circleMoodDrawableId)
+        val moodDrawable = ResUtil.getDrawable(context, circleMoodDrawableId)
         return moodDrawable?.let { getBitmapFromVectorDrawable(moodDrawable) }
     }
 

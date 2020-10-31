@@ -87,7 +87,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
             val dayView = createDayView(notNullContext)
             binding.calendarDaysGridLayout.addView(dayView)
             dayView.day = day
-            dayView.dayTextView.setTextColor(ResUtil.getColor(resources, R.color.colorMoodNone))
+            dayView.dayTextView.setTextColor(ResUtil.getColor(context, R.color.colorMoodNone))
             dayView.layoutParams = createCalendarDayLayoutParams()
         }
     }
@@ -97,7 +97,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
             val dayView = createDayView(notNullContext)
             binding.calendarDaysGridLayout.addView(dayView)
             dayView.day = day
-            dayView.dayTextView.setTextColor(ResUtil.getColor(resources, R.color.colorTitle))
+            dayView.dayTextView.setTextColor(ResUtil.getColor(context, R.color.colorTitle))
             dayView.layoutParams = createCalendarDayLayoutParams()
         }
     }

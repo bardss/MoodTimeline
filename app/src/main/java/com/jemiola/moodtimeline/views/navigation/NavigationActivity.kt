@@ -116,13 +116,13 @@ class NavigationActivity : BaseActivity(),
 
     private fun highlightNavigationOption(imageView: ImageView, textView: TextView) {
         unhighlightAllNavigationOptions()
-        val highlightColor = ResUtil.getColor(resources, R.color.colorBottomMenuActive)
+        val highlightColor = ResUtil.getColor(this, R.color.colorBottomMenuActive)
         imageView.setColorFilter(highlightColor)
         textView.setTextColor(highlightColor)
     }
 
     private fun unhighlightAllNavigationOptions() {
-        val inactiveColor = ResUtil.getColor(resources, R.color.colorBottomMenuInactive)
+        val inactiveColor = ResUtil.getColor(this, R.color.colorBottomMenuInactive)
         with(binding.menuBottomView) {
 //            statisticsImageView.setColorFilter(inactiveColor)
             timelineImageView.setColorFilter(inactiveColor)

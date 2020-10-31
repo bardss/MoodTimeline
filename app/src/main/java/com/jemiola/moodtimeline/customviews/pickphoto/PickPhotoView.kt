@@ -94,7 +94,7 @@ class PickPhotoView(
         val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
         if (pictureBitmap != null) {
             this.picturePath = path
-            editPictureImageView.setImageDrawable(ResUtil.getDrawable(context.resources, R.drawable.ic_edit))
+            editPictureImageView.setImageDrawable(ResUtil.getDrawable(context, R.drawable.ic_edit))
             selectedPictureImageView.setImageDrawable(pictureBitmap)
         }
     }

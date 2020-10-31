@@ -9,6 +9,7 @@ import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentSettingsBinding
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.AppThemeHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.pdfgenerator.PDF_GENERATOR_ENVIRONMENT_DIR
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
@@ -22,6 +23,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
     override val presenter: SettingsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentSettingsBinding
     private val rangePickersUtil = RangePickersUtil()
+    private val appThemeHandler = AppThemeHandler()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,15 +81,16 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
-    override fun setCurrentThemeText(appTheme: Int?) {
+    override fun setCurrentThemeText(appThemeFromDatabase: Int?) {
+        val appTheme = appThemeFromDatabase ?: appThemeHandler.getCurrentNightMode(resources)
         val themeText = when (appTheme) {
             AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getString(resources, R.string.light)
             AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getString(resources, R.string.dark)
             else -> ""
         }
         val themeIcon = when (appTheme) {
-            AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getDrawable(resources, R.drawable.ic_sun)
-            AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getDrawable(resources, R.drawable.ic_moon)
+            AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getDrawable(context, R.drawable.ic_sun)
+            AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getDrawable(context, R.drawable.ic_moon)
             else -> null
         }
         binding.appThemeValueTextView.text = themeText
@@ -96,13 +99,16 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
 
     private fun setupChangeThemeButton() {
         binding.themeButtonView.setOnClickListener {
-            val themeToSet = if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                AppCompatDelegate.MODE_NIGHT_NO
-            } else {
-                AppCompatDelegate.MODE_NIGHT_YES
-            }
+            val themeToSet =
+                if (appThemeHandler.getCurrentNightMode(resources) == AppCompatDelegate.MODE_NIGHT_YES) {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                } else {
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
             AppCompatDelegate.setDefaultNightMode(themeToSet)
             presenter.saveAppTheme(themeToSet)
+            restartApp()
         }
     }
 

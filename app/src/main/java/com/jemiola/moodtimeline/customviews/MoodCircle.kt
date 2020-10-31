@@ -60,15 +60,15 @@ class MoodCircle : FrameLayout {
     }
 
     private fun changeBackground(mood: CircleMoodBO) {
-        circleImageView.setImageDrawable(ResUtil.getDrawable(context.resources, mood.backgroundId))
-        moodImageView.setImageDrawable(ResUtil.getDrawable(context.resources, mood.moodDrawable))
+        circleImageView.setImageDrawable(ResUtil.getDrawable(context, mood.backgroundId))
+        moodImageView.setImageDrawable(ResUtil.getDrawable(context, mood.moodDrawable))
     }
 
     private fun changeState(state: CircleStateBO) {
         when (state) {
-            EDIT -> ResUtil.getDrawable(context.resources, R.drawable.ic_edit)
-            ADD -> ResUtil.getDrawable(context.resources, R.drawable.ic_plus)
-            DEFAULT -> ResUtil.getDrawable(context.resources, R.drawable.ic_mood_none)
+            EDIT -> ResUtil.getDrawable(context, R.drawable.ic_edit)
+            ADD -> ResUtil.getDrawable(context, R.drawable.ic_plus)
+            DEFAULT -> ResUtil.getDrawable(context, R.drawable.ic_mood_none)
             CHOOSE_MOOD -> null
         }.also { stateDrawable ->
             stateImageView.setImageDrawable(stateDrawable)

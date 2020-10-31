@@ -21,6 +21,6 @@ interface SettingsContract {
         fun stopLoading()
         fun showGeneratePdfSuccessDialog()
         fun toggleExportMoodsDialogVisibility()
-        fun setCurrentThemeText(appTheme: Int?)
+        fun setCurrentThemeText(appThemeFromDatabase: Int?)
     }
 }

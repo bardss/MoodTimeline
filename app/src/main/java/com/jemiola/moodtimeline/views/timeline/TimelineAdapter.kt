@@ -89,7 +89,7 @@ class TimelineAdapter(
             holder.pictureLayout.visibility = View.GONE
         } else {
             holder.lineView.setBackgroundColor(
-                ResUtil.getColor(holder.lineView.context.resources, mood.circleMood.colorId)
+                ResUtil.getColor(holder.lineView.context, mood.circleMood.colorId)
             )
             holder.lineView.visibility = View.VISIBLE
             holder.noteTextView.visibility = View.VISIBLE

@@ -12,7 +12,6 @@ import com.jemiola.moodtimeline.utils.ResUtil
 import kotlin.properties.Delegates
 
 const val ANIM_DURATION = 300
-val MARGIN_BETWEEN_CIRCLES = ResUtil.getDimenDp(R.dimen.choose_mood_circle_margin)
 
 class ChooseMoodCircle : FrameLayout {
 
@@ -94,7 +93,8 @@ class ChooseMoodCircle : FrameLayout {
     }
 
     private fun circleExpandAnimation() {
-        val distance = mediocreCircle.width + MARGIN_BETWEEN_CIRCLES
+        val distance =
+            mediocreCircle.width + ResUtil.getDimenDp(resources, R.dimen.choose_mood_circle_margin)
         AnimUtils.animateMove(ANIM_DURATION, -(distance * 2), veryBadCircle)
         AnimUtils.animateMove(ANIM_DURATION, -distance, badCircle)
         AnimUtils.animateMove(ANIM_DURATION, distance, goodCircle)

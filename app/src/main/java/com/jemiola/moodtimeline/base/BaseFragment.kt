@@ -1,7 +1,11 @@
 package com.jemiola.moodtimeline.base
 
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import androidx.fragment.app.Fragment
+import com.jemiola.moodtimeline.views.navigation.NavigationActivity
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
+import com.jemiola.moodtimeline.views.splash.SplashActivity
 import org.koin.core.KoinComponent
 
 abstract class BaseFragment : Fragment(), KoinComponent {
@@ -38,5 +42,13 @@ abstract class BaseFragment : Fragment(), KoinComponent {
 
     fun stopLoading() {
         (activity as? NavigationContract.View)?.stopLoading()
+    }
+
+    fun restartApp() {
+        val intentToSplash = Intent(context, SplashActivity::class.java).apply {
+            addFlags(FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(intentToSplash)
+        (activity as? NavigationActivity)?.finish()
     }
 }

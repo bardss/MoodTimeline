@@ -35,8 +35,8 @@
         </activity>
         <activity
             android:name="com.jemiola.moodtimeline.views.navigation.NavigationActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="uiMode"/>
     </application>
 
 </manifest>
