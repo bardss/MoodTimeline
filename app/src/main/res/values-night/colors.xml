@@ -7,4 +7,5 @@
     <color name="colorBottomMenuActive">#FFFFFF</color>
     <color name="colorBottomMenuBackground">#36393C</color>
     <color name="colorTopIcons">#CCCCCC</color>
+    <color name="colorBottomMenuShadow">#CCCCCC</color>
 </resources>

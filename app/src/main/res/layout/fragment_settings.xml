@@ -176,6 +176,10 @@
 
     <include
         android:id="@+id/infoDialogLayout"
-        layout="@layout/layout_info_dialog" />
+        layout="@layout/layout_export_pdf_success_dialog" />
+
+    <include
+        android:id="@+id/changeThemeDialogLayout"
+        layout="@layout/layout_change_theme_dialog" />
 
 </FrameLayout>

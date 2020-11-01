@@ -37,4 +37,9 @@
     <string name="pdf_generated_to">PDF generated to directory:</string>
     <string name="light">LIGHT</string>
     <string name="dark">DARK</string>
+    <string name="ok">OK</string>
+    <string name="back_underlined"><u>Back</u></string>
+    <string name="do_you_want_to_change_theme">Do you want to change theme?</string>
+    <string name="app_will_be_restarted_after_theme_change">App will be restarted after theme change</string>
+    <string name="or">or</string>
 </resources>

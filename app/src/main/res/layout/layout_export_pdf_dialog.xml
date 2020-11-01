@@ -42,7 +42,7 @@
             android:id="@+id/fromTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
+            android:layout_marginStart="26dp"
             android:layout_marginTop="26dp"
             android:text="@string/from_with_semicolon"
             android:textColor="@color/colorText"
@@ -92,9 +92,9 @@
             android:id="@+id/exportMoodsPeriodView"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="22dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="22dp"
             android:background="@drawable/button_background_ripple"
             android:clickable="true"
             android:focusable="true"
@@ -112,17 +112,29 @@
             app:layout_constraintStart_toStartOf="@id/exportMoodsPeriodView"
             app:layout_constraintTop_toTopOf="@id/exportMoodsPeriodView" />
 
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/orTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/or"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exportMoodsPeriodView" />
+
         <View
             android:id="@+id/exportAllMoodsView"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="22dp"
             android:background="@drawable/button_background_ripple"
             android:clickable="true"
             android:focusable="true"
-            app:layout_constraintTop_toBottomOf="@id/exportMoodsPeriodView" />
+            app:layout_constraintTop_toBottomOf="@id/orTextView" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="wrap_content"
@@ -140,7 +152,6 @@
             android:id="@+id/closeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/close_underlined"

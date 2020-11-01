@@ -19,13 +19,4 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"/>
 
-    <View
-        android:id="@+id/bottomMenuShadowView"
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/bottom_menu_shadow"
-        android:visibility="gone"/>
-
 </RelativeLayout>

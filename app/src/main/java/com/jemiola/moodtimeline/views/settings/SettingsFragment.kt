@@ -39,6 +39,24 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         return binding.root
     }
 
+    override fun onBackPressed(): Boolean {
+       return when {
+           binding.infoDialogLayout.infoDialogContentLayout.visibility == View.VISIBLE -> {
+               hideExportPdfSuccessDialog()
+               true
+           }
+            binding.changeThemeDialogLayout.changeThemeDialogContentLayout.visibility == View.VISIBLE -> {
+                hideChangeThemeDialog()
+                true
+            }
+            binding.exportPdfDialogLayout.exportPdfContainerLayout.visibility == View.VISIBLE -> {
+                toggleExportMoodsDialogVisibility()
+                true
+            }
+            else -> super.onBackPressed()
+        }
+    }
+
     private fun setupGeneratePdfButton() {
         binding.exportMoodsPdfButtonView.setOnClickListener {
             toggleExportMoodsDialogVisibility()
@@ -99,17 +117,32 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
 
     private fun setupChangeThemeButton() {
         binding.themeButtonView.setOnClickListener {
-            val themeToSet =
-                if (appThemeHandler.getCurrentNightMode(resources) == AppCompatDelegate.MODE_NIGHT_YES) {
-                    AppCompatDelegate.MODE_NIGHT_NO
-                } else {
-                    AppCompatDelegate.MODE_NIGHT_YES
-                }
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-            AppCompatDelegate.setDefaultNightMode(themeToSet)
-            presenter.saveAppTheme(themeToSet)
-            restartApp()
+            AnimUtils.fadeIn(
+                ANIM_DURATION,
+                binding.changeThemeDialogLayout.changeThemeDialogContentLayout
+            )
+            hideBottomMenu()
         }
+        val themeDialogLayout = binding.changeThemeDialogLayout
+        themeDialogLayout.changeThemeButtonView.setOnClickListener {
+            changeTheme()
+        }
+        themeDialogLayout.backTextView.setOnClickListener {
+            hideChangeThemeDialog()
+        }
+    }
+
+    private fun changeTheme() {
+        val themeToSet =
+            if (appThemeHandler.getCurrentNightMode(resources) == AppCompatDelegate.MODE_NIGHT_YES) {
+                AppCompatDelegate.MODE_NIGHT_NO
+            } else {
+                AppCompatDelegate.MODE_NIGHT_YES
+            }
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        AppCompatDelegate.setDefaultNightMode(themeToSet)
+        presenter.saveAppTheme(themeToSet)
+        restartApp()
     }
 
     override fun setFromRangeText(date: String) {
@@ -137,10 +170,25 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         binding.infoDialogLayout.infoDialogContentTextView.text = content
         AnimUtils.fadeIn(ANIM_DURATION, binding.infoDialogLayout.infoDialogContentLayout)
         binding.infoDialogLayout.closeTextView.setOnClickListener {
-            AnimUtils.fadeOut(ANIM_DURATION, {
-                toggleExportMoodsDialogVisibility()
-                binding.infoDialogLayout.infoDialogContentLayout.visibility = View.GONE
-            }, binding.infoDialogLayout.infoDialogContentLayout)
+            hideExportPdfSuccessDialog()
         }
+    }
+
+    private fun hideExportPdfSuccessDialog() {
+        AnimUtils.fadeOut(ANIM_DURATION, {
+            toggleExportMoodsDialogVisibility()
+            binding.infoDialogLayout.infoDialogContentLayout.visibility = View.GONE
+        }, binding.infoDialogLayout.infoDialogContentLayout)
+    }
+
+    private fun hideChangeThemeDialog() {
+        val themeDialogLayout = binding.changeThemeDialogLayout.changeThemeDialogContentLayout
+        AnimUtils.fadeOut(
+            ANIM_DURATION, {
+                themeDialogLayout.visibility = View.GONE
+                showBottomMenu()
+            },
+            themeDialogLayout
+        )
     }
 }
