@@ -15,6 +15,7 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.DefaultTime
+import com.jemiola.moodtimeline.utils.KeyboardUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -46,11 +47,6 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         super.onStart()
         hideBottomMenu()
         setupOnMoodChangeAction()
-    }
-
-    override fun onPause() {
-        showBottomMenu()
-        super.onPause()
     }
 
     override fun onBackPressed(): Boolean {
@@ -117,6 +113,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
     }
 
     override fun navigateBack() {
+        showBottomMenu()
         popFragment()
     }
 
@@ -202,6 +199,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
     }
 
     private fun setupOnboardingViewAfterAddNote() {
+        KeyboardUtils.hideSoftInput(activity)
         changeTitle(ResUtil.getString(resources, R.string.choose_photo))
         setupNextButtonAddPictureOnClick()
         AnimUtils.animateAlpha(
