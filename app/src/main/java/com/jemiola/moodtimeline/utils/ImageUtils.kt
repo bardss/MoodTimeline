@@ -136,9 +136,11 @@ object ImageUtils {
             fileOutputStream.close()
             return fileToSaveTo.absolutePath
         } catch (e: FileNotFoundException) {
-            Log.e("File not found: ", e.message)
+            val message = e.message ?: "no error message"
+            Log.e("File not found: ", message)
         } catch (e: IOException) {
-            Log.e("Error accessing file: ", e.message)
+            val message = e.message ?: "no error message"
+            Log.e("Error accessing file: ", message)
         }
         return null
     }
@@ -154,9 +156,11 @@ object ImageUtils {
             fileOutputStream.close()
             return fileToOverwrite.absolutePath
         } catch (e: FileNotFoundException) {
-            Log.e("File not found: ", e.message)
+            val message = e.message ?: "no error message"
+            Log.e("File not found: ", message)
         } catch (e: IOException) {
-            Log.e("Error accessing file: ", e.message)
+            val message = e.message ?: "no error message"
+            Log.e("Error accessing file: ", message)
         }
         return null
     }
