@@ -22,10 +22,13 @@ private const val PAGE_HEIGHT = 842
 private const val PAGE_MARGIN_TOP = 38f
 private const val PAGE_MARGIN_BOTTOM = 58f
 
-private const val TOP_BAR_HEIGHT = 200f
+private const val TOP_BAR_HEIGHT = 275f
 
-private const val PICTURE_MAX_WIDTH = 200
-private const val PICTURE_MAX_HEIGHT = 150
+private const val PICTURE_MAX_WIDTH = 250
+private const val PICTURE_MAX_HEIGHT = 200
+
+private const val LOGO_WIDTH = 165
+private const val LOGO_HEIGHT = 115
 
 private const val TEXT_SIZE_CONTENT = 16f
 private const val MARGIN_TOP_CONTENT = 128f
@@ -44,17 +47,15 @@ class MoodsPdfGenerator {
         val moodsFromOldestToNewest = moods.reversed()
         val document = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create()
-        drawMoodsOnPages(context, pageInfo, document, moodsFromOldestToNewest)
+        drawMoodsOnPages(pageInfo, document, moodsFromOldestToNewest)
         savePdfToDirectory(context, document, moodsFromOldestToNewest)
     }
 
     private fun drawMoodsOnPages(
-        context: Context,
         pageInfo: PdfDocument.PageInfo,
         document: PdfDocument,
         moods: List<TimelineMoodBOv2>
     ) {
-        val resources = context.resources
         var currentMoodPage = MoodPdfPageInfo(document.startPage(pageInfo), MARGIN_TOP_CONTENT)
         drawMoodsPdfTopBar(currentMoodPage.page)
         increasePositionInPage(currentMoodPage, TOP_BAR_HEIGHT)
@@ -289,7 +290,8 @@ class MoodsPdfGenerator {
             context.resources,
             R.drawable.app_logo_text_pdf
         )
-        val scaledLogoBitmap = ImageUtils.resizeBitmapWhenTooLarge(logoBitmap, 200, 150)
+        val scaledLogoBitmap =
+            ImageUtils.resizeBitmapWhenTooLarge(logoBitmap, LOGO_WIDTH, LOGO_HEIGHT)
         val paint = Paint()
         val xLogoPlace = (PAGE_WIDTH / 2) - (scaledLogoBitmap.width / 2)
         page.canvas.drawBitmap(

@@ -21,6 +21,7 @@ import java.io.IOException
 import java.util.*
 
 const val IMAGE_QUALITY_COMPRESS = 40
+typealias PictureSize = Pair<Int, Int>
 
 object ImageUtils {
     fun getPathFromUri(uri: Uri): String? {
@@ -91,13 +92,34 @@ object ImageUtils {
         maxHeight: Int = 1200
     ): Bitmap {
         return if (source.width > maxWidth || source.height > maxHeight) {
+            val reducedSize: PictureSize =
+                getReducedSize(maxWidth, maxHeight, source.width, source.height)
             Bitmap.createScaledBitmap(
                 source,
-                source.width / 2,
-                source.height / 2,
+                reducedSize.first,
+                reducedSize.second,
                 true
             )
         } else source
+    }
+
+    private fun getReducedSize(
+        maxWidth: Int,
+        maxHeight: Int,
+        sourceWidth: Int,
+        sourceHeight: Int
+    ): Pair<Int, Int> {
+        var reducedSize: PictureSize = Pair(sourceWidth, sourceHeight)
+        while (reducedSize.first > maxWidth && reducedSize.second > maxHeight) {
+            reducedSize = reduceTheSizeBy10Percent(reducedSize)
+        }
+        return reducedSize
+    }
+
+    private fun reduceTheSizeBy10Percent(size: PictureSize): PictureSize {
+        val width = (size.first * 0.9).toInt()
+        val height = (size.second * 0.9).toInt()
+        return Pair(width, height)
     }
 
     private fun performRotation(file: File, bitmap: Bitmap): Bitmap {
