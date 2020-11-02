@@ -105,7 +105,6 @@
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="@string/export_period"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size_medium"
@@ -118,7 +117,7 @@
             android:id="@+id/orTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/or"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size_medium"
@@ -131,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="22dp"
             android:background="@drawable/button_background_ripple"
             android:clickable="true"
@@ -141,7 +140,6 @@
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="@string/export_all_moods"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size_medium"
