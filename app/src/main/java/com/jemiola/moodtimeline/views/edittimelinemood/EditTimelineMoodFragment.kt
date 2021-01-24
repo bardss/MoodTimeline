@@ -17,16 +17,20 @@ import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.DefaultTime
 import com.jemiola.moodtimeline.utils.KeyboardUtils
 import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.utils.speechtotext.SpeechToTextHandler
+import com.jemiola.moodtimeline.utils.speechtotext.SpeechToTextOutput
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
 const val ANIM_DURATION = 200
 
-class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, PickPhotoFragment {
+class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, PickPhotoFragment,
+    SpeechToTextOutput {
 
     override val presenter: EditTimelineMoodPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentEditTimelineMoodBinding
+    private lateinit var speechToTextHandler: SpeechToTextHandler
     private var isAddMoodOnboarding: Boolean? = false
 
     override fun onCreateView(
@@ -38,6 +42,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         binding.picturesLayout.setPickPhotoFragment(this)
         setUnderlineColor(R.color.colorMoodNone)
         isAddMoodOnboarding = arguments?.getBoolean(ExtraKeys.IS_ADD_MOOD_ONBOARDING, false)
+        setupSpeechToNote()
         saveOpenedMoodId()
         setupView()
         return binding.root
@@ -56,6 +61,13 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         return true
     }
 
+    private fun setupSpeechToNote() {
+        speechToTextHandler = SpeechToTextHandler(context, this)
+        binding.microphoneImageView.setOnClickListener {
+            speechToTextHandler.onClickMicrophoneIcon(context)
+        }
+    }
+
     private fun saveOpenedMoodId() {
         val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
         mood?.let { presenter.saveOpenedMoodId(it.id) }
@@ -72,7 +84,8 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     private fun setupOnMoodChangeAction() {
         binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
-            binding.noteEditText.backgroundTintList = ResUtil.getColorAsColorStateList(resources, mood.colorId)
+            binding.noteEditText.backgroundTintList =
+                ResUtil.getColorAsColorStateList(resources, mood.colorId)
             if (isAddMoodOnboarding == true && binding.noteEditText.visibility != View.VISIBLE) {
                 setupOnboardingViewAfterChooseMood()
             } else {
@@ -152,6 +165,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
             binding.editedDayTextView,
             binding.noteLabelTextView,
             binding.noteEditText,
+            binding.microphoneImageView,
             binding.picturesLayout
         )
     }
@@ -190,6 +204,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
                     binding.editedDayTextView,
                     binding.noteLabelTextView,
                     binding.noteEditText,
+                    binding.microphoneImageView,
                     binding.onboardingAddNoteImageView,
                     binding.onboardingNextTextView
                 )
@@ -208,7 +223,8 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
             binding.chooseMoodCircle,
             binding.editedDayTextView,
             binding.noteLabelTextView,
-            binding.noteEditText
+            binding.noteEditText,
+            binding.microphoneImageView
         )
         AnimUtils.fadeOut(
             ANIM_DURATION, {
@@ -235,7 +251,8 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
             binding.chooseMoodCircle,
             binding.editedDayTextView,
             binding.noteLabelTextView,
-            binding.noteEditText
+            binding.noteEditText,
+            binding.microphoneImageView
         )
         scrollToTopContentScrollView()
         AnimUtils.fadeOut(
@@ -262,5 +279,23 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     private fun scrollToTopContentScrollView() {
         binding.contentScrollView.fullScroll(ScrollView.FOCUS_UP)
+    }
+
+    override fun setMicrophoneIconAsNotListening() {
+        val notListeningColor = ResUtil.getColor(context, R.color.colorBottomMenuActive)
+        binding.microphoneImageView.setColorFilter(notListeningColor)
+    }
+
+    override fun setMicrophoneIconAsListening() {
+        val listeningColor = ResUtil.getColor(context, R.color.colorMoodGood)
+        binding.microphoneImageView.setColorFilter(listeningColor)
+    }
+
+    override fun setTextToInput(text: String) {
+        binding.noteEditText.setText(text)
+    }
+
+    override fun getTextAlreadyInInput(): String {
+        return binding.noteEditText.text.toString()
     }
 }

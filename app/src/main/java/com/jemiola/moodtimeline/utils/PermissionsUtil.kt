@@ -24,6 +24,12 @@ object PermissionsUtil {
         return cameraPermission == PackageManager.PERMISSION_GRANTED
     }
 
+    fun isMicrophonePermissionGranted(): Boolean {
+        val microphonePermission =
+            BaseApplication.context.checkCallingOrSelfPermission(Manifest.permission.RECORD_AUDIO)
+        return microphonePermission == PackageManager.PERMISSION_GRANTED
+    }
+
     fun askForCameraPermission(
         context: Context?,
         onDeniedAction: () -> Unit = {},
@@ -56,4 +62,19 @@ object PermissionsUtil {
         }
     }
 
+    fun askForMicrophonePermission(
+        context: Context?,
+        onDeniedAction: () -> Unit = {},
+        onGrantedAction: () -> Unit = {}
+    ) {
+        if (context != null) {
+            AndPermission
+                .with(context)
+                .runtime()
+                .permission(Permission.Group.MICROPHONE)
+                .onDenied { onDeniedAction() }
+                .onGranted { onGrantedAction() }
+                .start()
+        }
+    }
 }

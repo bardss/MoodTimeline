@@ -19,6 +19,8 @@ class RalewayEditText : AppCompatEditText {
         defStyleAttr
     )
 
+
+
     init {
         typeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
         backgroundTintList = ResUtil.getColorAsColorStateList(context.resources, R.color.colorAccent)
