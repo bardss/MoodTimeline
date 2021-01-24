@@ -1,5 +1,6 @@
 package com.jemiola.moodtimeline.views.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,12 @@ import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.AppThemeHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.pdfgenerator.PDF_GENERATOR_ENVIRONMENT_DIR
+import com.jemiola.moodtimeline.utils.pdfgenerator.PdfGeneratorFileManager
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
+import java.io.File
+
 
 private const val ANIM_DURATION = 500
 
@@ -161,7 +165,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         return binding.exportPdfDialogLayout.toEditText.text.toString()
     }
 
-    override fun showGeneratePdfSuccessDialog() {
+    override fun showGeneratePdfSuccessDialog(pdfFile: File) {
         val storageDir = context?.getExternalFilesDir(PDF_GENERATOR_ENVIRONMENT_DIR)
         binding.infoDialogLayout.infoDialogTitleTextView.text =
             ResUtil.getString(resources, R.string.pdf_generated)
@@ -169,8 +173,24 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         val content = "$pdfGeneratedToText\n\n$storageDir"
         binding.infoDialogLayout.infoDialogContentTextView.text = content
         AnimUtils.fadeIn(ANIM_DURATION, binding.infoDialogLayout.infoDialogContentLayout)
+        binding.infoDialogLayout.sharePdfView.setOnClickListener {
+            shareGeneratedPdf(pdfFile)
+        }
         binding.infoDialogLayout.closeTextView.setOnClickListener {
             hideExportPdfSuccessDialog()
+        }
+    }
+
+    private fun shareGeneratedPdf(pdfFile: File) {
+        activity?.let {
+            val uriToPdf = PdfGeneratorFileManager().getUriToPdf(it, pdfFile)
+            val shareIntent = Intent().apply {
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                action = Intent.ACTION_SEND
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, uriToPdf)
+            }
+            it.startActivity(shareIntent)
         }
     }
 

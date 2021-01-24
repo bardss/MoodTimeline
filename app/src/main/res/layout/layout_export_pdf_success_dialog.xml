@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:id="@+id/infoDialogContentTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,11 +48,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/infoDialogTitleTextView" />
 
+        <View
+            android:id="@+id/sharePdfView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/infoDialogContentTextView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/sharePdfTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:text="@string/share_pdf"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintBottom_toBottomOf="@id/sharePdfView"
+            app:layout_constraintEnd_toStartOf="@id/sharePdfImageView"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/sharePdfView"
+            app:layout_constraintTop_toTopOf="@id/sharePdfView" />
+
+        <ImageView
+            android:id="@+id/sharePdfImageView"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="6dp"
+            android:src="@drawable/ic_share_pdf"
+            app:layout_constraintBottom_toBottomOf="@id/sharePdfView"
+            app:layout_constraintEnd_toEndOf="@id/sharePdfView"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/sharePdfTextView"
+            app:layout_constraintTop_toTopOf="@id/sharePdfView" />
+
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:id="@+id/closeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="@string/close_underlined"
@@ -60,7 +95,7 @@
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoDialogContentTextView" />
+            app:layout_constraintTop_toBottomOf="@id/sharePdfView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

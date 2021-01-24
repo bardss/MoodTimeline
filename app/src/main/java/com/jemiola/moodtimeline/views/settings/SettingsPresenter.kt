@@ -20,9 +20,9 @@ class SettingsPresenter(
         view.startLoading()
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
             onSuccessAction = {
-                pdfGenerator.generatePdf(context, it)
+                val pdfFile = pdfGenerator.generatePdf(context, it)
                 view.stopLoading()
-                view.showGeneratePdfSuccessDialog()
+                view.showGeneratePdfSuccessDialog(pdfFile)
             },
             onErrorAction = {
                 view.stopLoading()
@@ -40,9 +40,9 @@ class SettingsPresenter(
         val toDate = LocalDate.parse(toDateText, formatter)
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
             onSuccessAction = {
-                pdfGenerator.generatePdf(context, it)
+                val pdfFile = pdfGenerator.generatePdf(context, it)
                 view.stopLoading()
-                view.showGeneratePdfSuccessDialog()
+                view.showGeneratePdfSuccessDialog(pdfFile)
             },
             onErrorAction = {
                 view.stopLoading()

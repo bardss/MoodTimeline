@@ -12,6 +12,7 @@ import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
@@ -43,12 +44,12 @@ class MoodsPdfGenerator {
         Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
     private val boldTypeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
 
-    fun generatePdf(context: Context, moods: List<TimelineMoodBOv2>) {
+    fun generatePdf(context: Context, moods: List<TimelineMoodBOv2>): File {
         val moodsFromOldestToNewest = moods.reversed()
         val document = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(PAGE_WIDTH, PAGE_HEIGHT, 1).create()
         drawMoodsOnPages(pageInfo, document, moodsFromOldestToNewest)
-        savePdfToDirectory(context, document, moodsFromOldestToNewest)
+        return savePdfToDirectory(context, document, moodsFromOldestToNewest)
     }
 
     private fun drawMoodsOnPages(
@@ -306,7 +307,7 @@ class MoodsPdfGenerator {
         context: Context,
         document: PdfDocument,
         moods: List<TimelineMoodBOv2>
-    ) {
+    ): File {
         val from = moods.first().date
         val to = moods.last().date
         try {
@@ -319,6 +320,7 @@ class MoodsPdfGenerator {
             document.writeTo(fos)
             document.close()
             fos.close()
+            return file
         } catch (e: IOException) {
             throw RuntimeException("Error generating file", e)
         }

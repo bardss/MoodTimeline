@@ -42,4 +42,5 @@
     <string name="do_you_want_to_change_theme">Do you want to change theme?</string>
     <string name="app_will_be_restarted_after_theme_change">App will be restarted after theme change</string>
     <string name="or">or</string>
+    <string name="share_pdf">Share PDF</string>
 </resources>

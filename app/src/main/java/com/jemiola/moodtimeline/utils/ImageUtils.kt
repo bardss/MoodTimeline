@@ -20,7 +20,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
-const val IMAGE_QUALITY_COMPRESS = 40
+const val IMAGE_QUALITY_COMPRESS = 60
 typealias PictureSize = Pair<Int, Int>
 
 object ImageUtils {

@@ -1,6 +1,7 @@
 package com.jemiola.moodtimeline.views.settings
 
 import android.content.Context
+import java.io.File
 
 interface SettingsContract {
     interface Presenter {
@@ -19,7 +20,7 @@ interface SettingsContract {
         fun setupRangeEditTexts()
         fun startLoading()
         fun stopLoading()
-        fun showGeneratePdfSuccessDialog()
+        fun showGeneratePdfSuccessDialog(pdfFile: File)
         fun toggleExportMoodsDialogVisibility()
         fun setCurrentThemeText(appThemeFromDatabase: Int?)
     }

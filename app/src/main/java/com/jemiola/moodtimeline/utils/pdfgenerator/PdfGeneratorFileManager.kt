@@ -1,7 +1,9 @@
 package com.jemiola.moodtimeline.utils.pdfgenerator
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
+import androidx.core.content.FileProvider
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -31,5 +33,13 @@ class PdfGeneratorFileManager {
         val fromTimeText = from.format(rangeFormatter)
         val toTimeText = to.format(rangeFormatter)
         return "mood_timeline_from_${fromTimeText}_to_${toTimeText}_$timeStamp"
+    }
+
+    fun getUriToPdf(context: Context, file: File): Uri {
+        return FileProvider.getUriForFile(
+            context,
+            context.applicationContext.packageName + ".provider",
+            file
+        )
     }
 }
