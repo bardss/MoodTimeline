@@ -18,31 +18,31 @@ import java.io.IOException
 import java.util.*
 
 
-private const val PAGE_WIDTH = 595
-private const val PAGE_HEIGHT = 842
-private const val PAGE_MARGIN_TOP = 38f
-private const val PAGE_MARGIN_BOTTOM = 58f
+public const val PAGE_WIDTH = 595
+public const val PAGE_HEIGHT = 842
+public const val PAGE_MARGIN_TOP = 38f
+public const val PAGE_MARGIN_BOTTOM = 58f
 
-private const val TOP_BAR_HEIGHT = 275f
+public const val TOP_BAR_HEIGHT = 275f
 
-private const val PICTURE_MAX_WIDTH = 250
-private const val PICTURE_MAX_HEIGHT = 200
+public const val PICTURE_MAX_WIDTH = 250
+public const val PICTURE_MAX_HEIGHT = 200
 
-private const val LOGO_WIDTH = 165
-private const val LOGO_HEIGHT = 115
+public const val LOGO_WIDTH = 165
+public const val LOGO_HEIGHT = 115
 
-private const val TEXT_SIZE_CONTENT = 16f
-private const val MARGIN_TOP_CONTENT = 128f
-private const val MARGIN_SIDE_CONTENT = 32f
-private const val SIZE_MOOD_BITMAP = 22
-private const val SPACE_BETWEEN_PICTURES = 12f
+public const val TEXT_SIZE_CONTENT = 16f
+public const val MARGIN_TOP_CONTENT = 128f
+public const val MARGIN_SIDE_CONTENT = 32f
+public const val SIZE_MOOD_BITMAP = 22
+public const val SPACE_BETWEEN_PICTURES = 12f
 
 class MoodsPdfGenerator {
 
-    private val pdfGeneratorFileManager = PdfGeneratorFileManager()
-    private val defaultTypeface =
+    public val pdfGeneratorFileManager = PdfGeneratorFileManager()
+    public val defaultTypeface =
         Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
-    private val boldTypeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
+    public val boldTypeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
 
     fun generatePdf(context: Context, moods: List<TimelineMoodBOv2>): File {
         val moodsFromOldestToNewest = moods.reversed()
@@ -52,7 +52,7 @@ class MoodsPdfGenerator {
         return savePdfToDirectory(context, document, moodsFromOldestToNewest)
     }
 
-    private fun drawMoodsOnPages(
+    public fun drawMoodsOnPages(
         pageInfo: PdfDocument.PageInfo,
         document: PdfDocument,
         moods: List<TimelineMoodBOv2>
@@ -114,7 +114,7 @@ class MoodsPdfGenerator {
         document.finishPage(currentMoodPage.page)
     }
 
-    private fun checkIfNextElementFitsAndIfNotReturnNewPage(
+    public fun checkIfNextElementFitsAndIfNotReturnNewPage(
         estimatedLineHeight: Float,
         moodPdfPage: MoodPdfPageInfo,
         pageInfo: PdfDocument.PageInfo,
@@ -130,14 +130,14 @@ class MoodsPdfGenerator {
         return MoodPdfPageInfo(page, position)
     }
 
-    private fun increasePositionInPage(
+    public fun increasePositionInPage(
         moodPdfPage: MoodPdfPageInfo,
         newPosition: Float
     ): MoodPdfPageInfo {
         return moodPdfPage.copy(currentPosition = moodPdfPage.currentPosition + newPosition)
     }
 
-    private fun drawLineAndReturnLineHeight(
+    public fun drawLineAndReturnLineHeight(
         moodPdfPage: MoodPdfPageInfo,
         pageInfo: PdfDocument.PageInfo,
         paint: Paint
@@ -152,7 +152,7 @@ class MoodsPdfGenerator {
         return TEXT_SIZE_CONTENT * 2
     }
 
-    private fun drawDateAndReturnDateLineHeight(
+    public fun drawDateAndReturnDateLineHeight(
         moodPdfPage: MoodPdfPageInfo,
         mood: TimelineMoodBOv2,
         paint: Paint
@@ -177,7 +177,7 @@ class MoodsPdfGenerator {
         return TEXT_SIZE_CONTENT * 2
     }
 
-    private fun drawNoteTextAndReturnNextLinePosition(
+    public fun drawNoteTextAndReturnNextLinePosition(
         moodPdfPage: MoodPdfPageInfo,
         mood: TimelineMoodBOv2,
         paint: Paint
@@ -217,7 +217,7 @@ class MoodsPdfGenerator {
         return textPositionTaken
     }
 
-    private fun drawMoodAndReturnMoodLineHeight(
+    public fun drawMoodAndReturnMoodLineHeight(
         moodPdfPage: MoodPdfPageInfo,
         mood: TimelineMoodBOv2,
         paint: Paint
@@ -243,7 +243,7 @@ class MoodsPdfGenerator {
         return TEXT_SIZE_CONTENT * 2
     }
 
-    private fun drawPictureAndReturnNextLinePosition(
+    public fun drawPictureAndReturnNextLinePosition(
         moodPdfPage: MoodPdfPageInfo,
         picturePath: String,
         paint: Paint
@@ -263,13 +263,13 @@ class MoodsPdfGenerator {
         return scaledBitmap.height + SPACE_BETWEEN_PICTURES * 2
     }
 
-    private fun getMoodBitmap(mood: TimelineMoodBOv2): Bitmap? {
+    public fun getMoodBitmap(mood: TimelineMoodBOv2): Bitmap? {
         val circleMoodDrawableId = mood.circleMood.moodDrawablePdf
         val moodDrawable = ResUtil.getDrawable(context, circleMoodDrawableId)
         return moodDrawable?.let { getBitmapFromVectorDrawable(moodDrawable) }
     }
 
-    private fun getBitmapFromVectorDrawable(drawable: Drawable): Bitmap {
+    public fun getBitmapFromVectorDrawable(drawable: Drawable): Bitmap {
         val bitmap = Bitmap.createBitmap(
             SIZE_MOOD_BITMAP,
             SIZE_MOOD_BITMAP,
@@ -281,12 +281,12 @@ class MoodsPdfGenerator {
         return bitmap
     }
 
-    private fun getFormatterDate(date: LocalDate): String {
+    public fun getFormatterDate(date: LocalDate): String {
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy").withLocale(Locale.ENGLISH)
         return date.format(formatter)
     }
 
-    private fun drawMoodsPdfTopBar(page: PdfDocument.Page) {
+    public fun drawMoodsPdfTopBar(page: PdfDocument.Page) {
         val logoBitmap = BitmapFactory.decodeResource(
             context.resources,
             R.drawable.app_logo_text_pdf
@@ -303,7 +303,7 @@ class MoodsPdfGenerator {
         )
     }
 
-    private fun savePdfToDirectory(
+    public fun savePdfToDirectory(
         context: Context,
         document: PdfDocument,
         moods: List<TimelineMoodBOv2>
@@ -326,15 +326,15 @@ class MoodsPdfGenerator {
         }
     }
 
-    private fun splitNoteIntoLines(note: String): List<String> {
+    public fun splitNoteIntoLines(note: String): List<String> {
         return note.split("\n")
     }
 
-    private fun estimateNoteSpace(note: String): Float {
+    public fun estimateNoteSpace(note: String): Float {
         return note.split("\n").count() * TEXT_SIZE_CONTENT * 2
     }
 
-    private fun estimatePicturesSpace(picturePath: String): Float {
+    public fun estimatePicturesSpace(picturePath: String): Float {
         val pictureBitmap = BitmapFactory.decodeFile(picturePath)
         val resizedBitmap = ImageUtils.resizeBitmapWhenTooLarge(
             pictureBitmap,

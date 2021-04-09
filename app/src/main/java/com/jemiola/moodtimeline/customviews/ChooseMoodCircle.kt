@@ -20,14 +20,14 @@ class ChooseMoodCircle : FrameLayout {
         onSelectedMoodChange.invoke(value)
     }
 
-    private val veryGoodCircle: MoodCircle
-    private val goodCircle: MoodCircle
-    private val mediocreCircle: MoodCircle
-    private val badCircle: MoodCircle
-    private val veryBadCircle: MoodCircle
-    private var expanded: Boolean = false
+    public val veryGoodCircle: MoodCircle
+    public val goodCircle: MoodCircle
+    public val mediocreCircle: MoodCircle
+    public val badCircle: MoodCircle
+    public val veryBadCircle: MoodCircle
+    public var expanded: Boolean = false
 
-    private var onSelectedMoodChange: (CircleMoodBO) -> Unit = { }
+    public var onSelectedMoodChange: (CircleMoodBO) -> Unit = { }
 
     constructor(context: Context) : super(context)
 
@@ -50,7 +50,7 @@ class ChooseMoodCircle : FrameLayout {
         setupInitialState()
     }
 
-    private fun setupInitialState() {
+    public fun setupInitialState() {
         mediocreCircle.state = CircleStateBO.EDIT
         veryGoodCircle.state = CircleStateBO.CHOOSE_MOOD
         goodCircle.state = CircleStateBO.CHOOSE_MOOD
@@ -63,7 +63,7 @@ class ChooseMoodCircle : FrameLayout {
         veryBadCircle.setOnClickListener { selectMood(CircleMoodBO.VERY_BAD) }
     }
 
-    private fun setupMoodColors() {
+    public fun setupMoodColors() {
         veryGoodCircle.mood = CircleMoodBO.VERY_GOOD
         goodCircle.mood = CircleMoodBO.GOOD
         mediocreCircle.mood = CircleMoodBO.NONE
@@ -71,7 +71,7 @@ class ChooseMoodCircle : FrameLayout {
         veryBadCircle.mood = CircleMoodBO.VERY_BAD
     }
 
-    private fun expand() {
+    public fun expand() {
         if (!expanded) {
             mediocreCircle.state = CircleStateBO.CHOOSE_MOOD
             mediocreCircle.mood = CircleMoodBO.MEDIOCRE
@@ -81,7 +81,7 @@ class ChooseMoodCircle : FrameLayout {
         }
     }
 
-    private fun selectMood(mood: CircleMoodBO) {
+    public fun selectMood(mood: CircleMoodBO) {
         if (expanded) {
             mediocreCircle.state = CircleStateBO.EDIT
             selectedMood = mood
@@ -92,7 +92,7 @@ class ChooseMoodCircle : FrameLayout {
         }
     }
 
-    private fun circleExpandAnimation() {
+    public fun circleExpandAnimation() {
         val distance =
             mediocreCircle.width + ResUtil.getDimenDp(resources, R.dimen.choose_mood_circle_margin)
         AnimUtils.animateMove(ANIM_DURATION, -(distance * 2), veryBadCircle)
@@ -101,7 +101,7 @@ class ChooseMoodCircle : FrameLayout {
         AnimUtils.animateMove(ANIM_DURATION, distance * 2, veryGoodCircle)
     }
 
-    private fun circleCollapseAnimation() {
+    public fun circleCollapseAnimation() {
         AnimUtils.animateMove(ANIM_DURATION, 0, veryGoodCircle)
         AnimUtils.animateMove(ANIM_DURATION, 0, goodCircle)
         AnimUtils.animateMove(ANIM_DURATION, 0, badCircle)

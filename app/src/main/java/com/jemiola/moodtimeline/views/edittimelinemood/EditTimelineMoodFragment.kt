@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.Fragmenciak
 import com.jemiola.moodtimeline.customviews.pickphoto.PickPhotoFragment
 import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
@@ -25,13 +25,13 @@ import org.threeten.bp.LocalDate
 
 const val ANIM_DURATION = 200
 
-class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, PickPhotoFragment,
+class EditTimelineMoodFragment : Fragmenciak(), EditTimelineMoodContract.View, PickPhotoFragment,
     SpeechToTextOutput {
 
-    override val presenter: EditTimelineMoodPresenter by inject { parametersOf(this) }
-    private lateinit var binding: FragmentEditTimelineMoodBinding
-    private lateinit var speechToTextHandler: SpeechToTextHandler
-    private var isAddMoodOnboarding: Boolean? = false
+    override val a: EditTimelineMoodPresenter by inject { parametersOf(this) }
+    public lateinit var binding: FragmentEditTimelineMoodBinding
+    public lateinit var speechToTextHandler: SpeechToTextHandler
+    public var isAddMoodOnboarding: Boolean? = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,28 +61,28 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         return true
     }
 
-    private fun setupSpeechToNote() {
+    public fun setupSpeechToNote() {
         speechToTextHandler = SpeechToTextHandler(context, this)
         binding.microphoneImageView.setOnClickListener {
             speechToTextHandler.onClickMicrophoneIcon(context)
         }
     }
 
-    private fun saveOpenedMoodId() {
+    public fun saveOpenedMoodId() {
         val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
-        mood?.let { presenter.saveOpenedMoodId(it.id) }
+        mood?.let { a.saveOpenedMoodId(it.id) }
     }
 
-    private fun setupView() {
+    public fun setupView() {
         if (isAddMoodOnboarding == true) {
             showOnboardingChooseMoodView()
         } else {
             val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
-            mood?.let { presenter.setupView(it) }
+            mood?.let { a.setupView(it) }
         }
     }
 
-    private fun setupOnMoodChangeAction() {
+    public fun setupOnMoodChangeAction() {
         binding.chooseMoodCircle.setOnSelectedMoodAction { mood ->
             binding.noteEditText.backgroundTintList =
                 ResUtil.getColorAsColorStateList(resources, mood.colorId)
@@ -97,18 +97,18 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
 
     override fun setupEditView(mood: TimelineMoodBOv2) {
         changeTitle(ResUtil.getString(resources, R.string.edit_note))
-        binding.acceptImageView.setOnClickListener { presenter.editMood() }
+        binding.acceptImageView.setOnClickListener { a.editMood() }
         binding.acceptImageView.visibility = View.VISIBLE
         fillMoodData(mood)
     }
 
     override fun setupAddView(date: LocalDate) {
         changeTitle(ResUtil.getString(resources, R.string.add_note))
-        binding.acceptImageView.setOnClickListener { presenter.addMood() }
+        binding.acceptImageView.setOnClickListener { a.addMood() }
         setMoodDate(date)
     }
 
-    private fun fillMoodData(mood: TimelineMoodBOv2) {
+    public fun fillMoodData(mood: TimelineMoodBOv2) {
         setUnderlineColor(mood.circleMood.colorId)
         setMoodDate(mood.date)
         setNote(mood.note)
@@ -116,12 +116,12 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         setSelectedImages(mood.picturesPaths)
     }
 
-    private fun setUnderlineColor(color: Int) {
+    public fun setUnderlineColor(color: Int) {
         binding.noteEditText.backgroundTintList =
             ResUtil.getColorAsColorStateList(resources, color)
     }
 
-    private fun setSelectedImages(picturePaths: List<String>) {
+    public fun setSelectedImages(picturePaths: List<String>) {
         binding.picturesLayout.setPictures(picturePaths)
     }
 
@@ -130,16 +130,16 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         popFragment()
     }
 
-    private fun setMoodDate(date: LocalDate) {
-        val formattedDate = presenter.getFormattedDate(date)
+    public fun setMoodDate(date: LocalDate) {
+        val formattedDate = a.getFormattedDate(date)
         binding.editedDayTextView.text = formattedDate
     }
 
-    private fun setNote(note: String) {
+    public fun setNote(note: String) {
         binding.noteEditText.setText(note)
     }
 
-    private fun setSelectedMood(mood: CircleMoodBO) {
+    public fun setSelectedMood(mood: CircleMoodBO) {
         binding.chooseMoodCircle.selectedMood = mood
     }
 
@@ -170,26 +170,26 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         )
     }
 
-    private fun showOnboardingChooseMoodView() {
+    public fun showOnboardingChooseMoodView() {
         setMoodDate(LocalDate.now(DefaultTime.getClock()))
         changeTitle(ResUtil.getString(resources, R.string.how_do_you_feel))
-        binding.acceptImageView.setOnClickListener { presenter.addMood() }
+        binding.acceptImageView.setOnClickListener { a.addMood() }
         AnimUtils.fadeIn(ANIM_DURATION, binding.onboardingChooseMoodImageView)
     }
 
-    private fun setupNextButtonAddNoteOnClick() {
+    public fun setupNextButtonAddNoteOnClick() {
         binding.onboardingNextTextView.setOnClickListener {
             setupOnboardingViewAfterAddNote()
         }
     }
 
-    private fun setupNextButtonAddPictureOnClick() {
+    public fun setupNextButtonAddPictureOnClick() {
         binding.onboardingNextTextView.setOnClickListener {
             setupOnboardingViewAfterAddPicture()
         }
     }
 
-    private fun setupOnboardingViewAfterChooseMood() {
+    public fun setupOnboardingViewAfterChooseMood() {
         changeTitle(ResUtil.getString(resources, R.string.whats_on_your_mind))
         setupNextButtonAddNoteOnClick()
         AnimUtils.animateAlpha(
@@ -213,7 +213,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         )
     }
 
-    private fun setupOnboardingViewAfterAddNote() {
+    public fun setupOnboardingViewAfterAddNote() {
         KeyboardUtils.hideSoftInput(activity)
         changeTitle(ResUtil.getString(resources, R.string.choose_photo))
         setupNextButtonAddPictureOnClick()
@@ -241,7 +241,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         )
     }
 
-    private fun setupOnboardingViewAfterAddPicture() {
+    public fun setupOnboardingViewAfterAddPicture() {
         changeTitle(ResUtil.getString(resources, R.string.add_note))
         AnimUtils.fadeIn(500, binding.acceptImageView)
         AnimUtils.animateAlpha(
@@ -265,7 +265,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         )
     }
 
-    private fun changeTitle(title: String) {
+    public fun changeTitle(title: String) {
         if (binding.titleTextView.visibility == View.VISIBLE) {
             AnimUtils.fadeOut(ANIM_DURATION, binding.titleTextView)
         }
@@ -273,11 +273,11 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         AnimUtils.fadeIn(ANIM_DURATION, binding.titleTextView)
     }
 
-    private fun scrollToBottomContentScrollView() {
+    public fun scrollToBottomContentScrollView() {
         binding.contentScrollView.fullScroll(ScrollView.FOCUS_DOWN)
     }
 
-    private fun scrollToTopContentScrollView() {
+    public fun scrollToTopContentScrollView() {
         binding.contentScrollView.fullScroll(ScrollView.FOCUS_UP)
     }
 

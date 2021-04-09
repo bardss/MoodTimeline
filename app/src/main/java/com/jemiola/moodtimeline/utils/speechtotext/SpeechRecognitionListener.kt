@@ -5,12 +5,12 @@ import android.speech.RecognitionListener
 import android.speech.SpeechRecognizer
 
 class SpeechRecognitionListener(
-    private val handler: SpeechToTextHandler,
-    private val outputHandler: SpeechToTextOutput
+    public val handler: SpeechToTextHandler,
+    public val outputHandler: SpeechToTextOutput
 ) : RecognitionListener {
 
-    private var previousTextValue: String = ""
-    private var previousPartialResult: String = ""
+    public var previousTextValue: String = ""
+    public var previousPartialResult: String = ""
 
     override fun onBeginningOfSpeech() {
         previousTextValue = outputHandler.getTextAlreadyInInput()
@@ -66,19 +66,19 @@ class SpeechRecognitionListener(
 
     override fun onBufferReceived(buffer: ByteArray) {}
 
-    private fun isLastCharacterADot(text: String): Boolean {
+    public fun isLastCharacterADot(text: String): Boolean {
         val textLength = text.length
         return ((textLength > 2) && text[textLength - 2] == '.') ||
                 ((textLength > 1) && text[textLength - 1] == '.')
     }
 
-    private fun replaceWordWhenContains(text: String, oldValue: String, newValue: String): String {
+    public fun replaceWordWhenContains(text: String, oldValue: String, newValue: String): String {
         return if (text.contains(oldValue)) {
             text.replace(oldValue, newValue)
         } else text
     }
 
-    private fun isPreviousCharacterANewLine(text: String): Boolean {
+    public fun isPreviousCharacterANewLine(text: String): Boolean {
         val textLength = text.length
         return textLength > 2 && text.substring(textLength - 2, textLength - 1) == "\n"
     }

@@ -34,7 +34,7 @@ object ImageUtils {
         }
     }
 
-    private fun getRealPathFromURI(uri: Uri): String? {
+    public fun getRealPathFromURI(uri: Uri): String? {
         var cursor: Cursor? = null
         try {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
@@ -103,7 +103,7 @@ object ImageUtils {
         } else source
     }
 
-    private fun getReducedSize(
+    public fun getReducedSize(
         maxWidth: Int,
         maxHeight: Int,
         sourceWidth: Int,
@@ -116,13 +116,13 @@ object ImageUtils {
         return reducedSize
     }
 
-    private fun reduceTheSizeBy10Percent(size: PictureSize): PictureSize {
+    public fun reduceTheSizeBy10Percent(size: PictureSize): PictureSize {
         val width = (size.first * 0.9).toInt()
         val height = (size.second * 0.9).toInt()
         return Pair(width, height)
     }
 
-    private fun performRotation(file: File, bitmap: Bitmap): Bitmap {
+    public fun performRotation(file: File, bitmap: Bitmap): Bitmap {
         val ei = ExifInterface(file.absolutePath)
         val orientation = ei.getAttributeInt(
             ExifInterface.TAG_ORIENTATION,
@@ -146,7 +146,7 @@ object ImageUtils {
         }
     }
 
-    private fun saveBitmap(
+    public fun saveBitmap(
         bitmapToSave: Bitmap,
         quality: Int,
         storageDir: File
@@ -167,7 +167,7 @@ object ImageUtils {
         return null
     }
 
-    private fun overwriteBitmap(
+    public fun overwriteBitmap(
         bitmapToSave: Bitmap,
         quality: Int,
         fileToOverwrite: File
@@ -194,12 +194,12 @@ object ImageUtils {
         return photoFile.toUri()
     }
 
-    private fun createFileWithTimeStamp(storageDir: File): File {
+    public fun createFileWithTimeStamp(storageDir: File): File {
         val fileNameWithTimeStamp = createFileNameWithTimeStamp()
         return File.createTempFile(fileNameWithTimeStamp, ".jpg", storageDir)
     }
 
-    private fun createFileNameWithTimeStamp(): String {
+    public fun createFileNameWithTimeStamp(): String {
         val dateTimeNow = LocalDateTime.now(DefaultTime.getClock())
         val formatter =
             DateTimeFormatter.ofPattern("yyyy_MMM_dd_HH_mm_ss").withLocale(Locale.ENGLISH)
@@ -207,7 +207,7 @@ object ImageUtils {
         return "mood_timeline_$timeStamp"
     }
 
-    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+    public fun rotateImage(source: Bitmap, angle: Float): Bitmap {
         val matrix = Matrix().apply { postRotate(angle) }
         return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }

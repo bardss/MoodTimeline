@@ -13,8 +13,8 @@ class SettingsPresenter(
     override val repository: SettingsRepository
 ) : BasePresenter(repository), SettingsContract.Presenter {
 
-    private val pdfGenerator = MoodsPdfGenerator()
-    private val rangeFormatter = RangeFormatter()
+    public val pdfGenerator = MoodsPdfGenerator()
+    public val rangeFormatter = RangeFormatter()
 
     override fun generatePdfWithAllMoods(context: Context) {
         view.startLoading()

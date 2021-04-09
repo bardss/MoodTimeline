@@ -13,7 +13,7 @@ import java.util.*
 
 class RangePickersUtil {
 
-    private val rangeFormatter = RangeFormatter()
+    public val rangeFormatter = RangeFormatter()
 
     fun setupRangeCalendars(
         context: Context,
@@ -29,13 +29,13 @@ class RangePickersUtil {
         setupSearchTextWatchers(pickerFrom, pickerTo, fromEditText, toEditText, onChangeValueAction)
     }
 
-    private fun createOnDatePickedListener(editText: EditText) =
+    public fun createOnDatePickedListener(editText: EditText) =
         DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val dateText = rangeFormatter.createDateTextFrom(dayOfMonth, monthOfYear + 1, year)
             editText.setText(dateText)
         }
 
-    private fun createDatePicker(context: Context, editText: EditText): DatePickerDialog {
+    public fun createDatePicker(context: Context, editText: EditText): DatePickerDialog {
         return DatePickerDialog(
             context,
             createOnDatePickedListener(editText),
@@ -45,7 +45,7 @@ class RangePickersUtil {
         )
     }
 
-    private fun setupSearchTextWatchers(
+    public fun setupSearchTextWatchers(
         fromDatePicker: DatePickerDialog,
         toDatePicker: DatePickerDialog,
         fromEditText: EditText,
@@ -65,7 +65,7 @@ class RangePickersUtil {
         toEditText.doAfterTextChanged(afterTextChangedAction)
     }
 
-    private fun setupDatePickerBlockades(
+    public fun setupDatePickerBlockades(
         fromDatePicker: DatePickerDialog,
         toDatePicker: DatePickerDialog,
         fromEditText: EditText,
@@ -81,13 +81,13 @@ class RangePickersUtil {
         }
     }
 
-    private fun getDateFromView(editText: EditText): LocalDate {
+    public fun getDateFromView(editText: EditText): LocalDate {
         val fromDateText = editText.text.toString()
         val formatter = rangeFormatter.getDefaultSearchDateFormatter()
         return LocalDate.parse(fromDateText, formatter)
     }
 
-    private fun getMilisFromDate(date: LocalDate): Long {
+    public fun getMilisFromDate(date: LocalDate): Long {
         return LocalDateTime
             .of(date, LocalTime.NOON)
             .atZone(DefaultTime.getZone())

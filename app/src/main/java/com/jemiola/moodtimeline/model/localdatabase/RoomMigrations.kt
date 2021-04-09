@@ -10,7 +10,7 @@ import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
 
 class RoomMigrations {
 
-    private val MIGRATION_1_2 = object : Migration(1, 2) {
+    public val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL(
                 "CREATE TABLE IF NOT EXISTS TimelineMoodDOv2" +
@@ -23,7 +23,7 @@ class RoomMigrations {
         }
     }
 
-    private val database = Room.databaseBuilder(
+    public val database = Room.databaseBuilder(
         BaseApplication.context,
         LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     )

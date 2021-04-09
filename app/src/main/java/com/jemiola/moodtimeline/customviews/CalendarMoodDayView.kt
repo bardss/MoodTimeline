@@ -10,7 +10,7 @@ import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 
 class CalendarMoodDayView : FrameLayout {
 
-    private val dayMoodCircle: MoodCircle
+    public val dayMoodCircle: MoodCircle
     var day: Int = 0
         set(value) {
             dayMoodCircle.day = value.toString()

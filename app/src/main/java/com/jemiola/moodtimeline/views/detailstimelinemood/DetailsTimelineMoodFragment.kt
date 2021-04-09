@@ -1,12 +1,10 @@
 package com.jemiola.moodtimeline.views.detailstimelinemood
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.Fragmenciak
 import com.jemiola.moodtimeline.databinding.FragmentDetailsTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
@@ -18,10 +16,10 @@ import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
-class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.View {
+class DetailsTimelineMoodFragment : Fragmenciak(), DetailsTimelineMoodContract.View {
 
-    override val presenter: DetailsTimelineMoodPresenter by inject { parametersOf(this) }
-    private lateinit var binding: FragmentDetailsTimelineMoodBinding
+    override val a: DetailsTimelineMoodPresenter by inject { parametersOf(this) }
+    public lateinit var binding: FragmentDetailsTimelineMoodBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +37,7 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
     }
 
 
-    private fun fillMoodData() {
+    public fun fillMoodData() {
         val mood = arguments?.getSerializable(ExtraKeys.TIMELINE_MOOD) as? TimelineMoodBOv2
         mood?.let {
             setItemDate(mood.date)
@@ -49,12 +47,12 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
         }
     }
 
-    private fun setItemDate(date: LocalDate) {
-        val formattedDate = presenter.getFormattedDate(date)
+    public fun setItemDate(date: LocalDate) {
+        val formattedDate = a.getFormattedDate(date)
         binding.dayTextView.text = formattedDate
     }
 
-    private fun setNote(note: String) {
+    public fun setNote(note: String) {
         if (note.isNotEmpty()) {
             binding.noteTextView.visibility = View.VISIBLE
             binding.noteLabelTextView.visibility = View.VISIBLE
@@ -62,20 +60,20 @@ class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.
         }
     }
 
-    private fun setSelectedMood(mood: CircleMoodBO) {
+    public fun setSelectedMood(mood: CircleMoodBO) {
         binding.moodCircle.mood = mood
         binding.moodCircle.state = CircleStateBO.DEFAULT
     }
 
-    private fun setPathAsSelectedPicture(paths: List<String>) {
+    public fun setPathAsSelectedPicture(paths: List<String>) {
         binding.picturesLayout.setPictures(paths)
     }
 
-    private fun setupAnimations() {
+    public fun setupAnimations() {
         setupMoodCircleBounceAnimation()
     }
 
-    private fun setupMoodCircleBounceAnimation() {
+    public fun setupMoodCircleBounceAnimation() {
         val moveReset1 = {
             AnimUtils.animateMove(100, 0, binding.moodCircle)
         }

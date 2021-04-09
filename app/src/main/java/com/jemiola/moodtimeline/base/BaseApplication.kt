@@ -33,7 +33,7 @@ class BaseApplication: Application() {
         applyTheme()
     }
 
-    private fun applyTheme() {
+    public fun applyTheme() {
         val database = LocalNoSQLDatabase.getInstance()
         val errorValue = 500
         val theme = database?.getInt(DatabaseKeys.APP_THEME, errorValue)

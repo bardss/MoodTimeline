@@ -8,7 +8,7 @@ abstract class BasePresenter(
     open val repository: BaseRepository
 ): CoroutineScope {
 
-    private val job = Job()
+    public val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job
 

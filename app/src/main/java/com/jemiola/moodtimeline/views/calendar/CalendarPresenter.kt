@@ -8,7 +8,7 @@ import org.threeten.bp.format.TextStyle
 import java.util.*
 
 class CalendarPresenter(
-    private val view: CalendarContract.View,
+    public val view: CalendarContract.View,
     override val repository: CalendarRepository
 ) : BasePresenter(repository), CalendarContract.Presenter {
 
@@ -20,7 +20,7 @@ class CalendarPresenter(
         repository.getCurrentMonthMoods(callback)
     }
 
-    private fun setupCalendarView(moods: List<TimelineMoodBOv2>) {
+    public fun setupCalendarView(moods: List<TimelineMoodBOv2>) {
         view.hideCalendar {
             setupMonthText()
             setupMonthDays(moods)
@@ -28,7 +28,7 @@ class CalendarPresenter(
         }
     }
 
-    private fun setupMonthText() {
+    public fun setupMonthText() {
         val dateNow = repository.currentMonthDate
         val month = getFormattedMonth(dateNow.month)
         month?.let { monthText ->
@@ -36,7 +36,7 @@ class CalendarPresenter(
         }
     }
 
-    private fun setupMonthDays(moods: List<TimelineMoodBOv2>) {
+    public fun setupMonthDays(moods: List<TimelineMoodBOv2>) {
         view.clearDaysInCalendar()
         val currentDate = repository.currentMonthDate
         val numberOfPreviousMonthDays = getPreviousMonthLength(currentDate)
@@ -58,7 +58,7 @@ class CalendarPresenter(
         view.requestCalendarLayout()
     }
 
-    private fun getMoodForCalendarDay(
+    public fun getMoodForCalendarDay(
         checkedDay: Int,
         moods: List<TimelineMoodBOv2>
     ): TimelineMoodBOv2 {
@@ -70,7 +70,7 @@ class CalendarPresenter(
         }
     }
 
-    private fun doesDayHaveMood(checkedDay: Int, moods: List<TimelineMoodBOv2>): Boolean {
+    public fun doesDayHaveMood(checkedDay: Int, moods: List<TimelineMoodBOv2>): Boolean {
         val currentMonth = repository.currentMonthDate.monthValue
         val currentYear = repository.currentMonthDate.year
         val checkedDate = LocalDate.of(currentYear, currentMonth, checkedDay)
@@ -79,17 +79,17 @@ class CalendarPresenter(
         }
     }
 
-    private fun getFirstDayToShowFromPreviousMonth(currentDate: LocalDate): Int {
+    public fun getFirstDayToShowFromPreviousMonth(currentDate: LocalDate): Int {
         val firstDayOfMonth = currentDate.withDayOfMonth(1)
         val dayOfWeekOfFirstDayOfMonth = firstDayOfMonth.dayOfWeek.value - 2
         val numberOfPreviousMonthDays = getPreviousMonthLength(currentDate)
         return numberOfPreviousMonthDays - dayOfWeekOfFirstDayOfMonth
     }
 
-    private fun getPreviousMonthLength(currentDate: LocalDate) =
+    public fun getPreviousMonthLength(currentDate: LocalDate) =
         currentDate.month.minus(1).length(currentDate.isLeapYear)
 
-    private fun getNumbersOfDaysToShowFromNextMonth(currentDate: LocalDate): Int {
+    public fun getNumbersOfDaysToShowFromNextMonth(currentDate: LocalDate): Int {
         val currentMonthDays = currentDate.lengthOfMonth()
         val lastDayOfMonth = currentDate.withDayOfMonth(currentMonthDays)
         val dayOfWeekOfLastDayOfMonth = lastDayOfMonth.dayOfWeek.value
@@ -106,6 +106,6 @@ class CalendarPresenter(
         setupCalendar()
     }
 
-    private fun getFormattedMonth(month: Month) =
+    public fun getFormattedMonth(month: Month) =
         month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
 }

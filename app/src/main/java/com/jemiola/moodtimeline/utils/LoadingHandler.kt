@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.jemiola.moodtimeline.R
 
-private const val LOADING_TIMEOUT = 10000L
+public const val LOADING_TIMEOUT = 10000L
 
 class LoadingHandler(activity: Activity) {
 
-    private val loadingView: View by lazy {
+    public val loadingView: View by lazy {
         LayoutInflater.from(activity).inflate(R.layout.layout_loading, null)
     }
-    private val dialogRootView: ViewGroup by lazy {
+    public val dialogRootView: ViewGroup by lazy {
         activity.window.decorView.findViewById<ViewGroup>(android.R.id.content)
     }
-    private val delayHandler = Handler()
-    private var loaderStartedCount = 0
+    public val delayHandler = Handler()
+    public var loaderStartedCount = 0
 
     fun showLoading(infinite: Boolean) {
         loaderStartedCount += 1

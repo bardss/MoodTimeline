@@ -6,7 +6,7 @@ import kotlin.coroutines.CoroutineContext
 
 abstract class BaseRepository : KoinComponent, CoroutineScope {
 
-    private val job = Job()
+    public val job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
 

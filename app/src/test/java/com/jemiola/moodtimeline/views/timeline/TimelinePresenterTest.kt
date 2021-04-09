@@ -5,15 +5,17 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.utils.DefaultTime
+import com.jemiola.moodtimeline.utils.TimelineContract
+import com.jemiola.moodtimeline.utils.TimelineRepository
 import io.mockk.*
 import org.junit.jupiter.api.Test
 import org.threeten.bp.*
 
 class TimelinePresenterTest {
 
-    private val view: TimelineContract.View = mockk()
-    private val repository: TimelineRepository = mockk()
-    private val presenter = TimelinePresenter(view, repository)
+    public val view: TimelineContract.View = mockk()
+    public val repository: TimelineRepository = mockk()
+    public val presenter = TimelinePresenter(view, repository)
 
     @Test
     fun `refreshTimelineMoods invokes getTimetableMoods on repository`() {

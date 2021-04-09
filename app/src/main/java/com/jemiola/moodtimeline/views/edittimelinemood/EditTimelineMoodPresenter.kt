@@ -11,7 +11,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
 class EditTimelineMoodPresenter(
-    private val view: EditTimelineMoodContract.View,
+    public val view: EditTimelineMoodContract.View,
     override val repository: EditTimelineMoodRepository
 ) : BasePresenter(repository), EditTimelineMoodContract.Presenter {
 
@@ -55,7 +55,7 @@ class EditTimelineMoodPresenter(
         }
     }
 
-    private fun createTimelineMoodBOFromView(): TimelineMoodBOv2 {
+    public fun createTimelineMoodBOFromView(): TimelineMoodBOv2 {
         val noteFromView = view.getMoodNote()
         val mood = view.getSelectedMood()
         val picturesPaths = view.getPicturePaths()

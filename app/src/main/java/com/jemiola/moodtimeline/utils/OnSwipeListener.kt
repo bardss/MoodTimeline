@@ -8,12 +8,12 @@ import android.view.View
 import android.view.View.OnTouchListener
 import kotlin.math.abs
 
-private const val SWIPE_THRESHOLD = 100
-private const val SWIPE_VELOCITY_THRESHOLD = 100
+public const val SWIPE_THRESHOLD = 100
+public const val SWIPE_VELOCITY_THRESHOLD = 100
 
 open class OnSwipeListener(context: Context?) : OnTouchListener {
 
-    private val gestureDetector: GestureDetector
+    public val gestureDetector: GestureDetector
 
     init {
         gestureDetector = GestureDetector(context, GestureListener())
@@ -23,7 +23,7 @@ open class OnSwipeListener(context: Context?) : OnTouchListener {
         return gestureDetector.onTouchEvent(event)
     }
 
-    private inner class GestureListener : SimpleOnGestureListener() {
+    public inner class GestureListener : SimpleOnGestureListener() {
         override fun onDown(e: MotionEvent): Boolean {
             return true
         }

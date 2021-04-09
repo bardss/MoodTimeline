@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.Fragmenciak
 import com.jemiola.moodtimeline.databinding.FragmentSettingsBinding
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.AppThemeHandler
@@ -20,14 +20,14 @@ import org.koin.core.parameter.parametersOf
 import java.io.File
 
 
-private const val ANIM_DURATION = 500
+public const val ANIM_DURATION = 500
 
-class SettingsFragment : BaseFragment(), SettingsContract.View {
+class SettingsFragment : Fragmenciak(), SettingsContract.View {
 
-    override val presenter: SettingsPresenter by inject { parametersOf(this) }
-    private lateinit var binding: FragmentSettingsBinding
-    private val rangePickersUtil = RangePickersUtil()
-    private val appThemeHandler = AppThemeHandler()
+    override val a: SettingsPresenter by inject { parametersOf(this) }
+    public lateinit var binding: FragmentSettingsBinding
+    public val rangePickersUtil = RangePickersUtil()
+    public val appThemeHandler = AppThemeHandler()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +38,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
             binding = FragmentSettingsBinding.inflate(inflater, container, false)
             setupChangeThemeButton()
             setupGeneratePdfButton()
-            presenter.setupCurrentThemeText()
+            a.setupCurrentThemeText()
         }
         return binding.root
     }
@@ -61,7 +61,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
-    private fun setupGeneratePdfButton() {
+    public fun setupGeneratePdfButton() {
         binding.exportMoodsPdfButtonView.setOnClickListener {
             toggleExportMoodsDialogVisibility()
         }
@@ -70,15 +70,15 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
         binding.exportPdfDialogLayout.exportAllMoodsView.setOnClickListener {
             context?.let {
-                presenter.generatePdfWithAllMoods(it)
+                a.generatePdfWithAllMoods(it)
             }
         }
         binding.exportPdfDialogLayout.exportMoodsPeriodView.setOnClickListener {
             context?.let {
-                presenter.generatePdfWithRangeMoods(it)
+                a.generatePdfWithRangeMoods(it)
             }
         }
-        presenter.setMinMaxRangeDates()
+        a.setMinMaxRangeDates()
     }
 
     override fun setupRangeEditTexts() {
@@ -119,7 +119,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         binding.appThemeValueImageView.setImageDrawable(themeIcon)
     }
 
-    private fun setupChangeThemeButton() {
+    public fun setupChangeThemeButton() {
         binding.themeButtonView.setOnClickListener {
             AnimUtils.fadeIn(
                 ANIM_DURATION,
@@ -136,7 +136,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
-    private fun changeTheme() {
+    public fun changeTheme() {
         val themeToSet =
             if (appThemeHandler.getCurrentNightMode(resources) == AppCompatDelegate.MODE_NIGHT_YES) {
                 AppCompatDelegate.MODE_NIGHT_NO
@@ -145,7 +145,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
             }
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         AppCompatDelegate.setDefaultNightMode(themeToSet)
-        presenter.saveAppTheme(themeToSet)
+        a.saveAppTheme(themeToSet)
         restartApp()
     }
 
@@ -181,7 +181,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
-    private fun shareGeneratedPdf(pdfFile: File) {
+    public fun shareGeneratedPdf(pdfFile: File) {
         activity?.let {
             val uriToPdf = PdfGeneratorFileManager().getUriToPdf(it, pdfFile)
             val shareIntent = Intent().apply {
@@ -194,14 +194,14 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         }
     }
 
-    private fun hideExportPdfSuccessDialog() {
+    public fun hideExportPdfSuccessDialog() {
         AnimUtils.fadeOut(ANIM_DURATION, {
             toggleExportMoodsDialogVisibility()
             binding.infoDialogLayout.infoDialogContentLayout.visibility = View.GONE
         }, binding.infoDialogLayout.infoDialogContentLayout)
     }
 
-    private fun hideChangeThemeDialog() {
+    public fun hideChangeThemeDialog() {
         val themeDialogLayout = binding.changeThemeDialogLayout.changeThemeDialogContentLayout
         AnimUtils.fadeOut(
             ANIM_DURATION, {

@@ -16,7 +16,7 @@ class CalendarRepository : BaseRepository() {
 
     var currentMonthDate: LocalDate = LocalDate.now(DefaultTime.getClock())
 
-    private val database = Room.databaseBuilder(
+    public val database = Room.databaseBuilder(
         BaseApplication.context,
         LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
@@ -38,7 +38,7 @@ class CalendarRepository : BaseRepository() {
         )
     }
 
-    private fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDOv2>): List<TimelineMoodBOv2> {
+    public fun convertTimetableMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDOv2>): List<TimelineMoodBOv2> {
         return timetableMoodDOs.map {
             TimelineMoodBOv2(
                 id = it.id,

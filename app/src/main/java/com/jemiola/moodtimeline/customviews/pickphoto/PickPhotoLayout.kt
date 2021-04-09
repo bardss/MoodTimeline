@@ -10,9 +10,9 @@ import com.jemiola.moodtimeline.R
 
 class PickPhotoLayout : LinearLayout {
 
-    private var pickPhotoFragment: PickPhotoFragment? = null
-    private var pickPhotoReceiver: PickPhotoReceiver? = null
-    private var mode: PickPhotoViewMode = PickPhotoViewMode.ONLY_SHOW
+    public var pickPhotoFragment: PickPhotoFragment? = null
+    public var pickPhotoReceiver: PickPhotoReceiver? = null
+    public var mode: PickPhotoViewMode = PickPhotoViewMode.ONLY_SHOW
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         savePickPhotoViewMode(context, attrs)
@@ -23,7 +23,7 @@ class PickPhotoLayout : LinearLayout {
         savePickPhotoViewMode(context, attrs)
     }
 
-    private fun savePickPhotoViewMode(
+    public fun savePickPhotoViewMode(
         context: Context,
         attrs: AttributeSet?
     ) {
@@ -61,7 +61,7 @@ class PickPhotoLayout : LinearLayout {
         } else visibility = View.GONE
     }
 
-    private fun isPicturePathsEmpty(picturePaths: List<String>): Boolean {
+    public fun isPicturePathsEmpty(picturePaths: List<String>): Boolean {
         return picturePaths.size == 1 && picturePaths.first() == ""
     }
 
@@ -86,13 +86,13 @@ class PickPhotoLayout : LinearLayout {
         addView(createPickPhotoView())
     }
 
-    private fun forEachPickPhotoViewIndexed(action: (Int, PickPhotoView) -> Unit) {
+    public fun forEachPickPhotoViewIndexed(action: (Int, PickPhotoView) -> Unit) {
         children
             .filterIsInstance<PickPhotoView>()
             .forEachIndexed(action)
     }
 
-    private fun createPickPhotoView(): PickPhotoView {
+    public fun createPickPhotoView(): PickPhotoView {
         return PickPhotoView(context, mode).apply {
             setPickPhotoFragment(pickPhotoFragment)
         }

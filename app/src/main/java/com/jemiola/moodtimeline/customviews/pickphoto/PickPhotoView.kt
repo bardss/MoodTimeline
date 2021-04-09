@@ -24,14 +24,14 @@ const val REQUEST_PHOTO = 36
 
 class PickPhotoView(
     context: Context,
-    private val mode: PickPhotoViewMode
+    public val mode: PickPhotoViewMode
 ) : FrameLayout(context), PickPhotoReceiver {
 
-    private val selectedPictureImageView: ImageView
-    private val editPictureImageView: ImageView
-    private var takePhotoFileUri: Uri? = null
-    private var pickPhotoFragment: PickPhotoFragment? = null
-    private var pictureHighlighted = false
+    public val selectedPictureImageView: ImageView
+    public val editPictureImageView: ImageView
+    public var takePhotoFileUri: Uri? = null
+    public var pickPhotoFragment: PickPhotoFragment? = null
+    public var pictureHighlighted = false
 
     var picturePath: String? = null
 
@@ -58,17 +58,17 @@ class PickPhotoView(
         }
     }
 
-    private fun addNextPickPhotoViewInParent() {
+    public fun addNextPickPhotoViewInParent() {
         val parent = parent as PickPhotoLayout
         parent.addPickPhotoView()
     }
 
-    private fun setPickPhotoReceiverInParent() {
+    public fun setPickPhotoReceiverInParent() {
         val parent = parent as PickPhotoLayout
         parent.setPickPhotoReceiver(this)
     }
 
-    private fun onPickPhotoSuccess(uri: Uri) {
+    public fun onPickPhotoSuccess(uri: Uri) {
         val pathToPhoto = ImageUtils.getPathFromUri(uri)
         val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         if (storageDir != null) {
@@ -79,7 +79,7 @@ class PickPhotoView(
         }
     }
 
-    private fun onTakePhotoSuccess(uri: Uri) {
+    public fun onTakePhotoSuccess(uri: Uri) {
         val pathToPhoto = ImageUtils.getPathFromUri(uri)
         val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         if (storageDir != null) {
@@ -99,36 +99,36 @@ class PickPhotoView(
         }
     }
 
-    private fun setupPickPhotoOnClick() {
+    public fun setupPickPhotoOnClick() {
         when (mode) {
             ONLY_SHOW -> onClickWithShowMode()
             ENABLE_ADD -> setupOnPickPhotoClick()
         }
     }
 
-    private fun setupView() {
+    public fun setupView() {
         when (mode) {
             ONLY_SHOW -> setupOnlyShowView()
             ENABLE_ADD -> setupEnableAddView()
         }
     }
 
-    private fun setupOnPickPhotoClick() {
+    public fun setupOnPickPhotoClick() {
         setOnClickListener { onClickWithAddMode() }
     }
 
-    private fun setupOnlyShowView() {
+    public fun setupOnlyShowView() {
         editPictureImageView.visibility = View.GONE
         selectedPictureImageView.alpha = 0.7f
     }
 
-    private fun setupEnableAddView() {
+    public fun setupEnableAddView() {
         editPictureImageView.visibility = View.VISIBLE
         selectedPictureImageView.alpha = 0.4f
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun onClickWithShowMode() {
+    public fun onClickWithShowMode() {
         val duration = 250
         setOnTouchListener { view, event ->
             when (event.action) {
@@ -140,18 +140,18 @@ class PickPhotoView(
         }
     }
 
-    private fun onPictureActionUp(duration: Int, view: View) {
+    public fun onPictureActionUp(duration: Int, view: View) {
         if (pictureHighlighted) AnimUtils.animateAlpha(duration, 0.7f, view)
         pictureHighlighted = false
     }
 
-    private fun onPictureActionDown(duration: Int, view: View) {
+    public fun onPictureActionDown(duration: Int, view: View) {
         if (!pictureHighlighted) AnimUtils.animateAlpha(duration, 1f, view)
         pictureHighlighted = true
         Handler().postDelayed({ onPictureActionUp(duration, view) }, 3000)
     }
 
-    private fun onClickWithAddMode() {
+    public fun onClickWithAddMode() {
         takePhotoFileUri = null
         setPickPhotoReceiverInParent()
         if (!PermissionsUtil.isStoragePermissionGranted() &&
@@ -182,14 +182,14 @@ class PickPhotoView(
         }
     }
 
-    private fun startActivityGallery() {
+    public fun startActivityGallery() {
         val photoPickerIntent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         photoPickerIntent.type = "image/*"
         pickPhotoFragment?.startActivityForResult(photoPickerIntent, REQUEST_PHOTO)
     }
 
-    private fun startActivityGalleryAndCamera() {
+    public fun startActivityGalleryAndCamera() {
         val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         if (storageDir != null) {
             val galleryPhoto =

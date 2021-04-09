@@ -7,7 +7,7 @@ import com.jemiola.moodtimeline.model.localdatabase.RoomMigrations
 
 class SplashRepository : BaseRepository() {
 
-    private val timelineMoodMigration = RoomMigrations()
+    public val timelineMoodMigration = RoomMigrations()
 
     fun executeMigrations(callback: OnRepositoryCallback<Unit>) {
         launchCallbackRequest(

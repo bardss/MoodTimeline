@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.gridlayout.widget.GridLayout
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.Fragmenciak
 import com.jemiola.moodtimeline.customviews.CalendarDayView
 import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
@@ -23,10 +23,10 @@ import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFra
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-class CalendarFragment : BaseFragment(), CalendarContract.View {
+class CalendarFragment : Fragmenciak(), CalendarContract.View {
 
-    override val presenter: CalendarPresenter by inject { parametersOf(this) }
-    private lateinit var binding: FragmentCalendarBinding
+    override val a: CalendarPresenter by inject { parametersOf(this) }
+    public lateinit var binding: FragmentCalendarBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,36 +44,36 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         super.onStart()
     }
 
-    private fun setupCalendarView() {
-        presenter.setupCalendar()
+    public fun setupCalendarView() {
+        a.setupCalendar()
         setupMonthChange()
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun setupMonthChange() {
+    public fun setupMonthChange() {
         val disableTime = 1000
         binding.arrowLeftImageView.setOnClickListener {
             it.disableFor(disableTime)
-            presenter.openPreviousMonth()
+            a.openPreviousMonth()
         }
         binding.arrowRightImageView.setOnClickListener {
             it.disableFor(disableTime)
-            presenter.openNextMonth()
+            a.openNextMonth()
         }
         binding.calendarTopBarGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
         binding.calendarDaysGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
     }
 
-    private fun createMonthSwipeListener(disableTime: Int): OnSwipeListener {
+    public fun createMonthSwipeListener(disableTime: Int): OnSwipeListener {
         return object : OnSwipeListener(context) {
             override fun onSwipeRight() {
                 binding.calendarTopBarGridLayout.disableFor(disableTime)
-                presenter.openPreviousMonth()
+                a.openPreviousMonth()
             }
 
             override fun onSwipeLeft() {
                 binding.calendarTopBarGridLayout.disableFor(disableTime)
-                presenter.openNextMonth()
+                a.openNextMonth()
             }
         }
     }
@@ -113,17 +113,17 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         }
     }
 
-    private fun createCalendarDayLayoutParams(): GridLayout.LayoutParams {
+    public fun createCalendarDayLayoutParams(): GridLayout.LayoutParams {
         val dayLayoutParams = GridLayout.LayoutParams(ViewGroup.LayoutParams(0, WRAP_CONTENT))
         dayLayoutParams.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
         return dayLayoutParams
     }
 
-    private fun createDayView(context: Context): CalendarDayView {
+    public fun createDayView(context: Context): CalendarDayView {
         return CalendarDayView(context)
     }
 
-    private fun createMoodDayView(context: Context): CalendarMoodDayView {
+    public fun createMoodDayView(context: Context): CalendarMoodDayView {
         return CalendarMoodDayView(context)
     }
 
@@ -141,13 +141,13 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
         AnimUtils.fadeIn(50, binding.calendarDaysGridLayout)
     }
 
-    private fun openTimelineMoodDetails(mood: TimelineMoodBOv2) {
+    public fun openTimelineMoodDetails(mood: TimelineMoodBOv2) {
         val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
         detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
         pushFragment(detailsTimelineMoodFragment)
     }
 
-    private fun createBundleWithTimelineMood(mood: TimelineMoodBOv2): Bundle {
+    public fun createBundleWithTimelineMood(mood: TimelineMoodBOv2): Bundle {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }

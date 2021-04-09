@@ -6,7 +6,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
 class DetailsTimelineMoodPresenter(
-    private val view: DetailsTimelineMoodContract.View,
+    public val view: DetailsTimelineMoodContract.View,
     override val repository: DetailsTimelineMoodRepository
 ) : BasePresenter(repository), DetailsTimelineMoodContract.Presenter {
 

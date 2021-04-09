@@ -17,13 +17,13 @@ import org.threeten.bp.LocalDate
 
 class SettingsRepository : BaseRepository() {
 
-    private val databaseSQL = Room.databaseBuilder(
+    public val databaseSQL = Room.databaseBuilder(
         BaseApplication.context,
         LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
-    private val databaseNoSQL = LocalNoSQLDatabase.getInstance()
+    public val databaseNoSQL = LocalNoSQLDatabase.getInstance()
 
-    private val rangeFormatter = RangeFormatter()
+    public val rangeFormatter = RangeFormatter()
 
     fun saveAppTheme(themeKey: Int) {
         val editInstance = databaseNoSQL?.edit()
@@ -91,7 +91,7 @@ class SettingsRepository : BaseRepository() {
         )
     }
 
-    private fun convertTimelineMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDOv2>): List<TimelineMoodBOv2> {
+    public fun convertTimelineMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDOv2>): List<TimelineMoodBOv2> {
         return timetableMoodDOs.map {
             TimelineMoodBOv2(
                 id = it.id,

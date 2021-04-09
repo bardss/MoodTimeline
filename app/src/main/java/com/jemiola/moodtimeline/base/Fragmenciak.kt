@@ -8,11 +8,11 @@ import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.splash.SplashActivity
 import org.koin.core.KoinComponent
 
-abstract class BaseFragment : Fragment(), KoinComponent {
-    abstract val presenter: BasePresenter
+abstract class Fragmenciak : Fragment(), KoinComponent {
+    abstract val a: BasePresenter
 
     override fun onDestroy() {
-        presenter.cancelCoroutines()
+        a.cancelCoroutines()
         super.onDestroy()
     }
 

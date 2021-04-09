@@ -23,7 +23,7 @@ class PdfGeneratorFileManager {
         return File.createTempFile(fileNameWithTimeStamp, ".pdf", storageDir)
     }
 
-    private fun createFileNameWithTimeStamp(from: LocalDate, to: LocalDate): String {
+    public fun createFileNameWithTimeStamp(from: LocalDate, to: LocalDate): String {
         val timeNow = LocalDateTime.now()
         val timeStampFormatter =
             DateTimeFormatter.ofPattern("A").withLocale(Locale.ENGLISH)

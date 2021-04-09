@@ -7,35 +7,35 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.Fragmenciak
 import com.jemiola.moodtimeline.databinding.ActivityNavigationBinding
 import com.jemiola.moodtimeline.utils.LoadingHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.settings.SettingsFragment
-import com.jemiola.moodtimeline.views.timeline.TimelineFragment
+import com.jemiola.moodtimeline.utils.moj_widok
 import com.ncapdevi.fragnav.FragNavController
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-private const val TAB_STATISTICS = FragNavController.TAB1
-private const val TAB_TIMELINE = FragNavController.TAB2
-private const val TAB_SETTINGS = FragNavController.TAB3
+public const val TAB_STATISTICS = FragNavController.TAB1
+public const val TAB_TIMELINE = FragNavController.TAB2
+public const val TAB_SETTINGS = FragNavController.TAB3
 
 class NavigationActivity : BaseActivity(),
     NavigationContract.View,
     FragNavController.RootFragmentListener {
 
     override val presenter: NavigationPresenter by inject { parametersOf(this) }
-    private lateinit var binding: ActivityNavigationBinding
-    private lateinit var navigation: FragNavController
-    private val loadingHandler = LoadingHandler(this)
-    private val actionsToDoOnResume: MutableList<() -> Any?> = mutableListOf()
+    public lateinit var binding: ActivityNavigationBinding
+    public lateinit var navigation: FragNavController
+    public val loadingHandler = LoadingHandler(this)
+    public val actionsToDoOnResume: MutableList<() -> Any?> = mutableListOf()
 
     override val numberOfRootFragments: Int = 3
     override fun getRootFragment(index: Int): Fragment =
         when (index) {
             TAB_STATISTICS -> Fragment()
-            TAB_TIMELINE -> TimelineFragment()
+            TAB_TIMELINE -> moj_widok()
             TAB_SETTINGS -> SettingsFragment()
             else -> Fragment()
         }
@@ -62,14 +62,14 @@ class NavigationActivity : BaseActivity(),
     }
 
     override fun onBackPressed() {
-        val topFragment = navigation.currentStack?.lastElement() as? BaseFragment
+        val topFragment = navigation.currentStack?.lastElement() as? Fragmenciak
         if (topFragment?.onBackPressed() == false) {
             if (navigation.currentStack?.size == 1) super.onBackPressed()
             else navigation.popFragment()
         }
     }
 
-    private fun createFragNavController(): FragNavController {
+    public fun createFragNavController(): FragNavController {
         return FragNavController(
             supportFragmentManager,
             R.id.fragmentContainerLayout
@@ -78,7 +78,7 @@ class NavigationActivity : BaseActivity(),
         }
     }
 
-    private fun setupBottomNavigationClicks() {
+    public fun setupBottomNavigationClicks() {
         with(binding.menuBottomView) {
 //            statisticsLayout.setOnClickListener { highlightStatistics() }
             timelineLayout.setOnClickListener {
@@ -90,7 +90,7 @@ class NavigationActivity : BaseActivity(),
         }
     }
 
-//    private fun highlightStatistics() {
+//    public fun highlightStatistics() {
 //        navigation.switchTab(TAB_STATISTICS)
 //        highlightNavigationOption(
 //            binding.menuBottomView.statisticsImageView,
@@ -98,7 +98,7 @@ class NavigationActivity : BaseActivity(),
 //        )
 //    }
 
-    private fun highlightTimeline() {
+    public fun highlightTimeline() {
         navigation.switchTab(TAB_TIMELINE)
         highlightNavigationOption(
             binding.menuBottomView.timelineImageView,
@@ -106,7 +106,7 @@ class NavigationActivity : BaseActivity(),
         )
     }
 
-    private fun highlightSettings() {
+    public fun highlightSettings() {
         navigation.switchTab(TAB_SETTINGS)
         highlightNavigationOption(
             binding.menuBottomView.settingsImageView,
@@ -114,14 +114,14 @@ class NavigationActivity : BaseActivity(),
         )
     }
 
-    private fun highlightNavigationOption(imageView: ImageView, textView: TextView) {
+    public fun highlightNavigationOption(imageView: ImageView, textView: TextView) {
         unhighlightAllNavigationOptions()
         val highlightColor = ResUtil.getColor(this, R.color.colorBottomMenuActive)
         imageView.setColorFilter(highlightColor)
         textView.setTextColor(highlightColor)
     }
 
-    private fun unhighlightAllNavigationOptions() {
+    public fun unhighlightAllNavigationOptions() {
         val inactiveColor = ResUtil.getColor(this, R.color.colorBottomMenuInactive)
         with(binding.menuBottomView) {
 //            statisticsImageView.setColorFilter(inactiveColor)
@@ -145,7 +145,7 @@ class NavigationActivity : BaseActivity(),
         }
     }
 
-    private fun performNavControllerAction(action: () -> Any?) {
+    public fun performNavControllerAction(action: () -> Any?) {
         if (navigation.isStateSaved) {
             actionsToDoOnResume.add(action)
         } else {

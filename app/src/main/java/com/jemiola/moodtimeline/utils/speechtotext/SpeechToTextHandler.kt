@@ -11,9 +11,9 @@ class SpeechToTextHandler(
     outputHandler: SpeechToTextOutput
 ) {
 
-    private var speechRecognizer: SpeechRecognizer =
+    public var speechRecognizer: SpeechRecognizer =
         SpeechRecognizer.createSpeechRecognizer(context)
-    private var speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+    public var speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
     var isListening: Boolean = false
 
     init {
@@ -43,7 +43,7 @@ class SpeechToTextHandler(
         }
     }
 
-    private fun onStartListening() {
+    public fun onStartListening() {
         if (!isListening) {
             speechRecognizer.startListening(speechRecognizerIntent)
         } else {

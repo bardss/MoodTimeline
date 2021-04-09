@@ -3,6 +3,8 @@ package com.jemiola.moodtimeline.views.timeline
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
+import com.jemiola.moodtimeline.utils.TimelineAdapterPresenter
+import com.jemiola.moodtimeline.utils.TimelineContract
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -15,7 +17,8 @@ class TimelineAdapterPresenterTest {
     @Test
     fun `onItemClick invokes openEditTimelineMoodActivity on view with mood state is ADD`() {
         val circleMoodState = CircleStateBO.ADD
-        val adapterPresenter = TimelineAdapterPresenter()
+        val adapterPresenter =
+            TimelineAdapterPresenter()
         val mood = TimelineMoodBO(
             date = LocalDate.MAX,
             note = "",
@@ -32,7 +35,8 @@ class TimelineAdapterPresenterTest {
     @Test
     fun `onItemClick invokes openEditTimelineMoodActivity on view with mood state is EDIT`() {
         val circleMoodState = CircleStateBO.EDIT
-        val adapterPresenter = TimelineAdapterPresenter()
+        val adapterPresenter =
+            TimelineAdapterPresenter()
         val mood = TimelineMoodBO(
             date = LocalDate.MAX,
             note = "",
@@ -49,7 +53,8 @@ class TimelineAdapterPresenterTest {
     @Test
     fun `onItemClick invokes openTimelineMoodDetails on view with mood state is DEFAULT`() {
         val circleMoodState = CircleStateBO.DEFAULT
-        val adapterPresenter = TimelineAdapterPresenter()
+        val adapterPresenter =
+            TimelineAdapterPresenter()
         val mood = TimelineMoodBO(
             date = LocalDate.MAX,
             note = "",
@@ -66,7 +71,8 @@ class TimelineAdapterPresenterTest {
     @Test
     fun `getFormattedDate returns date string correctly formatted case 1`() {
         val date = LocalDate.of(2000, 3, 3)
-        val adapterPresenter = TimelineAdapterPresenter()
+        val adapterPresenter =
+            TimelineAdapterPresenter()
         val formattedDate = adapterPresenter.getFormattedDate(date)
         assertEquals("March 3", formattedDate)
     }
@@ -74,7 +80,8 @@ class TimelineAdapterPresenterTest {
     @Test
     fun `getFormattedDate returns date string correctly formatted case 2`() {
         val date = LocalDate.of(2000, 4, 12)
-        val adapterPresenter = TimelineAdapterPresenter()
+        val adapterPresenter =
+            TimelineAdapterPresenter()
         val formattedDate = adapterPresenter.getFormattedDate(date)
         assertEquals("April 12", formattedDate)
     }

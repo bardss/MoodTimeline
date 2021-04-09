@@ -26,10 +26,10 @@ class MoodCircle : FrameLayout {
         dayTextView.text = day
         dayTextView.visibility = View.VISIBLE
     }
-    private val stateImageView: ImageView
-    private val circleImageView: ImageView
-    private val moodImageView: ImageView
-    private val dayTextView: ComfortaBoldTextView
+    public val stateImageView: ImageView
+    public val circleImageView: ImageView
+    public val moodImageView: ImageView
+    public val dayTextView: ComfortaBoldTextView
 
     constructor(context: Context) : super(context)
 
@@ -50,7 +50,7 @@ class MoodCircle : FrameLayout {
         setupStatePadding()
     }
 
-    private fun setupStatePadding() {
+    public fun setupStatePadding() {
         viewTreeObserver.addOnGlobalLayoutListener {
             stateImageView.layoutParams = stateImageView.layoutParams.apply {
                 width = (circleImageView.width / 3) * 2
@@ -59,12 +59,12 @@ class MoodCircle : FrameLayout {
         }
     }
 
-    private fun changeBackground(mood: CircleMoodBO) {
+    public fun changeBackground(mood: CircleMoodBO) {
         circleImageView.setImageDrawable(ResUtil.getDrawable(context, mood.backgroundId))
         moodImageView.setImageDrawable(ResUtil.getDrawable(context, mood.moodDrawable))
     }
 
-    private fun changeState(state: CircleStateBO) {
+    public fun changeState(state: CircleStateBO) {
         when (state) {
             EDIT -> ResUtil.getDrawable(context, R.drawable.ic_edit)
             ADD -> ResUtil.getDrawable(context, R.drawable.ic_plus)

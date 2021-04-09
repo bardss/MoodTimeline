@@ -12,12 +12,12 @@ import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 
 class EditTimelineMoodRepository : BaseRepository() {
 
-    private val database = Room.databaseBuilder(
+    public val database = Room.databaseBuilder(
         BaseApplication.context,
         LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
 
-    private var openedMoodId: Int? = null
+    public var openedMoodId: Int? = null
 
     fun setOpenedMoodId(openedMoodId: Int?) {
         this.openedMoodId = openedMoodId
@@ -45,7 +45,7 @@ class EditTimelineMoodRepository : BaseRepository() {
         )
     }
 
-    private fun convertMoodBOtoDO(mood: TimelineMoodBOv2): TimelineMoodDOv2 {
+    public fun convertMoodBOtoDO(mood: TimelineMoodBOv2): TimelineMoodDOv2 {
         return TimelineMoodDOv2(
             id = openedMoodId,
             note = mood.note,
