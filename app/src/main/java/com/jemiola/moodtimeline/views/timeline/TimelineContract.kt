@@ -1,6 +1,7 @@
 package com.jemiola.moodtimeline.views.timeline
 
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
+import org.threeten.bp.format.DateTimeFormatter
 
 interface TimelineContract {
     interface Presenter {
@@ -24,5 +25,6 @@ interface TimelineContract {
         fun showAddEmptyView()
         fun setupComeBackLaterView()
         fun showBottomMenu()
+        fun getDateTimeFormatter(): DateTimeFormatter?
     }
 }

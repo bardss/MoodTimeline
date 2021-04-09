@@ -17,10 +17,14 @@ class TimelinePresenter(
     override val repository: TimelineRepository
 ) : BasePresenter(repository), TimelineContract.Presenter {
 
+    val model = TimelneaiModelImpl()
+
     override fun setupTimetableMoods() {
         val callback = createRepositoryCallback<Int>(
             onSuccessAction = { onGetTimetableMoodsCountSuccess(it) },
-            onErrorAction = {}
+            onErrorAction = {
+                print("Nie udało się")
+            }
         )
         repository.getTimetableMoodsCount(callback)
     }
@@ -55,7 +59,7 @@ class TimelinePresenter(
 
     private fun getFromDateFromView(): LocalDate {
         val fromDateText = view.getFromDate()
-        val formatter = getDefaultSearchDateFormatter()
+        val formatter = view.getDateTimeFormatter()
         return LocalDate.parse(fromDateText, formatter)
     }
 
@@ -169,5 +173,9 @@ class TimelinePresenter(
             .atZone(DefaultTime.getZone())
             .toInstant()
             .toEpochMilli()
+    }
+
+    fun getAnimDuration(): Int {
+        return model.getAnimDurationn()
     }
 }

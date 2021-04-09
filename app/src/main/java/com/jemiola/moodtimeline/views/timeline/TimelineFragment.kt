@@ -1,5 +1,6 @@
 package com.jemiola.moodtimeline.views.timeline
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -9,42 +10,55 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+import com.jemiola.moodtimeline.customviews.MoodCircle
+import com.jemiola.moodtimeline.customviews.RalewayRegularTextView
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
-import com.jemiola.moodtimeline.utils.AnimUtils
-import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.utils.*
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import com.jemiola.moodtimeline.views.calendar.CalendarFragment
 import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
+import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
+import org.threeten.bp.format.DateTimeFormatter
+import java.io.FileDescriptor
+import java.io.PrintWriter
+import java.util.*
 
-const val MOVE_ANIM_DURATION = 500
+private const val MOVE_ANIM_DURATION = 500
 const val EMPTY_VIEW_ANIM_DURATION = 100
 
-class TimelineFragment : BaseFragment(), TimelineContract.View {
+class TimelineFragment() : BaseFragment(), TimelineContract.View {
 
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
-    private lateinit var binding: FragmentTimelineBinding
-    private var isSearchOpened = false
-    private var isCalendarOpened = false
+      lateinit var binding: FragmentTimelineBinding
+    private var isSearchOpenedAdnEnabled = false
+    private var isCalendarOpeneded = false
     private var counterComeBackLaterInflater = 0
-    private val rangePickersUtil = RangePickersUtil()
+    protected val rnagePickresUtil = RangePickersUtil()
+    val distance
+        get() = binding.timelineTopLayout.width
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         if (!this::binding.isInitialized) {
             binding = FragmentTimelineBinding.inflate(inflater, container, false)
-            setupTimeline()
+            with(binding.timelineRecyclerView) {
+                adapter = TimelineAdapter(this@TimelineFragment)
+                layoutManager = LinearLayoutManager(context)
+            }
             setupSearchView()
             setupCalendarView()
         }
@@ -57,17 +71,35 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         presenter.setupTimetableMoods()
     }
 
-    private fun setupTimeline() {
-        with(binding.timelineRecyclerView) {
-            adapter = TimelineAdapter(this@TimelineFragment)
-            layoutManager = LinearLayoutManager(context)
+    override fun onBackPressed(): Boolean {
+        return when {
+            true -> true
+            false -> false
+            else -> true
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun dump(
+        prefix: String,
+        fd: FileDescriptor?,
+        writer: PrintWriter,
+        args: Array<out String>?
+    ) {
+        super.dump(prefix, fd, writer, args)
+    }
+
+    override fun getContext(): Context? {
+        return super.getContext()
     }
 
     override fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
         val adapter = binding.timelineRecyclerView.adapter
         val animationId =
-            if (adapter?.itemCount == 0) R.anim.layout_animation_fade_in
+            if (adapter!!.itemCount == 0) R.anim.layout_animation_fade_in
             else R.anim.layout_animation_fall_down
         val animation = AnimationUtils.loadLayoutAnimation(context, animationId)
         (adapter as TimelineAdapter).setTimelineMoods(moods)
@@ -83,7 +115,9 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override fun openTimelineMoodDetails(mood: TimelineMoodBOv2) {
         val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
-        detailsTimelineMoodFragment.arguments = createBundleDetailsTimelineMood(mood)
+        detailsTimelineMoodFragment.arguments = Bundle().apply {
+            putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
+        }
         pushFragment(detailsTimelineMoodFragment)
     }
 
@@ -94,12 +128,6 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
             putBoolean(ExtraKeys.IS_ADD_MOOD_ONBOARDING, isAddingFirstMood)
-        }
-    }
-
-    private fun createBundleDetailsTimelineMood(mood: TimelineMoodBOv2): Bundle {
-        return Bundle().apply {
-            putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }
     }
 
@@ -114,10 +142,10 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun setupSearchCalendars() {
-        context?.let {
+        context!!.let {
             val fromEditText = binding.fromEditText
             val toEditText = binding.toEditText
-            rangePickersUtil.setupRangeCalendars(
+            rnagePickresUtil.setupRangeCalendars(
                 it,
                 fromEditText,
                 toEditText
@@ -129,7 +157,33 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         setupCalendarFragment()
         binding.timelineTopLayout.post {
             initialCalendarTopLayoutMoveOutOfScreen()
-            binding.calendarImageView.setOnClickListener { onCalendarClick() }
+            binding.calendarImageView.setOnClickListener {         val calendarIconWidth = binding.calendarImageView.width
+                val timelineLayoutPadding = binding.timelineLayout.paddingStart
+                if (!isCalendarOpeneded) {
+                    isCalendarOpeneded = true
+                    animateIconChangeTo(
+                        binding.calendarImageView,
+                        ResUtil.getDrawable(context, R.drawable.ic_close)
+                    )
+                    val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.timelineRecyclerView)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.comeBackLaterLayout)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarTopLayout)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarFragmentLayout)
+                } else {
+                    isCalendarOpeneded = false
+                    animateIconChangeTo(
+                        binding.calendarImageView,
+                        ResUtil.getDrawable(context, R.drawable.ic_calendar)
+                    )
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineRecyclerView)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.comeBackLaterLayout)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarTopLayout)
+                    AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout)
+                }
+            }
         }
     }
 
@@ -171,22 +225,27 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val distance = binding.timelineTopLayout.width
         val searchIconWidth = binding.searchImageView.width
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
-        if (!isSearchOpened) {
-            isSearchOpened = true
+        if (!isSearchOpenedAdnEnabled) {
+            isSearchOpenedAdnEnabled = true
             animateIconChangeTo(
                 binding.searchImageView,
                 ResUtil.getDrawable(context, R.drawable.ic_close)
             )
-            val hideDistance = -distance + searchIconWidth + timelineLayoutPadding
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
+            val hideDistance = 0
+            AnimUtils.animateMove(
+                MOVE_ANIM_DURATION,
+                hideDistance + (-1 * distance) + searchIconWidth + timelineLayoutPadding,
+                binding.timelineTopLayout
+            )
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.searchTopLayout)
         } else {
-            isSearchOpened = false
+            isSearchOpenedAdnEnabled = false
             animateIconChangeTo(
                 binding.searchImageView,
                 ResUtil.getDrawable(context, R.drawable.ic_search)
             )
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
+            val zero = 0 //zero
+            AnimUtils.animateMove(MOVE_ANIM_DURATION, zero, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
                 setupSearchDefaultValues()
             }
@@ -194,37 +253,11 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun onCalendarClick() {
-        val distance = binding.timelineTopLayout.width
-        val calendarIconWidth = binding.calendarImageView.width
-        val timelineLayoutPadding = binding.timelineLayout.paddingStart
-        if (!isCalendarOpened) {
-            isCalendarOpened = true
-            animateIconChangeTo(
-                binding.calendarImageView,
-                ResUtil.getDrawable(context, R.drawable.ic_close)
-            )
-            val hideDistance = distance - calendarIconWidth - timelineLayoutPadding
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.timelineRecyclerView)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.comeBackLaterLayout)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarTopLayout)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarFragmentLayout)
-        } else {
-            isCalendarOpened = false
-            animateIconChangeTo(
-                binding.calendarImageView,
-                ResUtil.getDrawable(context, R.drawable.ic_calendar)
-            )
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineTopLayout)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.timelineRecyclerView)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.comeBackLaterLayout)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarTopLayout)
-            AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout)
-        }
+
     }
 
     private fun animateIconChangeTo(iconImageView: ImageView, drawable: Drawable?) {
-        AnimUtils.fadeOut(100, {
+        AnimUtils.fadeOut(presenter.getAnimDuration(), {
             iconImageView.setImageDrawable(drawable)
             AnimUtils.fadeIn(100, iconImageView)
         }, iconImageView)
@@ -232,18 +265,16 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
 
     private fun initialSearchTopLayoutMoveOutOfScreen() {
-        val distance = binding.timelineTopLayout.width
-        AnimUtils.animateMove(MOVE_ANIM_DURATION, distance, binding.searchTopLayout) {
+        AnimUtils.animateMove(MOVE_ANIM_DURATION, binding.timelineTopLayout.width, binding.searchTopLayout) {
             binding.searchTopLayout.visibility = View.VISIBLE
         }
     }
 
     private fun initialCalendarTopLayoutMoveOutOfScreen() {
-        val distance = binding.timelineTopLayout.width
-        AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarTopLayout) {
+        AnimUtils.animateMove(MOVE_ANIM_DURATION, -binding.timelineTopLayout.width, binding.calendarTopLayout) {
             binding.calendarTopLayout.visibility = View.VISIBLE
         }
-        AnimUtils.animateMove(MOVE_ANIM_DURATION, -distance, binding.calendarFragmentLayout) {
+        AnimUtils.animateMove(MOVE_ANIM_DURATION, -binding.timelineTopLayout.width, binding.calendarFragmentLayout) {
             binding.calendarFragmentLayout.visibility = View.VISIBLE
         }
     }
@@ -289,13 +320,13 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     override fun setupComeBackLaterView() {
-        binding.timelineRecyclerView.post {
+        binding.timelineRecyclerView.postDelayed({
             val timelineContentLayoutHeight = binding.timelineContentLayout.height
             val timelineListHeight = binding.timelineRecyclerView.height
             val comeBackLaterViewHeight = binding.comeBackLaterLayout.height
-            if (timelineListHeight < 100 && counterComeBackLaterInflater < 5) {
+            if (timelineListHeight < 96 && counterComeBackLaterInflater < 5) {
                 counterComeBackLaterInflater += 1
-                Handler().postDelayed({ setupComeBackLaterView() }, 1000)
+                Handler().postDelayed({ setupComeBackLaterView() }, 999)
             } else {
                 val contentSum = timelineListHeight + comeBackLaterViewHeight
                 if (timelineContentLayoutHeight > contentSum) {
@@ -304,7 +335,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
                     AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, binding.comeBackLaterLayout)
                 }
             }
-        }
+        }, 0)
     }
 
     private fun setupAddEmptyViewOnClick() {
@@ -326,4 +357,125 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         binding.addEmptyViewCircle.state = CircleStateBO.ADD
     }
 
+
+    class TimelineAdapter(
+        private val view: TimelineContract.View
+    ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>(), KoinComponent {
+
+        private val adapterPresenter: TimelineAdapterPresenter by inject()
+        private var moods: List<TimelineMoodBOv2> = listOf()
+
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): ViewHolder {
+            return ViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_timeline,
+                    parent,
+                    false
+                )
+            )
+        }
+
+        override fun getItemCount(): Int = moods.size
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            setupTimelineItem(position, holder)
+            addFirstItemPadding(position, holder)
+        }
+
+        private fun addFirstItemPadding(position: Int, holder: ViewHolder) {
+            if (position == 0) {
+                holder.timelineItemLayout.setPadding(
+                    0, SizeUtils.dp2px(16f), 0, 0
+                )
+            }
+        }
+
+        private fun setupTimelineItem(
+            position: Int,
+            holder: ViewHolder
+        ) {
+            val mood = moods[position]
+            setupMoodCircle(holder, mood)
+            setupText(holder, mood)
+            setupOnClicks(holder, mood)
+        }
+
+        private fun setupOnClicks(holder: ViewHolder, mood: TimelineMoodBOv2) {
+            holder.timelineItemLayout.setOnClickListener {
+                when (mood.circleState) {
+                    CircleStateBO.ADD, CircleStateBO.EDIT -> view.openEditTimelineMoodActivity(mood)
+                    CircleStateBO.DEFAULT -> view.openTimelineMoodDetails(mood)
+                }
+            }
+        }
+
+        private fun setupText(
+            holder: ViewHolder,
+            mood: TimelineMoodBOv2
+        ) {
+            holder.dateTextView.text = adapterPresenter.getFormattedDate(mood.date)
+            holder.noteTextView.text = mood.note
+        }
+
+        private fun setupMoodCircle(
+            holder: ViewHolder,
+            mood: TimelineMoodBOv2
+        ) {
+            holder.moodCircle.state = mood.circleState
+            holder.moodCircle.mood = mood.circleMood
+            if (mood.circleState != CircleStateBO.ADD) {
+                holder.lineView.setBackgroundColor(
+                    ResUtil.getColor(holder.lineView.context, mood.circleMood.colorId)
+                )
+                holder.lineView.visibility = View.VISIBLE
+                holder.noteTextView.visibility = View.VISIBLE
+                //TODO: Do przekimny wyświetlanie
+                setPathAsSelectedPicture(
+                    mood.picturesPaths[0],
+                    holder.pictureImageView,
+                    holder.pictureLayout
+                )
+            } else {
+                holder.lineView.visibility = View.GONE
+                holder.noteTextView.visibility = View.GONE
+                holder.pictureLayout.visibility = View.GONE
+            }
+        }
+
+        fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
+            this.moods = moods
+            notifyDataSetChanged()
+        }
+
+        private fun setPathAsSelectedPicture(
+            path: String?,
+            pictureImageView: ImageView,
+            pictureLayout: ViewGroup
+        ) {
+            if (PermissionsUtil.isStoragePermissionGranted()) {
+                val pictureBitmap = ImageUtils.getBitmapDrawableFromPath(path)
+                if (pictureBitmap != null) {
+                    pictureLayout.visibility = View.VISIBLE
+                    pictureImageView.setImageDrawable(pictureBitmap)
+                } else pictureLayout.visibility = View.GONE
+            }
+        }
+
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val timelineItemLayout: ViewGroup = view.findViewById(R.id.timelineItemLayout)
+            val moodCircle: MoodCircle = view.findViewById(R.id.moodCircle)
+            val dateTextView: ComfortaBoldTextView = view.findViewById(R.id.dateTextView)
+            val noteTextView: RalewayRegularTextView = view.findViewById(R.id.noteTextView)
+            val lineView: View = view.findViewById(R.id.lineView)
+            val pictureImageView: ImageView = view.findViewById(R.id.pictureImageView)
+            val pictureLayout: ViewGroup = view.findViewById(R.id.pictureLayout)
+        }
+    }
+
+    override fun getDateTimeFormatter(): DateTimeFormatter? {
+        return DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.ENGLISH)
+    }
 }

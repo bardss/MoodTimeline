@@ -10,10 +10,7 @@ import java.util.*
 class TimelineAdapterPresenter {
 
     fun onItemClick(mood: TimelineMoodBOv2, view: TimelineContract.View) {
-        when (mood.circleState) {
-            CircleStateBO.ADD, CircleStateBO.EDIT -> view.openEditTimelineMoodActivity(mood)
-            CircleStateBO.DEFAULT -> view.openTimelineMoodDetails(mood)
-        }
+
     }
 
     fun getFormattedDate(date: LocalDate): String {
