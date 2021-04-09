@@ -13,6 +13,7 @@ import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentTimelineBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
+import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
@@ -24,6 +25,9 @@ import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFra
 import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
+import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
 
 const val MOVE_ANIM_DURATION = 500
 const val EMPTY_VIEW_ANIM_DURATION = 100
@@ -32,10 +36,12 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
 
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentTimelineBinding
-    private var isSearchOpened = false
-    private var isCalendarOpened = false
-    private var counterComeBackLaterInflater = 0
-    private val rangePickersUtil = RangePickersUtil()
+    private var czyWyszukiwanieOtwarte = false
+    private var czyKalendarzOtwarty = false
+    private var licznikPowrotuPozniejDoInflacji = 0
+    private val jutilPobieraniaZasiegu = RangePickersUtil()
+    var calendarFragment: CalendarFragment? = null
+    var repository: TimelineRepository? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,24 +50,76 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     ): View? {
         if (!this::binding.isInitialized) {
             binding = FragmentTimelineBinding.inflate(inflater, container, false)
-            setupTimeline()
-            setupSearchView()
-            setupCalendarView()
+            with(binding.timelineRecyclerView) {
+                adapter = TimelineAdapter(this@TimelineFragment)
+                layoutManager = LinearLayoutManager(context)
+            }
+
+            repository = TimelineRepository()
+            val defaultToDate = repository!!.defaultSearchToDate
+            val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.ENGLISH)
+            var formatDaty = defaultToDate.format(formatter)
+
+
+            binding.fromEditText.setText(formatDaty)
+            binding.toEditText.setText(formatDaty)
+            setupSearchEditTextColors()
+            setupSearchCalendars()
+            binding.timelineTopLayout.post {
+                initialSearchTopLayoutMoveOutOfScreen()
+                binding.searchImageView.setOnClickListener { onSearchClick() }
+            }
+            setupCalendarFragment()
+            binding.timelineTopLayout.post {
+                initialCalendarTopLayoutMoveOutOfScreen()
+                binding.calendarImageView.setOnClickListener { onCalendarClick() }
+            }
         }
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        counterComeBackLaterInflater = 0
-        presenter.setupTimetableMoods()
+        licznikPowrotuPozniejDoInflacji = 0
+        val callback = createRepositoryCallback<Int>(
+            onSuccessAction = {
+                if (it == 0) showAddEmptyView() else
+                showBottomMenu()
+                val fromDateText = getFromDate()
+                val defaultToDate = repository!!.defaultSearchToDate
+                val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.ENGLISH)
+                var formatDaty = defaultToDate.format(formatter)
+                val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
+                    onSuccessAction = {
+                        val moods = presenter.addSpecialMoodsIfNeeded(it)
+                        setTimelineMoods(moods)
+//                        if (!it.contains(CircleMoodBO.NONE)) {
+                            setupComeBackLaterView()
+//                        }
+                              },
+                    onErrorAction = {}
+                )
+//                repository!!.getTimetableMoods(fromDate, toDate, callback)
+            },
+            onErrorAction = {}
+        )
+        repository!!.getTimetableMoodsCount(callback)
+    }
+
+    protected fun <T> createRepositoryCallback(onSuccessAction: (result: T) -> Unit, onErrorAction: () -> Unit): OnRepositoryCallback<T> {
+        return object : OnRepositoryCallback<T> {
+            override fun onSuccess(result: T) {
+                onSuccessAction.invoke(result)
+            }
+
+            override fun onError() {
+                onErrorAction.invoke()
+            }
+        }
     }
 
     private fun setupTimeline() {
-        with(binding.timelineRecyclerView) {
-            adapter = TimelineAdapter(this@TimelineFragment)
-            layoutManager = LinearLayoutManager(context)
-        }
+
     }
 
     override fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
@@ -104,48 +162,35 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
     }
 
     private fun setupSearchView() {
-        setupSearchDefaultValues()
-        setupSearchEditTextColors()
-        setupSearchCalendars()
-        binding.timelineTopLayout.post {
-            initialSearchTopLayoutMoveOutOfScreen()
-            binding.searchImageView.setOnClickListener { onSearchClick() }
-        }
+
     }
 
     private fun setupSearchCalendars() {
-        context?.let {
             val fromEditText = binding.fromEditText
             val toEditText = binding.toEditText
-            rangePickersUtil.setupRangeCalendars(
-                it,
+            jutilPobieraniaZasiegu.setupRangeCalendars(
+                context!!,
                 fromEditText,
                 toEditText
             ) { presenter.searchTimelineMoods() }
-        }
     }
 
-    private fun setupCalendarView() {
-        setupCalendarFragment()
-        binding.timelineTopLayout.post {
-            initialCalendarTopLayoutMoveOutOfScreen()
-            binding.calendarImageView.setOnClickListener { onCalendarClick() }
-        }
-    }
+   // todo- fix ASAP !!!!11
+//    private fun setupCalendarView() {
+//
+//    }
 
     private fun setupCalendarFragment() {
-        val calendarFragment = CalendarFragment()
+        calendarFragment = CalendarFragment()
         childFragmentManager
             .beginTransaction()
-            .add(R.id.calendarFragmentLayout, calendarFragment)
+            .add(R.id.calendarFragmentLayout, calendarFragment!!)
             .commit()
     }
 
     private fun setupSearchDefaultValues() {
-        val fromDate = presenter.getDefaultFromDate()
-        val toDate = presenter.getDefaultToDate()
-        binding.fromEditText.setText(fromDate)
-        binding.toEditText.setText(toDate)
+        binding.fromEditText.setText(presenter.getDefaultFromDate())
+        binding.toEditText.setText(presenter.getDefaultToDate())
     }
 
     private fun setupSearchEditTextColors() {
@@ -171,8 +216,8 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val distance = binding.timelineTopLayout.width
         val searchIconWidth = binding.searchImageView.width
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
-        if (!isSearchOpened) {
-            isSearchOpened = true
+        if (!czyWyszukiwanieOtwarte) {
+            czyWyszukiwanieOtwarte = true
             animateIconChangeTo(
                 binding.searchImageView,
                 ResUtil.getDrawable(context, R.drawable.ic_close)
@@ -181,7 +226,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             AnimUtils.animateMove(MOVE_ANIM_DURATION, hideDistance, binding.timelineTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.searchTopLayout)
         } else {
-            isSearchOpened = false
+            czyWyszukiwanieOtwarte = false
             animateIconChangeTo(
                 binding.searchImageView,
                 ResUtil.getDrawable(context, R.drawable.ic_search)
@@ -197,8 +242,8 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         val distance = binding.timelineTopLayout.width
         val calendarIconWidth = binding.calendarImageView.width
         val timelineLayoutPadding = binding.timelineLayout.paddingStart
-        if (!isCalendarOpened) {
-            isCalendarOpened = true
+        if (!czyKalendarzOtwarty) {
+            czyKalendarzOtwarty = true
             animateIconChangeTo(
                 binding.calendarImageView,
                 ResUtil.getDrawable(context, R.drawable.ic_close)
@@ -210,7 +255,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarTopLayout)
             AnimUtils.animateMove(MOVE_ANIM_DURATION, 0, binding.calendarFragmentLayout)
         } else {
-            isCalendarOpened = false
+            czyKalendarzOtwarty = false
             animateIconChangeTo(
                 binding.calendarImageView,
                 ResUtil.getDrawable(context, R.drawable.ic_calendar)
@@ -293,8 +338,8 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
             val timelineContentLayoutHeight = binding.timelineContentLayout.height
             val timelineListHeight = binding.timelineRecyclerView.height
             val comeBackLaterViewHeight = binding.comeBackLaterLayout.height
-            if (timelineListHeight < 100 && counterComeBackLaterInflater < 5) {
-                counterComeBackLaterInflater += 1
+            if (timelineListHeight < 100 && licznikPowrotuPozniejDoInflacji < 5) {
+                licznikPowrotuPozniejDoInflacji += 1
                 Handler().postDelayed({ setupComeBackLaterView() }, 1000)
             } else {
                 val contentSum = timelineListHeight + comeBackLaterViewHeight

@@ -51,14 +51,10 @@ class TimelineRepository : BaseRepository() {
     }
 
     private fun convertTimelineMoodDOtoBO(timetableMoodDOs: List<TimelineMoodDOv2>): List<TimelineMoodBOv2> {
-        return timetableMoodDOs.map {
-            TimelineMoodBOv2(
-                id = it.id,
-                date = it.date,
-                note = it.note,
-                circleMood = CircleMoodBO.from(it.mood),
-                picturesPaths = it.picturesPaths
-            )
+        val poKonwertowaniuLista = mutableListOf<TimelineMoodBOv2>()
+        for (mood in timetableMoodDOs) {
+            poKonwertowaniuLista.add(TimelineMoodBOv2(mood.id, mood.date, mood.note, CircleMoodBO.from(mood.mood), picturesPaths = mood.picturesPaths))
         }
+        return poKonwertowaniuLista
     }
 }

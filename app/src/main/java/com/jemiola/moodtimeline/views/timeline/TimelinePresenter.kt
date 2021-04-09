@@ -47,7 +47,14 @@ class TimelinePresenter(
         val fromDate = getFromDateFromView()
         val toDate = getToDateFromView()
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
-            onSuccessAction = { onSearchTimelineMoodsSuccess(it) },
+            onSuccessAction = {
+                if (it.isEmpty()) view.showSearchEmptyView()
+                else {
+                    val moods = addSpecialMoodsIfNeeded(it)
+                    view.showTimelineRecyclerView()
+                    view.setTimelineMoods(moods)
+                }
+            },
             onErrorAction = {}
         )
         repository.getTimetableMoods(fromDate, toDate, callback)
@@ -77,11 +84,18 @@ class TimelinePresenter(
         return moods.none { it.circleState == CircleStateBO.ADD}
     }
 
-    private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBOv2>): List<TimelineMoodBOv2> {
+     fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBOv2>): List<TimelineMoodBOv2> {
         val editableMoods = moodsFromRepository.toMutableList()
         return when {
             shouldAddMoodBeVisible(moodsFromRepository) -> {
-                val addTimelineItem = createAddTimelineMood()
+                val addTimelineItem = TimelineMoodBOv2(
+                    id = null,
+                    date = LocalDate.now(DefaultTime.getClock()),
+                    note = "",
+                    circleMood = CircleMoodBO.NONE,
+                    circleState = CircleStateBO.ADD,
+                    picturesPaths = listOf()
+                )
                 editableMoods.pushToFront(addTimelineItem)
             }
             shouldEditMoodBeVisible(moodsFromRepository) -> {
@@ -139,6 +153,7 @@ class TimelinePresenter(
     }
 
     override fun getDefaultToDate(): String {
+        DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.ENGLISH)
         val defaultToDate = repository.defaultSearchToDate
         val formatter = getDefaultSearchDateFormatter()
         return defaultToDate.format(formatter)
@@ -160,7 +175,11 @@ class TimelinePresenter(
 
     override fun getSearchToDateLong(): Long {
         val toDate = getToDateFromView()
-        return getMilisFromDate(toDate)
+        return LocalDateTime
+            .of(toDate, LocalTime.NOON)
+            .atZone(DefaultTime.getZone())
+            .toInstant()
+            .toEpochMilli()
     }
 
     private fun getMilisFromDate(date: LocalDate): Long {
