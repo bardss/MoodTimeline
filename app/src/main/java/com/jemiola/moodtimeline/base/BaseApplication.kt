@@ -10,25 +10,29 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
-class BaseApplication: Application() {
+class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
         AndroidThreeTen.init(this)
         LocalNoSQLDatabase.initNoSQLDatabase(context)
-        startKoin{
+        startKoin {
             androidLogger()
             androidContext(this@BaseApplication)
-            modules(
-                timelineModule,
-                editTimelineItemModule,
-                splashModule,
-                navigationModule,
-                detailsTimelineItemModule,
-                calendarModule,
-                settingsModule
+            koin.loadModules(
+                listOf(
+                    timelineModule,
+                    editTimelineItemModule,
+                    splashModule,
+                    navigationModule,
+                    detailsTimelineItemModule,
+                    calendarModule,
+                    settingsModule,
+                    generatePdfModule
+                )
             )
+            koin.createRootScope()
         }
         applyTheme()
     }

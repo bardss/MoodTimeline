@@ -22,7 +22,10 @@ class EditTimelineMoodPresenter(
     override fun setupView(mood: TimelineMoodBOv2) {
         view.showAllDefaultViews()
         when (mood.circleState) {
-            EDIT -> view.setupEditView(mood)
+            EDIT -> {
+                view.setupEditView(mood)
+                
+            }
             ADD -> view.setupAddView(mood.date)
             else -> view.navigateBack()
         }
