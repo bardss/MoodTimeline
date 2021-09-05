@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.95"
+        android:background="@color/colorBottomMenuBackground"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <include
+        android:id="@+id/exportPdfDialogLayout"
+        layout="@layout/layout_export_pdf_dialog" />
+
+    <include
+        android:id="@+id/inProgressDialogLayout"
+        layout="@layout/layout_export_pdf_in_progress_dialog" />
+
+    <include
+        android:id="@+id/successDialogLayout"
+        layout="@layout/layout_export_pdf_success_dialog" />
+
+</FrameLayout>

@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/infoDialogContentLayout"
+    android:id="@+id/successDialogContentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.95"
-        android:background="@color/colorBottomMenuBackground"
-        android:clickable="true"
-        android:focusable="true" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,6 +30,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/successAnimationView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/infoDialogTitleTextView"
+            app:lottie_rawRes="@raw/export_pdf_success"
+            app:lottie_speed="0.7"/>
+
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:id="@+id/infoDialogContentTextView"
             android:layout_width="wrap_content"
@@ -46,7 +52,7 @@
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size_small"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoDialogTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/successAnimationView" />
 
         <View
             android:id="@+id/sharePdfView"
@@ -98,5 +104,4 @@
             app:layout_constraintTop_toBottomOf="@id/sharePdfView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </FrameLayout>

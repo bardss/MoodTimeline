@@ -1,11 +1,7 @@
 *.iml
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/.idea
+/.gradle
 .DS_Store
 /build
 /captures
@@ -13,3 +9,9 @@
 .cxx
 gradlew.bat
 google-services.json
+app/.idea/gradle.xml
+app/.idea/misc.xml
+app/.idea/modules.xml
+app/.idea/vcs.xml
+app/.idea/workspace.xml
+app/local.properties

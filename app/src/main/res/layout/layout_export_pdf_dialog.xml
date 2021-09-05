@@ -3,16 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/exportPdfContainerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="gone">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.95"
-        android:background="@color/colorBottomMenuBackground"
-        android:clickable="true"
-        android:focusable="true" />
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
