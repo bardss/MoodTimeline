@@ -13,51 +13,13 @@ class GeneratePdfPresenter(
     override val repository: GeneratePdfRepository
 ) : BasePresenter(repository), GeneratePdfContract.Presenter {
 
-    private val pdfGenerator = MoodsPdfGenerator()
-    private val rangeFormatter = RangeFormatter()
-
-    override fun generatePdfWithAllMoods(context: Context) {
-        view.showGeneratingPdfLoading()
-        val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
-            onSuccessAction = {
-                val pdfFile = pdfGenerator.generatePdf(context, it)
-                view.stopGeneratingPdfLoading()
-                view.showGeneratePdfSuccessDialog(pdfFile)
-            },
-            onErrorAction = {
-                view.stopGeneratingPdfLoading()
-            }
-        )
-        repository.getAllTimetableMoods(callback)
-    }
-
-    override fun generatePdfWithRangeMoods(context: Context) {
-        view.showGeneratingPdfLoading()
-        val fromDateText = view.getFromRangeText()
-        val toDateText = view.getToRangeText()
-        val formatter = rangeFormatter.getDefaultSearchDateFormatter()
-        val fromDate = LocalDate.parse(fromDateText, formatter)
-        val toDate = LocalDate.parse(toDateText, formatter)
-        val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
-            onSuccessAction = {
-                val pdfFile = pdfGenerator.generatePdf(context, it)
-                view.stopGeneratingPdfLoading()
-                view.showGeneratePdfSuccessDialog(pdfFile)
-            },
-            onErrorAction = {
-                view.stopGeneratingPdfLoading()
-            }
-        )
-        repository.getAllTimetableMoodsWithRange(callback, fromDate, toDate)
-    }
-
-
-    override fun setMinMaxRangeDates() {
+    override fun setMinMaxRangeDates(onSetMaxMinValuesSuccess: () -> Unit) {
         val callback = createRepositoryCallback<FirstAndLastMoodDateText>(
             onSuccessAction = {
                 view.setFromRangeText(it.firstMoodDateText)
                 view.setToRangeText(it.lastMoodDateText)
                 view.setupRangeEditTexts()
+                onSetMaxMinValuesSuccess()
             },
             onErrorAction = { }
         )

@@ -25,6 +25,7 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
     override val presenter: GeneratePdfPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentGeneratePdfBinding
     private val rangePickersUtil = RangePickersUtil()
+    private lateinit var generatePdfWorkManager: GeneratePdfWorkManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +34,7 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
     ): View {
         if (!this::binding.isInitialized) {
             binding = FragmentGeneratePdfBinding.inflate(inflater, container, false)
+            generatePdfWorkManager = GeneratePdfWorkManager(binding.root.context)
             setupGeneratePdfButton()
         }
         return binding.root
@@ -53,14 +55,10 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
             hideExportPdfDialog()
         }
         binding.exportPdfDialogLayout.exportAllMoodsView.setOnClickListener {
-            context?.let {
-                presenter.generatePdfWithAllMoods(it)
-            }
+            generatePdfWithAllMoods()
         }
         binding.exportPdfDialogLayout.exportMoodsPeriodView.setOnClickListener {
-            context?.let {
-                presenter.generatePdfWithRangeMoods(it)
-            }
+            generatePdf()
         }
         presenter.setMinMaxRangeDates()
     }
@@ -149,5 +147,21 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
             binding.inProgressDialogLayout.inProgressDialogContentLayout
         )
         binding.inProgressDialogLayout.successAnimationView.cancelAnimation()
+    }
+
+    private fun generatePdfWithAllMoods() {
+        presenter.setMinMaxRangeDates {
+            generatePdf()
+        }
+    }
+
+    private fun generatePdf() {
+        showGeneratingPdfLoading()
+        val fromText = binding.exportPdfDialogLayout.fromEditText.text.toString()
+        val toText = binding.exportPdfDialogLayout.fromEditText.text.toString()
+        generatePdfWorkManager.runGeneratePdfRequest(this, fromText, toText) {
+            stopGeneratingPdfLoading()
+            showGeneratePdfSuccessDialog(it)
+        }
     }
 }

@@ -5,9 +5,7 @@ import java.io.File
 
 interface GeneratePdfContract {
     interface Presenter {
-        fun generatePdfWithAllMoods(context: Context)
-        fun generatePdfWithRangeMoods(context: Context)
-        fun setMinMaxRangeDates()
+        fun setMinMaxRangeDates(onSetMaxMinValuesSuccess: () -> Unit = { })
     }
 
     interface View {

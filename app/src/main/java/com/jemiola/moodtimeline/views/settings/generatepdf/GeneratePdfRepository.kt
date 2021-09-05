@@ -20,40 +20,13 @@ class GeneratePdfRepository : BaseRepository() {
         LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
 
-    private val rangeFormatter = RangeFormatter()
-
-    fun getAllTimetableMoods(
-        callback: OnRepositoryCallback<List<TimelineMoodBOv2>>
-    ) {
-        launchCallbackRequest(
-            request = {
-                databaseSQL.timelineMoodDaoV2().getAllMoods()
-            },
-            onSuccess = {
-                val timelineMoodBOs = convertTimelineMoodDOtoBO(it)
-                val moodsInCorrectOrder = timelineMoodBOs.reversed()
-                callback.onSuccess(moodsInCorrectOrder)
-            },
-            onError = { callback.onError() }
-        )
-    }
-
-    fun getAllTimetableMoodsWithRange(
-        callback: OnRepositoryCallback<List<TimelineMoodBOv2>>,
+    suspend fun getAllTimetableMoodsWithRangeSuspend(
         from: LocalDate,
         to: LocalDate
-    ) {
-        launchCallbackRequest(
-            request = {
-                databaseSQL.timelineMoodDaoV2().getMoodsFromTo(from, to)
-            },
-            onSuccess = {
-                val timelineMoodBOs = convertTimelineMoodDOtoBO(it)
-                val moodsInCorrectOrder = timelineMoodBOs.reversed()
-                callback.onSuccess(moodsInCorrectOrder)
-            },
-            onError = { callback.onError() }
-        )
+    ): List<TimelineMoodBOv2> {
+        val result = databaseSQL.timelineMoodDaoV2().getMoodsFromTo(from, to)
+        val timelineMoodBOs = convertTimelineMoodDOtoBO(result)
+        return timelineMoodBOs.reversed()
     }
 
     fun getMoodsFirstAndLastDate(
@@ -64,6 +37,7 @@ class GeneratePdfRepository : BaseRepository() {
                 databaseSQL.timelineMoodDaoV2().getAllMoods()
             },
             onSuccess = {
+                val rangeFormatter = RangeFormatter()
                 val firstMoodDate = it.first().date
                 val lastMoodDate = it.last().date
                 val firstMoodDateText =
