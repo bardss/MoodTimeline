@@ -52,7 +52,7 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
 
     private fun setupGeneratePdfButton() {
         binding.exportPdfDialogLayout.closeTextView.setOnClickListener {
-            hideExportPdfDialog()
+            closeExportPdfDialog()
         }
         binding.exportPdfDialogLayout.exportAllMoodsView.setOnClickListener {
             generatePdfWithAllMoods()
@@ -71,7 +71,7 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
         }
     }
 
-    override fun hideExportPdfDialog() {
+    override fun closeExportPdfDialog() {
         val dialog = binding.exportPdfDialogLayout.exportPdfContainerLayout as View
         AnimUtils.fadeOut(ANIM_DURATION, {
             popFragment()
@@ -156,12 +156,26 @@ class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
     }
 
     private fun generatePdf() {
+        hideExportPdfDialog()
         showGeneratingPdfLoading()
         val fromText = binding.exportPdfDialogLayout.fromEditText.text.toString()
-        val toText = binding.exportPdfDialogLayout.fromEditText.text.toString()
-        generatePdfWorkManager.runGeneratePdfRequest(this, fromText, toText) {
-            stopGeneratingPdfLoading()
-            showGeneratePdfSuccessDialog(it)
-        }
+        val toText = binding.exportPdfDialogLayout.toEditText.text.toString()
+        generatePdfWorkManager.runGeneratePdfRequest(this, fromText, toText,
+            onGeneratePdfFinish = {
+                stopGeneratingPdfLoading()
+                showGeneratePdfSuccessDialog(it)
+            },
+            onGeneratePdfError = {
+                stopGeneratingPdfLoading()
+                popFragment()
+            }
+        )
+    }
+
+    private fun hideExportPdfDialog() {
+        val dialog = binding.exportPdfDialogLayout.exportPdfContainerLayout as View
+        AnimUtils.fadeOut(FAST_ANIM_DURATION, {
+            dialog.visibility = View.GONE
+        }, dialog)
     }
 }

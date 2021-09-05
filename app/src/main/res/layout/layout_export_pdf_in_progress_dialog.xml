@@ -7,11 +7,9 @@
     android:visibility="gone">
 
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:background="@drawable/dialog_background"
         android:clickable="true"
         android:elevation="8dp"
@@ -22,14 +20,12 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/successAnimationView"
-            android:layout_width="match_parent"
+            android:layout_width="140dp"
             android:layout_height="140dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="26dp"
-            android:layout_marginBottom="12dp"
+            android:layout_margin="6dp"
             app:lottie_rawRes="@raw/export_pdf_in_progress"
-            app:lottie_speed="1" />
+            app:lottie_speed="1.5"
+            app:lottie_loop="true" />
 
     </FrameLayout>
 </FrameLayout>

@@ -11,6 +11,7 @@ import com.jemiola.moodtimeline.model.data.local.FirstAndLastMoodDateText
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.utils.rangepickers.RangeFormatter
+import kotlinx.coroutines.async
 import org.threeten.bp.LocalDate
 
 class GeneratePdfRepository : BaseRepository() {
@@ -20,7 +21,7 @@ class GeneratePdfRepository : BaseRepository() {
         LocalSQLDatabase::class.java, DatabasesNames.moodsDatabase
     ).build()
 
-    suspend fun getAllTimetableMoodsWithRangeSuspend(
+    fun getAllTimetableMoodsWithRangeSuspend(
         from: LocalDate,
         to: LocalDate
     ): List<TimelineMoodBOv2> {
@@ -38,8 +39,9 @@ class GeneratePdfRepository : BaseRepository() {
             },
             onSuccess = {
                 val rangeFormatter = RangeFormatter()
-                val firstMoodDate = it.first().date
-                val lastMoodDate = it.last().date
+                val moodsSortedByDate = it.sortedBy { mood -> mood.date }
+                val firstMoodDate = moodsSortedByDate.first().date
+                val lastMoodDate = moodsSortedByDate.last().date
                 val firstMoodDateText =
                     firstMoodDate.format(rangeFormatter.getDefaultSearchDateFormatter())
                 val lastMoodDateText =

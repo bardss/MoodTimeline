@@ -18,7 +18,8 @@ class GeneratePdfWorkManager(context: Context) {
         lifecycleOwner: BaseFragment,
         fromDateString: String,
         toDateString: String,
-        onGeneratePdfFinish: (File) -> Unit
+        onGeneratePdfFinish: (File) -> Unit,
+        onGeneratePdfError: () -> Unit
     ) {
         val inputData = Data.Builder()
             .putString(INPUT_FROM_KEY, fromDateString)
@@ -36,12 +37,18 @@ class GeneratePdfWorkManager(context: Context) {
         )
         workManager.getWorkInfoByIdLiveData(generatePdfWorker.id)
             .observe(lifecycleOwner, { info ->
-                if (info != null && info.state.isFinished) {
-                    val outputPath = info.outputData.getString(OUTPUT_PDF_PATH_KEY)
-                    if (outputPath != null) {
-                        val pdfFile = File(outputPath)
-                        onGeneratePdfFinish(pdfFile)
+                if (info != null) {
+                    when (info.state) {
+                        WorkInfo.State.SUCCEEDED -> {
+                            val outputPath = info.outputData.getString(OUTPUT_PDF_PATH_KEY)
+                            if (outputPath != null) {
+                                val pdfFile = File(outputPath)
+                                onGeneratePdfFinish(pdfFile)
+                            }
+                        }
+                        WorkInfo.State.FAILED -> onGeneratePdfError()
                     }
+
                 }
             })
     }

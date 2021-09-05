@@ -17,6 +17,6 @@ interface GeneratePdfContract {
         fun showGeneratingPdfLoading()
         fun stopGeneratingPdfLoading()
         fun showGeneratePdfSuccessDialog(pdfFile: File)
-        fun hideExportPdfDialog()
+        fun closeExportPdfDialog()
     }
 }
