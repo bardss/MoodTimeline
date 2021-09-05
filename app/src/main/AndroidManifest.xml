@@ -17,7 +17,6 @@
         android:largeScreens="false"
         android:xlargeScreens="false" />
 
-
     <application
         android:name="com.jemiola.moodtimeline.base.BaseApplication"
         android:allowBackup="true"
@@ -27,7 +26,9 @@
         android:roundIcon="@mipmap/app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.jemiola.moodtimeline.views.splash.SplashActivity">
+        <activity
+            android:exported="true"
+            android:name="com.jemiola.moodtimeline.views.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
