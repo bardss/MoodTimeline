@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notificationDialogContentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/dialog_background"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp">
+
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/turnedOnTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center"
+            android:text="@string/notifications_turned_on"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/notificationAnimationView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_margin="6dp"
+            app:lottie_rawRes="@raw/notification"
+            app:lottie_speed="1"
+            app:layout_constraintTop_toBottomOf="@id/turnedOnTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
+            android:id="@+id/reminderSetTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/reminder_set_to"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notificationAnimationView" />
+
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/reminderTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reminderSetTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

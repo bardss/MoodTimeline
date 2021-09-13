@@ -18,6 +18,9 @@ import com.jemiola.moodtimeline.views.settings.SettingsRepository
 import com.jemiola.moodtimeline.views.settings.generatepdf.GeneratePdfContract
 import com.jemiola.moodtimeline.views.settings.generatepdf.GeneratePdfPresenter
 import com.jemiola.moodtimeline.views.settings.generatepdf.GeneratePdfRepository
+import com.jemiola.moodtimeline.views.settings.notifications.NotificationsContract
+import com.jemiola.moodtimeline.views.settings.notifications.NotificationsPresenter
+import com.jemiola.moodtimeline.views.settings.notifications.NotificationsRepository
 import com.jemiola.moodtimeline.views.splash.SplashContract
 import com.jemiola.moodtimeline.views.splash.SplashPresenter
 import com.jemiola.moodtimeline.views.splash.SplashRepository
@@ -81,5 +84,12 @@ val generatePdfModule = module {
     single { GeneratePdfRepository() }
     factory { (view: GeneratePdfContract.View) ->
         GeneratePdfPresenter(view, get())
+    }
+}
+
+val notificationModule = module {
+    single { NotificationsRepository() }
+    factory { (view: NotificationsContract.View) ->
+        NotificationsPresenter(view, get())
     }
 }

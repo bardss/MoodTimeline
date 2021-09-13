@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.95"
+        android:background="@color/colorBottomMenuBackground"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <include
+        android:id="@+id/notificationLayout"
+        layout="@layout/layout_notification_dialog" />
+
+    <include
+        android:id="@+id/successDialogLayout"
+        layout="@layout/layout_notification_success_dialog" />
+
+</FrameLayout>

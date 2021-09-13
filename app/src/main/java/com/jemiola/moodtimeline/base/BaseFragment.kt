@@ -6,10 +6,17 @@ import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.views.navigation.NavigationActivity
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.splash.SplashActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import org.koin.core.KoinComponent
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseFragment : Fragment(), KoinComponent {
+abstract class BaseFragment : Fragment(), KoinComponent, CoroutineScope {
     abstract val presenter: BasePresenter
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job
 
     override fun onDestroy() {
         presenter.cancelCoroutines()

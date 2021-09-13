@@ -12,6 +12,8 @@ import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.AppThemeHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.settings.generatepdf.GeneratePdfFragment
+import com.jemiola.moodtimeline.views.settings.notifications.NotificationsFragment
+import com.yanzhenjie.permission.AndPermission
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
@@ -31,6 +33,7 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         if (!this::binding.isInitialized) {
             binding = FragmentSettingsBinding.inflate(inflater, container, false)
             setupChangeThemeButton()
+            setupNotificationButtom()
             setupGeneratePdfButton()
             presenter.setupCurrentThemeText()
         }
@@ -107,6 +110,12 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
     private fun setupGeneratePdfButton() {
         binding.exportMoodsPdfButtonView.setOnClickListener {
             pushFragment(GeneratePdfFragment())
+        }
+    }
+
+    private fun setupNotificationButtom() {
+        binding.notificationButtonView.setOnClickListener {
+            pushFragment(NotificationsFragment())
         }
     }
 }

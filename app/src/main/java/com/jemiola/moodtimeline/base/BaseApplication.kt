@@ -29,7 +29,8 @@ class BaseApplication : Application() {
                     detailsTimelineItemModule,
                     calendarModule,
                     settingsModule,
-                    generatePdfModule
+                    generatePdfModule,
+                    notificationModule
                 )
             )
             koin.createRootScope()

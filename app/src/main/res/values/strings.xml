@@ -43,4 +43,12 @@
     <string name="app_will_be_restarted_after_theme_change">App will be restarted after theme change</string>
     <string name="or">or</string>
     <string name="share_pdf">Share PDF</string>
+    <string name="notifications">Notifications</string>
+    <string name="set_notification_nreminder">Set notification\nreminder</string>
+    <string name="turn_off">Turn OFF</string>
+    <string name="turn_on">Turn ON</string>
+    <string name="notifications_turned_on">Notifications\nturned on</string>
+    <string name="reminder_set_to">Reminder set to:</string>
+    <string name="app_notification">MoodTimeline Notifications</string>
+    <string name="add_note_notification_title">Mood Timeline: Remember to add new your mood today!</string>
 </resources>

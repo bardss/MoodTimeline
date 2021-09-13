@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notificationContainerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/dialog_background"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp">
+
+        <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
+            android:id="@+id/setReminderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center"
+            android:text="@string/set_notification_nreminder"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/text_size_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+            app:layout_constraintTop_toBottomOf="@id/setReminderTextView"/>
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/turnOnNotificationView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/button_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/turn_on"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintTop_toBottomOf="@id/timePicker" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/turnOffNotificationView"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/button_alert_background_ripple"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/turn_off"
+            android:textColor="@color/colorTextWhite"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintTop_toBottomOf="@id/turnOnNotificationView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/closeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/close_underlined"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/turnOffNotificationView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
