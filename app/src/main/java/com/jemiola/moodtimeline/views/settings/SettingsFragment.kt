@@ -35,8 +35,9 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
             setupChangeThemeButton()
             setupNotificationButtom()
             setupGeneratePdfButton()
-            presenter.setupCurrentThemeText()
         }
+        presenter.setupCurrentThemeText()
+        presenter.setupNotificationBar()
         return binding.root
     }
 
@@ -117,5 +118,20 @@ class SettingsFragment : BaseFragment(), SettingsContract.View {
         binding.notificationButtonView.setOnClickListener {
             pushFragment(NotificationsFragment())
         }
+    }
+
+    override fun setNotificationOff() {
+        binding.notificationTimeTextView.visibility = View.GONE
+        binding.notificationImageView.setImageDrawable(
+            ResUtil.getDrawable(context, R.drawable.ic_timer_off)
+        )
+    }
+
+    override fun setNotificationOn(notificationTime: String) {
+        binding.notificationTimeTextView.text = notificationTime
+        binding.notificationTimeTextView.visibility = View.VISIBLE
+        binding.notificationImageView.setImageDrawable(
+            ResUtil.getDrawable(context, R.drawable.ic_timer_on)
+        )
     }
 }

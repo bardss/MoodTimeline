@@ -19,4 +19,9 @@ class SettingsRepository : BaseRepository() {
         val theme = databaseNoSQL?.getInt(DatabaseKeys.APP_THEME, errorValue)
         return if (theme != 500) theme else null
     }
+
+    fun getNotificationTime(): String {
+        val notificationTime = databaseNoSQL?.getString(DatabaseKeys.NOTIFICATION_TIME, "")
+        return notificationTime ?: ""
+    }
 }

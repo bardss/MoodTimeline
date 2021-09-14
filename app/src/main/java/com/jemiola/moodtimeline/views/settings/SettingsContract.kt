@@ -8,5 +8,7 @@ interface SettingsContract {
 
     interface View {
         fun setCurrentThemeText(appThemeFromDatabase: Int?)
+        fun setNotificationOn(notificationTime: String)
+        fun setNotificationOff()
     }
 }

@@ -1,7 +1,6 @@
 package com.jemiola.moodtimeline.views.settings.notifications
 
 import org.threeten.bp.Duration
-import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 
 class NotificationInitialDelayEvaluator {

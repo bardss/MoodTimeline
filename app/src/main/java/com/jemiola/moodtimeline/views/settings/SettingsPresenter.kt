@@ -15,4 +15,13 @@ class SettingsPresenter(
         val appTheme = repository.getAppTheme()
         view.setCurrentThemeText(appTheme)
     }
+
+    fun setupNotificationBar() {
+        val notificationTime = repository.getNotificationTime()
+        if (notificationTime.isNotEmpty()) {
+            view.setNotificationOn(notificationTime)
+        } else {
+            view.setNotificationOff()
+        }
+    }
 }

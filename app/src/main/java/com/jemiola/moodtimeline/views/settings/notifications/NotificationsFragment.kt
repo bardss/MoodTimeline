@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentNotificationsBinding
-import com.jemiola.moodtimeline.utils.AnimUtils
-import com.jemiola.moodtimeline.utils.DelayedTask
+import com.jemiola.moodtimeline.utils.*
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalTime
+import java.sql.Time
 import java.util.*
 
 private const val FAST_ANIM_DURATION = 200
@@ -32,7 +32,7 @@ class NotificationsFragment : BaseFragment(), NotificationsContract.View {
             binding = FragmentNotificationsBinding.inflate(inflater, container, false)
             notificationWorkManager = NotificationWorkManager(binding.root.context)
             setupButtons()
-
+            setupTimePicker()
         }
         return binding.root
     }
@@ -52,7 +52,7 @@ class NotificationsFragment : BaseFragment(), NotificationsContract.View {
             onTurnOnNotificationClick()
         }
         binding.notificationLayout.turnOffNotificationView.setOnClickListener {
-            notificationWorkManager.cancelAllWork()
+            turnOffNotifications()
             popFragment()
         }
         binding.notificationLayout.closeTextView.setOnClickListener {
@@ -60,14 +60,20 @@ class NotificationsFragment : BaseFragment(), NotificationsContract.View {
         }
     }
 
+    private fun turnOffNotifications() {
+        notificationWorkManager.cancelAllWork()
+        presenter.saveNotificationTime("")
+    }
+
     private fun onTurnOnNotificationClick() {
-        val hour = binding.notificationLayout.timePicker.hour
-        val minute = binding.notificationLayout.timePicker.minute
+        val hour = binding.notificationLayout.timePicker.getHourCompat()
+        val minute = binding.notificationLayout.timePicker.getMinuteCompat()
         val notificationTime = LocalTime.of(hour, minute)
         val timeNow = LocalTime.now()
         notificationWorkManager.cancelAllWork()
         notificationWorkManager.runNotificationRequest(notificationTime, timeNow)
         val timeText = getTimeFormattedToLocale(hour, minute)
+        presenter.saveNotificationTime(timeText)
         showNotificationSuccessDialog(timeText)
     }
 
@@ -91,5 +97,11 @@ class NotificationsFragment : BaseFragment(), NotificationsContract.View {
                 }
             }, binding.successDialogLayout.notificationDialogContentLayout)
         }, binding.notificationLayout.notificationContainerLayout)
+    }
+
+    private fun setupTimePicker() {
+        val locale = LocaleUtil.getSystemLocale(binding.notificationLayout.timePicker.context)
+        val isAmPmTime = TimeUtil.shouldShowAmPmForLocale(locale)
+        binding.notificationLayout.timePicker.setIs24HourView(!isAmPmTime)
     }
 }

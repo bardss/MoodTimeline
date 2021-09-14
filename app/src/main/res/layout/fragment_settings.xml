@@ -181,10 +181,30 @@
             app:layout_constraintTop_toBottomOf="@id/thirdOptionDividerView" />
 
         <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+            android:id="@+id/notificationTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@color/colorBottomMenuInactive"
+            app:layout_constraintBottom_toBottomOf="@id/notificationButtonView"
+            app:layout_constraintEnd_toEndOf="@id/notificationButtonView"
+            app:layout_constraintTop_toTopOf="@id/notificationButtonView" />
+
+        <ImageView
+            android:id="@+id/notificationImageView"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/notificationTimeTextView"
+            app:layout_constraintEnd_toStartOf="@id/notificationTimeTextView"
+            app:layout_constraintTop_toTopOf="@id/notificationTimeTextView" />
+
+        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/notifications"
+            android:text="@string/reminder"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size_large"
             app:layout_constraintBottom_toBottomOf="@id/notificationButtonView"

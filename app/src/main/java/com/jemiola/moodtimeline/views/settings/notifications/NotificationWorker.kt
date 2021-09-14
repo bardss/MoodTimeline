@@ -63,7 +63,7 @@ class NotificationWorker(
         val notificationDescription = context.resources.getString(R.string.app_notification)
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationBuilder.setDefaults(Notification.DEFAULT_SOUND)
+        notificationBuilder.setDefaults(Notification.DEFAULT_ALL)
         val channel = NotificationChannel(
             channelId,
             appName,
