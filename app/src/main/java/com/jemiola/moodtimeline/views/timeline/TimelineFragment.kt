@@ -41,7 +41,7 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         if (!this::binding.isInitialized) {
             binding = FragmentTimelineBinding.inflate(inflater, container, false)
             setupTimeline()
@@ -61,18 +61,15 @@ class TimelineFragment : BaseFragment(), TimelineContract.View {
         with(binding.timelineRecyclerView) {
             adapter = TimelineAdapter(this@TimelineFragment)
             layoutManager = LinearLayoutManager(context)
+            binding.timelineRecyclerView.layoutAnimation =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
+            binding.timelineRecyclerView.scheduleLayoutAnimation()
         }
     }
 
     override fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
         val adapter = binding.timelineRecyclerView.adapter
-        val animationId =
-            if (adapter?.itemCount == 0) R.anim.layout_animation_fade_in
-            else R.anim.layout_animation_fall_down
-        val animation = AnimationUtils.loadLayoutAnimation(context, animationId)
         (adapter as TimelineAdapter).setTimelineMoods(moods)
-        binding.timelineRecyclerView.layoutAnimation = animation
-        binding.timelineRecyclerView.scheduleLayoutAnimation()
     }
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBOv2, isAddingFirstMood: Boolean) {

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
@@ -102,9 +103,11 @@ class TimelineAdapter(
         }
     }
 
-    fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
-        this.moods = moods
-        notifyDataSetChanged()
+    fun setTimelineMoods(newMoods: List<TimelineMoodBOv2>) {
+        DiffUtil.calculateDiff(
+            TimelineAdapterCallback(newMoods, moods), false
+        ).dispatchUpdatesTo(this)
+        this.moods = newMoods
     }
 
     private fun setPathAsSelectedPicture(

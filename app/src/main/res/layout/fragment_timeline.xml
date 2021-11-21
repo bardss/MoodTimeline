@@ -189,7 +189,7 @@
             android:id="@+id/timelineRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layoutAnimation="@anim/layout_animation_fade_in"
+            android:layoutAnimation="@anim/layout_animation_fall_down"
             android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
