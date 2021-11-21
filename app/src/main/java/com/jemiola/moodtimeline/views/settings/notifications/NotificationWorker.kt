@@ -48,6 +48,7 @@ class NotificationWorker(
             .setContentTitle(notificationTitle)
             .setSmallIcon(R.mipmap.app_logo_round)
             .setContentIntent(openAppPendingIntent)
+            .setPriority(Notification.PRIORITY_HIGH)
             .setAutoCancel(true)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel(notification, CHANNEL_ID)
@@ -67,7 +68,7 @@ class NotificationWorker(
         val channel = NotificationChannel(
             channelId,
             appName,
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         )
         channel.description = notificationDescription
         notificationManager.createNotificationChannel(channel)

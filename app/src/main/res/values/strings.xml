@@ -50,6 +50,6 @@
     <string name="notifications_turned_on">Notifications\nturned on</string>
     <string name="reminder_set_to">Reminder set to:</string>
     <string name="app_notification">MoodTimeline Notifications</string>
-    <string name="add_note_notification_title">Reminder! Remember to save your mood today!</string>
+    <string name="add_note_notification_title">Reminder!\nRemember to save your mood today!</string>
     <string name="reminder">Reminder</string>
 </resources>

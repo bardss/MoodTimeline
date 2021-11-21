@@ -1,6 +1,8 @@
 package com.jemiola.moodtimeline.views.settings.notifications
 
 import org.threeten.bp.Duration
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 
 class NotificationInitialDelayEvaluator {
@@ -10,11 +12,10 @@ class NotificationInitialDelayEvaluator {
         return if (isNotificationOnTheSameDayLater) {
             Duration.between(timeNow, notificationTime).toMinutes()
         } else {
-            val midnight = LocalTime.MIDNIGHT
-            val fromNowToMidnightMinutes = Duration.between(timeNow, midnight).toMinutes()
-            val fromMidnightToNotificationMinutes =
-                Duration.between(midnight, notificationTime).toMinutes()
-            fromNowToMidnightMinutes + fromMidnightToNotificationMinutes
+            val randomDate = LocalDate.MIN
+            val notificationDateTime = LocalDateTime.of(randomDate.plusDays(1), notificationTime)
+            val timeNowDateTime = LocalDateTime.of(randomDate, timeNow)
+            Duration.between(timeNowDateTime, notificationDateTime).toMinutes()
         }
     }
 }
