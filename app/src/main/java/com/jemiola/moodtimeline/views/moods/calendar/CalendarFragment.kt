@@ -56,7 +56,6 @@ class CalendarFragment : ViewPagerChildFragment(), CalendarContract.View {
         setupMonthChange()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setupMonthChange() {
         val disableTime = 1000
         calendarBinding.arrowLeftImageView.setOnClickListener {
@@ -66,22 +65,6 @@ class CalendarFragment : ViewPagerChildFragment(), CalendarContract.View {
         calendarBinding.arrowRightImageView.setOnClickListener {
             it.disableFor(disableTime)
             presenter.openNextMonth()
-        }
-        calendarBinding.calendarTopBarGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
-        calendarBinding.calendarDaysGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
-    }
-
-    private fun createMonthSwipeListener(disableTime: Int): OnSwipeListener {
-        return object : OnSwipeListener(context) {
-            override fun onSwipeRight() {
-                calendarBinding.calendarTopBarGridLayout.disableFor(disableTime)
-                presenter.openPreviousMonth()
-            }
-
-            override fun onSwipeLeft() {
-                calendarBinding.calendarTopBarGridLayout.disableFor(disableTime)
-                presenter.openNextMonth()
-            }
         }
     }
 
@@ -158,9 +141,5 @@ class CalendarFragment : ViewPagerChildFragment(), CalendarContract.View {
         return Bundle().apply {
             putSerializable(ExtraKeys.TIMELINE_MOOD, mood)
         }
-    }
-
-    override fun requestCalendarLayout() {
-//        calendarBinding.calendarDaysGridLayout.requestLayout()
     }
 }

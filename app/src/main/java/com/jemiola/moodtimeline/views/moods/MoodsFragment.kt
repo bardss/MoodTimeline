@@ -18,6 +18,11 @@ class MoodsFragment : BaseFragment(), MoodsContract.View, ViewPagerParentFragmen
     override val presenter: MoodsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentMoodsBinding
     private lateinit var pagerAdapter: MoodsPagerAdapter
+    private val pagerFragments = listOf(
+        CalendarFragment(),
+        TimelineFragment(),
+        SearchFragment()
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,18 +31,17 @@ class MoodsFragment : BaseFragment(), MoodsContract.View, ViewPagerParentFragmen
     ): View {
         if (!this::binding.isInitialized) {
             binding = FragmentMoodsBinding.inflate(inflater, container, false)
-            pagerAdapter = MoodsPagerAdapter(this)
-            val pagerFragments = listOf(
-                CalendarFragment(),
-                TimelineFragment(),
-                SearchFragment()
-            )
-            pagerAdapter.setFragments(pagerFragments)
-            binding.viewPager.adapter = pagerAdapter
-            binding.viewPager.currentItem = 1
-            binding.viewPager.isSaveEnabled = false
+            setupViewPager()
         }
         return binding.root
+    }
+
+    private fun setupViewPager() {
+        pagerAdapter = MoodsPagerAdapter(this)
+        pagerAdapter.setFragments(pagerFragments)
+        binding.viewPager.adapter = pagerAdapter
+        binding.viewPager.setCurrentItem(1, false)
+        binding.viewPager.isSaveEnabled = false
     }
 
     override fun swipeLeft() {

@@ -55,7 +55,6 @@ class CalendarPresenter(
         for (nextMonthDay in 1..daysToShowFromNextMonth) {
             view.addNotCurrentMonthDay(nextMonthDay)
         }
-        view.requestCalendarLayout()
     }
 
     private fun getMoodForCalendarDay(

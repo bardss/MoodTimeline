@@ -17,6 +17,5 @@ interface CalendarContract {
         fun clearDaysInCalendar()
         fun hideCalendar(doOnAnimationFinished: () -> Unit)
         fun showCalendar()
-        fun requestCalendarLayout()
     }
 }
