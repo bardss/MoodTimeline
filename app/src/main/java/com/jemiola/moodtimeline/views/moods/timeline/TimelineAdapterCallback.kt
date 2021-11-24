@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.timeline
+package com.jemiola.moodtimeline.views.moods.timeline
 
 import androidx.recyclerview.widget.DiffUtil
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2

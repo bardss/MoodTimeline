@@ -1,14 +1,20 @@
 package com.jemiola.moodtimeline.base
 
-import com.jemiola.moodtimeline.views.calendar.CalendarContract
-import com.jemiola.moodtimeline.views.calendar.CalendarPresenter
-import com.jemiola.moodtimeline.views.calendar.CalendarRepository
-import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodContract
-import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodPresenter
-import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodRepository
-import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodContract
-import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodPresenter
-import com.jemiola.moodtimeline.views.edittimelinemood.EditTimelineMoodRepository
+import com.jemiola.moodtimeline.views.moods.calendar.CalendarContract
+import com.jemiola.moodtimeline.views.moods.calendar.CalendarPresenter
+import com.jemiola.moodtimeline.views.moods.calendar.CalendarRepository
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsContract
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsPresenter
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsRepository
+import com.jemiola.moodtimeline.views.editmood.EditMoodContract
+import com.jemiola.moodtimeline.views.editmood.EditMoodPresenter
+import com.jemiola.moodtimeline.views.editmood.EditMoodRepository
+import com.jemiola.moodtimeline.views.moods.MoodsContract
+import com.jemiola.moodtimeline.views.moods.MoodsPresenter
+import com.jemiola.moodtimeline.views.moods.MoodsRepository
+import com.jemiola.moodtimeline.views.moods.search.SearchContract
+import com.jemiola.moodtimeline.views.moods.search.SearchPresenter
+import com.jemiola.moodtimeline.views.moods.search.SearchRepository
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.navigation.NavigationPresenter
 import com.jemiola.moodtimeline.views.navigation.NavigationRepository
@@ -24,10 +30,10 @@ import com.jemiola.moodtimeline.views.settings.notifications.NotificationsReposi
 import com.jemiola.moodtimeline.views.splash.SplashContract
 import com.jemiola.moodtimeline.views.splash.SplashPresenter
 import com.jemiola.moodtimeline.views.splash.SplashRepository
-import com.jemiola.moodtimeline.views.timeline.TimelineAdapterPresenter
-import com.jemiola.moodtimeline.views.timeline.TimelineContract
-import com.jemiola.moodtimeline.views.timeline.TimelinePresenter
-import com.jemiola.moodtimeline.views.timeline.TimelineRepository
+import com.jemiola.moodtimeline.views.moods.timeline.TimelineAdapterPresenter
+import com.jemiola.moodtimeline.views.moods.timeline.TimelineContract
+import com.jemiola.moodtimeline.views.moods.timeline.TimelinePresenter
+import com.jemiola.moodtimeline.views.moods.timeline.TimelineRepository
 import org.koin.dsl.module
 
 val navigationModule = module {
@@ -46,16 +52,16 @@ val timelineModule = module {
 }
 
 val editTimelineItemModule = module {
-    single { EditTimelineMoodRepository() }
-    factory { (view: EditTimelineMoodContract.View) ->
-        EditTimelineMoodPresenter(view, get())
+    single { EditMoodRepository() }
+    factory { (view: EditMoodContract.View) ->
+        EditMoodPresenter(view, get())
     }
 }
 
 val detailsTimelineItemModule = module {
-    single { DetailsTimelineMoodRepository() }
-    factory { (view: DetailsTimelineMoodContract.View) ->
-        DetailsTimelineMoodPresenter(view, get())
+    single { MoodDetailsRepository() }
+    factory { (view: MoodDetailsContract.View) ->
+        MoodDetailsPresenter(view, get())
     }
 }
 
@@ -91,5 +97,19 @@ val notificationModule = module {
     single { NotificationsRepository() }
     factory { (view: NotificationsContract.View) ->
         NotificationsPresenter(view, get())
+    }
+}
+
+val moodsModule = module {
+    single { MoodsRepository() }
+    factory { (view: MoodsContract.View) ->
+        MoodsPresenter(view, get())
+    }
+}
+
+val searchModule = module {
+    single { SearchRepository() }
+    factory { (view: SearchContract.View) ->
+        SearchPresenter(view, get())
     }
 }

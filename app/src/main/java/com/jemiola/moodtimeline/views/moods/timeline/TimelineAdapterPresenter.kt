@@ -1,18 +1,18 @@
-package com.jemiola.moodtimeline.views.timeline
+package com.jemiola.moodtimeline.views.moods.timeline
 
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
+import com.jemiola.moodtimeline.views.moods.MoodClickActions
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
 class TimelineAdapterPresenter {
 
-    fun onItemClick(mood: TimelineMoodBOv2, view: TimelineContract.View) {
+    fun onItemClick(mood: TimelineMoodBOv2, actions: MoodClickActions) {
         when (mood.circleState) {
-            CircleStateBO.ADD, CircleStateBO.EDIT -> view.openEditTimelineMoodActivity(mood)
-            CircleStateBO.DEFAULT -> view.openTimelineMoodDetails(mood)
+            CircleStateBO.ADD, CircleStateBO.EDIT -> actions.openEditTimelineMoodActivity(mood)
+            CircleStateBO.DEFAULT -> actions.openTimelineMoodDetails(mood)
         }
     }
 

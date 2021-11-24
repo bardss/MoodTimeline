@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.edittimelinemood
+package com.jemiola.moodtimeline.views.editmood
 
 import android.content.Intent
 import android.os.Bundle
@@ -25,10 +25,10 @@ import org.threeten.bp.LocalDate
 
 const val ANIM_DURATION = 200
 
-class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, PickPhotoFragment,
+class EditMoodFragment : BaseFragment(), EditMoodContract.View, PickPhotoFragment,
     SpeechToTextOutput {
 
-    override val presenter: EditTimelineMoodPresenter by inject { parametersOf(this) }
+    override val presenter: EditMoodPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentEditTimelineMoodBinding
     private lateinit var speechToTextHandler: SpeechToTextHandler
     private var isAddMoodOnboarding: Boolean? = false
@@ -37,7 +37,7 @@ class EditTimelineMoodFragment : BaseFragment(), EditTimelineMoodContract.View, 
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentEditTimelineMoodBinding.inflate(inflater, container, false)
         binding.picturesLayout.setPickPhotoFragment(this)
         setUnderlineColor(R.color.colorMoodNone)

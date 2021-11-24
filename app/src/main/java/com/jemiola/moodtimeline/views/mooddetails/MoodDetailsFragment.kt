@@ -1,8 +1,6 @@
-package com.jemiola.moodtimeline.views.detailstimelinemood
+package com.jemiola.moodtimeline.views.mooddetails
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +16,9 @@ import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
-class DetailsTimelineMoodFragment : BaseFragment(), DetailsTimelineMoodContract.View {
+class MoodDetailsFragment : BaseFragment(), MoodDetailsContract.View {
 
-    override val presenter: DetailsTimelineMoodPresenter by inject { parametersOf(this) }
+    override val presenter: MoodDetailsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentDetailsTimelineMoodBinding
 
     override fun onCreateView(

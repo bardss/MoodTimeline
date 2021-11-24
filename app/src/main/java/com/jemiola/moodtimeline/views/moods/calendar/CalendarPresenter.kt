@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.calendar
+package com.jemiola.moodtimeline.views.moods.calendar
 
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2

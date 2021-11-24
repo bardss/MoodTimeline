@@ -30,7 +30,9 @@ class BaseApplication : Application() {
                     calendarModule,
                     settingsModule,
                     generatePdfModule,
-                    notificationModule
+                    notificationModule,
+                    moodsModule,
+                    searchModule
                 )
             )
             koin.createRootScope()

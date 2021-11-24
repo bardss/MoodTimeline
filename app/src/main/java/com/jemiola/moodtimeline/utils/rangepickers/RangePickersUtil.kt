@@ -57,7 +57,6 @@ class RangePickersUtil {
             val toText = toEditText.text
             if (fromText?.isNotEmpty() == true && toText?.isNotEmpty() == true) {
                 onChangeValueAction?.invoke()
-//                presenter.searchTimelineMoods()
             }
             setupDatePickerBlockades(fromDatePicker, toDatePicker, fromEditText, toEditText)
         }

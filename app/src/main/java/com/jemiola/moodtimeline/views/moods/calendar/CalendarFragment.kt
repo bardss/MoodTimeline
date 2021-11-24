@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.calendar
+package com.jemiola.moodtimeline.views.moods.calendar
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,28 +13,35 @@ import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.customviews.CalendarDayView
 import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
+import com.jemiola.moodtimeline.databinding.LayoutCalendarBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.OnSwipeListener
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.disableFor
-import com.jemiola.moodtimeline.views.detailstimelinemood.DetailsTimelineMoodFragment
+import com.jemiola.moodtimeline.utils.viewpager.ViewPagerChildFragment
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-class CalendarFragment : BaseFragment(), CalendarContract.View {
+class CalendarFragment : ViewPagerChildFragment(), CalendarContract.View {
 
     override val presenter: CalendarPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentCalendarBinding
+    private lateinit var calendarBinding: LayoutCalendarBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         if (!this::binding.isInitialized) {
             binding = FragmentCalendarBinding.inflate(inflater, container, false)
+            calendarBinding = binding.calendarLayout
+            binding.closeCalendarImageView.setOnClickListener {
+                swipeViewPagerRight()
+            }
         }
         return binding.root
     }
@@ -52,40 +59,40 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
     @SuppressLint("ClickableViewAccessibility")
     private fun setupMonthChange() {
         val disableTime = 1000
-        binding.arrowLeftImageView.setOnClickListener {
+        calendarBinding.arrowLeftImageView.setOnClickListener {
             it.disableFor(disableTime)
             presenter.openPreviousMonth()
         }
-        binding.arrowRightImageView.setOnClickListener {
+        calendarBinding.arrowRightImageView.setOnClickListener {
             it.disableFor(disableTime)
             presenter.openNextMonth()
         }
-        binding.calendarTopBarGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
-        binding.calendarDaysGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
+        calendarBinding.calendarTopBarGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
+        calendarBinding.calendarDaysGridLayout.setOnTouchListener(createMonthSwipeListener(disableTime))
     }
 
     private fun createMonthSwipeListener(disableTime: Int): OnSwipeListener {
         return object : OnSwipeListener(context) {
             override fun onSwipeRight() {
-                binding.calendarTopBarGridLayout.disableFor(disableTime)
+                calendarBinding.calendarTopBarGridLayout.disableFor(disableTime)
                 presenter.openPreviousMonth()
             }
 
             override fun onSwipeLeft() {
-                binding.calendarTopBarGridLayout.disableFor(disableTime)
+                calendarBinding.calendarTopBarGridLayout.disableFor(disableTime)
                 presenter.openNextMonth()
             }
         }
     }
 
     override fun setMonthName(monthText: String) {
-        binding.monthTextView.text = monthText
+        calendarBinding.monthTextView.text = monthText
     }
 
     override fun addNotCurrentMonthDay(day: Int) {
         context?.let { notNullContext ->
             val dayView = createDayView(notNullContext)
-            binding.calendarDaysGridLayout.addView(dayView)
+            calendarBinding.calendarDaysGridLayout.addView(dayView)
             dayView.day = day
             dayView.dayTextView.setTextColor(ResUtil.getColor(context, R.color.colorMoodNone))
             dayView.layoutParams = createCalendarDayLayoutParams()
@@ -95,7 +102,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
     override fun addCurrentMonthDefaultDay(day: Int) {
         context?.let { notNullContext ->
             val dayView = createDayView(notNullContext)
-            binding.calendarDaysGridLayout.addView(dayView)
+            calendarBinding.calendarDaysGridLayout.addView(dayView)
             dayView.day = day
             dayView.dayTextView.setTextColor(ResUtil.getColor(context, R.color.colorTitle))
             dayView.layoutParams = createCalendarDayLayoutParams()
@@ -105,7 +112,7 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
     override fun addCurrentMonthMoodDay(day: Int, mood: TimelineMoodBOv2) {
         context?.let { notNullContext ->
             val moodDayView = createMoodDayView(notNullContext)
-            binding.calendarDaysGridLayout.addView(moodDayView)
+            calendarBinding.calendarDaysGridLayout.addView(moodDayView)
             moodDayView.day = day
             moodDayView.mood = mood.circleMood
             moodDayView.layoutParams = createCalendarDayLayoutParams()
@@ -128,21 +135,21 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
     }
 
     override fun clearDaysInCalendar() {
-        binding.calendarDaysGridLayout.removeAllViews()
+        calendarBinding.calendarDaysGridLayout.removeAllViews()
     }
 
     override fun hideCalendar(doOnAnimationFinished: () -> Unit) {
-        AnimUtils.fadeOut(50, binding.monthTextView)
-        AnimUtils.fadeOut(50, doOnAnimationFinished, binding.calendarDaysGridLayout)
+        AnimUtils.fadeOut(50, calendarBinding.monthTextView)
+        AnimUtils.fadeOut(50, doOnAnimationFinished, calendarBinding.calendarDaysGridLayout)
     }
 
     override fun showCalendar() {
-        AnimUtils.fadeIn(50, binding.monthTextView)
-        AnimUtils.fadeIn(50, binding.calendarDaysGridLayout)
+        AnimUtils.fadeIn(50, calendarBinding.monthTextView)
+        AnimUtils.fadeIn(50, calendarBinding.calendarDaysGridLayout)
     }
 
     private fun openTimelineMoodDetails(mood: TimelineMoodBOv2) {
-        val detailsTimelineMoodFragment = DetailsTimelineMoodFragment()
+        val detailsTimelineMoodFragment = MoodDetailsFragment()
         detailsTimelineMoodFragment.arguments = createBundleWithTimelineMood(mood)
         pushFragment(detailsTimelineMoodFragment)
     }
@@ -154,6 +161,6 @@ class CalendarFragment : BaseFragment(), CalendarContract.View {
     }
 
     override fun requestCalendarLayout() {
-//        binding.calendarDaysGridLayout.requestLayout()
+//        calendarBinding.calendarDaysGridLayout.requestLayout()
     }
 }

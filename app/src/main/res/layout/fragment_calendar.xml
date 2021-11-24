@@ -1,110 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/calendarLayout"
+    android:id="@+id/timelineLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="18dp">
 
-    <LinearLayout
-        android:id="@+id/timelineTopLayout"
+    <RelativeLayout
+        android:id="@+id/calendarTopLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/arrowLeftImageView"
-            android:layout_width="32dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginStart="6dp"
-            android:src="@drawable/ic_arrow_left" />
+        android:layout_height="wrap_content">
 
         <com.jemiola.moodtimeline.customviews.ComfortaBoldTextView
-            android:id="@+id/monthTextView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/calendar"
             android:textColor="@color/colorTitle"
             android:textSize="@dimen/text_size_xlarge" />
 
         <ImageView
-            android:id="@+id/arrowRightImageView"
+            android:id="@+id/closeCalendarImageView"
             android:layout_width="32dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginEnd="6dp"
-            android:src="@drawable/ic_arrow_right" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="start"
+            android:layout_marginEnd="22dp"
+            android:src="@drawable/ic_close" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/calendarTopBarGridLayout"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:columnCount="7">
+        android:layout_height="4dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/top_divider"
+        android:elevation="2dp"
+        android:translationY="2dp" />
 
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/monday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/tuesday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/wednesday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/thursday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/friday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/saturday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:gravity="center"
-            android:text="@string/sunday_short_uppercase"
-            app:layout_columnWeight="1" />
-
-    </androidx.gridlayout.widget.GridLayout>
-
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/calendarDaysGridLayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:columnCount="7"/>
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="-12dp"
+        android:layout_marginEnd="4dp">
 
+        <include
+            android:id="@+id/calendarLayout"
+            layout="@layout/layout_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 </LinearLayout>

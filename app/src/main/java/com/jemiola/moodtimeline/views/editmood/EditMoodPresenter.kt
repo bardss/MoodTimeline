@@ -1,8 +1,7 @@
-package com.jemiola.moodtimeline.views.edittimelinemood
+package com.jemiola.moodtimeline.views.editmood
 
 import com.jemiola.moodtimeline.base.BasePresenter
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO.*
-import com.jemiola.moodtimeline.model.data.local.TimelineMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.DefaultTime
 import kotlinx.coroutines.launch
@@ -10,10 +9,10 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
-class EditTimelineMoodPresenter(
-    private val view: EditTimelineMoodContract.View,
-    override val repository: EditTimelineMoodRepository
-) : BasePresenter(repository), EditTimelineMoodContract.Presenter {
+class EditMoodPresenter(
+    private val view: EditMoodContract.View,
+    override val repository: EditMoodRepository
+) : BasePresenter(repository), EditMoodContract.Presenter {
 
     override fun saveOpenedMoodId(id: Int?) {
         repository.setOpenedMoodId(id)

@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.timeline
+package com.jemiola.moodtimeline.views.moods.timeline
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +16,12 @@ import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
+import com.jemiola.moodtimeline.views.moods.MoodClickActions
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class TimelineAdapter(
-    private val view: TimelineContract.View
+    private val clickActions: MoodClickActions
 ) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>(), KoinComponent {
 
     private val adapterPresenter: TimelineAdapterPresenter by inject()
@@ -66,7 +67,7 @@ class TimelineAdapter(
 
     private fun setupOnClicks(holder: ViewHolder, mood: TimelineMoodBOv2) {
         holder.timelineItemLayout.setOnClickListener {
-            adapterPresenter.onItemClick(mood, view)
+            adapterPresenter.onItemClick(mood, clickActions)
         }
     }
 
@@ -101,6 +102,14 @@ class TimelineAdapter(
                 holder.pictureLayout
             )
         }
+    }
+
+    fun addNextPage(nextPageMoods: List<TimelineMoodBOv2>) {
+        val newMoods = moods + nextPageMoods
+        DiffUtil.calculateDiff(
+            TimelineAdapterCallback(newMoods, moods), false
+        ).dispatchUpdatesTo(this)
+        this.moods = newMoods
     }
 
     fun setTimelineMoods(newMoods: List<TimelineMoodBOv2>) {
