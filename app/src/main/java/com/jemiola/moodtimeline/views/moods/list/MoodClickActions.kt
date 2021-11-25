@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.moods
+package com.jemiola.moodtimeline.views.moods.list
 
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 

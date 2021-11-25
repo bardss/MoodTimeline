@@ -1,9 +1,9 @@
 package com.jemiola.moodtimeline.base
 
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
-import kotlinx.coroutines.*
-import org.threeten.bp.LocalTime
-import java.text.DateFormat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 import kotlin.coroutines.CoroutineContext
 
 abstract class BasePresenter(

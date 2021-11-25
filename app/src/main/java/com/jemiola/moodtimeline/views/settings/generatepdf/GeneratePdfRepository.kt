@@ -11,7 +11,6 @@ import com.jemiola.moodtimeline.model.data.local.FirstAndLastMoodDateText
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.utils.rangepickers.RangeFormatter
-import kotlinx.coroutines.async
 import org.threeten.bp.LocalDate
 
 class GeneratePdfRepository : BaseRepository() {

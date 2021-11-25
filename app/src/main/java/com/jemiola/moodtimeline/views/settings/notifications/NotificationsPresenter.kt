@@ -1,8 +1,6 @@
 package com.jemiola.moodtimeline.views.settings.notifications
 
 import com.jemiola.moodtimeline.base.BasePresenter
-import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
 
 class NotificationsPresenter(
     val view: NotificationsContract.View,

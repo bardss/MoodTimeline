@@ -6,7 +6,7 @@ import com.jemiola.moodtimeline.base.BaseRepository
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
-import com.jemiola.moodtimeline.model.data.local.convertTimelineMoodDOtoBO
+import com.jemiola.moodtimeline.model.data.local.convertTimelineMoodsDOtoBO
 import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.utils.DefaultTime
 import org.threeten.bp.LocalDate
@@ -32,7 +32,7 @@ class SearchRepository : BaseRepository() {
             },
             onSuccess = {
                 val timelineMoodBOs = it
-                    .convertTimelineMoodDOtoBO()
+                    .convertTimelineMoodsDOtoBO()
                     .sortedByDescending { mood -> mood.date }
                 callback.onSuccess(timelineMoodBOs)
             },

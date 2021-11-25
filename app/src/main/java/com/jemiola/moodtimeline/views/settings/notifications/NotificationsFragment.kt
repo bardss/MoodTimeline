@@ -11,7 +11,6 @@ import com.jemiola.moodtimeline.utils.*
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalTime
-import java.sql.Time
 import java.util.*
 
 private const val FAST_ANIM_DURATION = 200

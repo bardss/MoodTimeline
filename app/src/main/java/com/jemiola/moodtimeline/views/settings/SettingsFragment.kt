@@ -13,7 +13,6 @@ import com.jemiola.moodtimeline.utils.AppThemeHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.settings.generatepdf.GeneratePdfFragment
 import com.jemiola.moodtimeline.views.settings.notifications.NotificationsFragment
-import com.yanzhenjie.permission.AndPermission
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 

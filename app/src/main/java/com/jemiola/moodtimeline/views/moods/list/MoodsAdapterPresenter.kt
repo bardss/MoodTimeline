@@ -1,13 +1,12 @@
-package com.jemiola.moodtimeline.views.moods.timeline
+package com.jemiola.moodtimeline.views.moods.list
 
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
-import com.jemiola.moodtimeline.views.moods.MoodClickActions
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
-class TimelineAdapterPresenter {
+class MoodsAdapterPresenter {
 
     fun onItemClick(mood: TimelineMoodBOv2, actions: MoodClickActions) {
         when (mood.circleState) {

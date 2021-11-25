@@ -1,4 +1,4 @@
-package com.jemiola.moodtimeline.views.moods.timeline
+package com.jemiola.moodtimeline.views.moods.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,15 +16,14 @@ import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
-import com.jemiola.moodtimeline.views.moods.MoodClickActions
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-class TimelineAdapter(
+class MoodsAdapter(
     private val clickActions: MoodClickActions
-) : RecyclerView.Adapter<TimelineAdapter.ViewHolder>(), KoinComponent {
+) : RecyclerView.Adapter<MoodsAdapter.ViewHolder>(), KoinComponent {
 
-    private val adapterPresenter: TimelineAdapterPresenter by inject()
+    private val adapterPresenter: MoodsAdapterPresenter by inject()
     private var moods: List<TimelineMoodBOv2> = listOf()
 
     override fun onCreateViewHolder(
@@ -104,17 +103,31 @@ class TimelineAdapter(
         }
     }
 
+    fun updateMood(mood: TimelineMoodBOv2) {
+        val containsMood = moods.any { it.id == mood.id }
+        if (containsMood) {
+            val indexOfMoodOnList = moods.indexOfFirst { it.id == mood.id }
+            val mutableMoods = moods.toMutableList()
+            mutableMoods[indexOfMoodOnList] = mood
+            DiffUtil.calculateDiff(
+                MoodsAdapterCallback(mutableMoods, moods), false
+            ).dispatchUpdatesTo(this)
+            this.moods = mutableMoods
+        }
+
+    }
+
     fun addNextPage(nextPageMoods: List<TimelineMoodBOv2>) {
         val newMoods = moods + nextPageMoods
         DiffUtil.calculateDiff(
-            TimelineAdapterCallback(newMoods, moods), false
+            MoodsAdapterCallback(newMoods, moods), false
         ).dispatchUpdatesTo(this)
         this.moods = newMoods
     }
 
     fun setTimelineMoods(newMoods: List<TimelineMoodBOv2>) {
         DiffUtil.calculateDiff(
-            TimelineAdapterCallback(newMoods, moods), false
+            MoodsAdapterCallback(newMoods, moods), false
         ).dispatchUpdatesTo(this)
         this.moods = newMoods
     }

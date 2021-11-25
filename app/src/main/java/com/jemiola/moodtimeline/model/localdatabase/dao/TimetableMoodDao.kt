@@ -1,8 +1,10 @@
 package com.jemiola.moodtimeline.model.localdatabase.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDO
-import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
 import org.threeten.bp.LocalDate
 
 @Dao

@@ -1,6 +1,5 @@
 package com.jemiola.moodtimeline.views.moods.calendar
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import androidx.gridlayout.widget.GridLayout
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.customviews.CalendarDayView
 import com.jemiola.moodtimeline.customviews.CalendarMoodDayView
 import com.jemiola.moodtimeline.databinding.FragmentCalendarBinding
@@ -17,7 +15,6 @@ import com.jemiola.moodtimeline.databinding.LayoutCalendarBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
-import com.jemiola.moodtimeline.utils.OnSwipeListener
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.disableFor
 import com.jemiola.moodtimeline.utils.viewpager.ViewPagerChildFragment

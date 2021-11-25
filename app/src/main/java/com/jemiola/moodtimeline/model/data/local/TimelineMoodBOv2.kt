@@ -13,12 +13,13 @@ data class TimelineMoodBOv2(
     val picturesPaths: List<String>
 ) : Serializable
 
-fun List<TimelineMoodDOv2>.convertTimelineMoodDOtoBO() = map {
+fun TimelineMoodDOv2.convertTimelineMoodsDOtoBO() =
     TimelineMoodBOv2(
-        id = it.id,
-        date = it.date,
-        note = it.note,
-        circleMood = CircleMoodBO.from(it.mood),
-        picturesPaths = it.picturesPaths
+        id = id,
+        date = date,
+        note = note,
+        circleMood = CircleMoodBO.from(mood),
+        picturesPaths = picturesPaths
     )
-}
+
+fun List<TimelineMoodDOv2>.convertTimelineMoodsDOtoBO() = map { it.convertTimelineMoodsDOtoBO() }

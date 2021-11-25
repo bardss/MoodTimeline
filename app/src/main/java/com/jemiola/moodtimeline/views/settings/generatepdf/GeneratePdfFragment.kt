@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
 import com.jemiola.moodtimeline.databinding.FragmentGeneratePdfBinding
-import com.jemiola.moodtimeline.utils.pdfgenerator.PdfGeneratorFileManager
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.pdfgenerator.PDF_GENERATOR_ENVIRONMENT_DIR
+import com.jemiola.moodtimeline.utils.pdfgenerator.PdfGeneratorFileManager
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf

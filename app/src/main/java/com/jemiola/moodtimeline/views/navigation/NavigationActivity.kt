@@ -13,7 +13,6 @@ import com.jemiola.moodtimeline.utils.LoadingHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.moods.MoodsFragment
 import com.jemiola.moodtimeline.views.settings.SettingsFragment
-import com.jemiola.moodtimeline.views.moods.timeline.TimelineFragment
 import com.ncapdevi.fragnav.FragNavController
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf

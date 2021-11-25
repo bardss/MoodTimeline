@@ -5,20 +5,23 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.DefaultTime
-import com.jemiola.moodtimeline.utils.pushToFront
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
-import java.util.*
 
 class TimelinePresenter(
     private val view: TimelineContract.View,
     override val repository: TimelineRepository
 ) : BasePresenter(repository), TimelineContract.Presenter {
 
-    init {
-        requestTimetableMoodsPaged(0, 5)
+    override fun updateTodaysMood() {
+        val today = LocalDate.now(DefaultTime.getClock())
+        val callback = createRepositoryCallback<TimelineMoodBOv2>(
+            onSuccessAction = {
+                it.circleState = CircleStateBO.EDIT
+                view.updateTodaysMood(it)
+            },
+            onErrorAction = {}
+        )
+        repository.getMoodForDate(today, callback)
     }
 
     override fun setupTimetableMoods() {
@@ -26,28 +29,27 @@ class TimelinePresenter(
             onSuccessAction = { onGetTimetableMoodsCountSuccess(it) },
             onErrorAction = {}
         )
-        repository.getTimetableMoodsCount(callback)
+        repository.getMoodsCount(callback)
     }
 
     private fun onGetTimetableMoodsCountSuccess(moodsCount: Int) {
         if (moodsCount == 0) view.showAddEmptyView()
         else {
             view.showBottomMenu()
-//            requestTimetableMoods()
+            requestTimetableMoodsPaged(0, 5)
         }
     }
 
-    fun requestTimetableMoodsPaged(nextPage: Int, pageSize: Int) {
+    fun requestTimetableMoodsPaged(pageIndex: Int, pageSize: Int) {
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
-            onSuccessAction = { onGetTimetableMoodsSuccess(it) },
+            onSuccessAction = { onGetTimetableMoodsSuccess(it, pageIndex) },
             onErrorAction = {}
         )
-        repository.getTimetableMoodsPaged(nextPage, pageSize, callback)
+        repository.getTimetableMoodsPaged(pageIndex, pageSize, callback)
     }
 
-    private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBOv2>) {
-        val moods = addSpecialMoodsIfNeeded(result)
-//        val moods = result
+    private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBOv2>, pageIndex: Int) {
+        val moods = if (pageIndex == 0) getMoodsWithAddEditMood(result) else result
         view.setPagedTimelineMoods(moods)
         if (moodsWithoutAddMoodState(moods)) {
             view.setupComeBackLaterView()
@@ -55,22 +57,7 @@ class TimelinePresenter(
     }
 
     private fun moodsWithoutAddMoodState(moods: List<TimelineMoodBOv2>): Boolean {
-        return moods.none { it.circleState == CircleStateBO.ADD}
-    }
-
-    private fun addSpecialMoodsIfNeeded(moodsFromRepository: List<TimelineMoodBOv2>): List<TimelineMoodBOv2> {
-        val editableMoods = moodsFromRepository.toMutableList()
-        return when {
-            true -> {
-//            shouldAddMoodBeVisible(moodsFromRepository) -> {
-                val addTimelineItem = createAddTimelineMood()
-                editableMoods.pushToFront(addTimelineItem)
-            }
-            shouldEditMoodBeVisible(moodsFromRepository) -> {
-                createMoodsWithFirstEditableMood(editableMoods)
-            }
-            else -> moodsFromRepository
-        }
+        return moods.none { it.circleState == CircleStateBO.ADD }
     }
 
     override fun createAddTimelineMood(): TimelineMoodBOv2 {
@@ -84,14 +71,15 @@ class TimelinePresenter(
         )
     }
 
-    private fun createMoodsWithFirstEditableMood(
-        moodsFromRepository: MutableList<TimelineMoodBOv2>
-    ): List<TimelineMoodBOv2> {
-        moodsFromRepository[0].circleState = CircleStateBO.EDIT
-        return moodsFromRepository
-    }
-
-    private fun shouldEditMoodBeVisible(moods: List<TimelineMoodBOv2>): Boolean {
-        return moods.any { it.date == LocalDate.now(DefaultTime.getClock()) }
+    private fun getMoodsWithAddEditMood(moods: List<TimelineMoodBOv2>): List<TimelineMoodBOv2> {
+        val moodAddedToday =
+            moods.firstOrNull { it.date == LocalDate.now(DefaultTime.getClock()) }
+        return if (moodAddedToday != null) {
+            moodAddedToday.circleState = CircleStateBO.EDIT
+            moods
+        } else {
+            val addTimelineItem = createAddTimelineMood()
+            listOf(addTimelineItem) + moods
+        }
     }
 }

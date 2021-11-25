@@ -2,6 +2,7 @@ package com.jemiola.moodtimeline.views.moods.timeline
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,12 @@ import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.PaginationScrollListener
 import com.jemiola.moodtimeline.utils.viewpager.ViewPagerChildFragment
 import com.jemiola.moodtimeline.views.editmood.EditMoodFragment
 import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsFragment
-import com.jemiola.moodtimeline.views.moods.MoodClickActions
+import com.jemiola.moodtimeline.views.moods.list.MoodClickActions
+import com.jemiola.moodtimeline.views.moods.list.MoodsAdapter
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
@@ -28,8 +31,13 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
 
     override val presenter: TimelinePresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentTimelineBinding
+    private lateinit var paginationScrollListener: PaginationScrollListener
     private var counterComeBackLaterInflater = 0
-    private var isLoadingData = false
+    private var moodsAdapter: MoodsAdapter
+        get() = binding.timelineRecyclerView.adapter as MoodsAdapter
+        set(value) {
+            binding.timelineRecyclerView.adapter = value
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +48,7 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
             binding = FragmentTimelineBinding.inflate(inflater, container, false)
             setupTimeline(binding.timelineRecyclerView)
             setupViewPagerNavigation()
+            presenter.setupTimetableMoods()
         }
         return binding.root
     }
@@ -47,36 +56,30 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
     override fun onStart() {
         super.onStart()
         counterComeBackLaterInflater = 0
-        presenter.setupTimetableMoods()
+        if (moodsAdapter.itemCount > 0) presenter.updateTodaysMood()
     }
 
     private fun setupTimeline(recyclerView: RecyclerView) {
         with(recyclerView) {
-            adapter = TimelineAdapter(this@TimelineFragment)
+            adapter = MoodsAdapter(this@TimelineFragment)
             val recyclerViewManager = LinearLayoutManager(context)
             layoutManager = recyclerViewManager
             layoutAnimation =
                 AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down)
             scheduleLayoutAnimation()
-            addOnScrollListener(
-                object : PaginationScrollListener(recyclerViewManager) {
-                    override fun loadMoreItems(nextPage: Int, pageSize: Int) {
-                        isLoadingData = true
-                        presenter.requestTimetableMoodsPaged(nextPage, pageSize)
-                    }
-
-                    override val isLastPage: Boolean = false
-                    override val isLoading: Boolean = isLoadingData
-
-                }
-            )
+            paginationScrollListener = createPaginationScrollListener(recyclerViewManager)
+            addOnScrollListener(paginationScrollListener)
         }
     }
 
+    override fun updateTodaysMood(mood: TimelineMoodBOv2) {
+        moodsAdapter.updateMood(mood)
+    }
+
     override fun setPagedTimelineMoods(moods: List<TimelineMoodBOv2>) {
-        isLoadingData = false
-        val adapter = binding.timelineRecyclerView.adapter
-        (adapter as TimelineAdapter).addNextPage(moods)
+        if (moods.isEmpty()) paginationScrollListener.isLastPage = true
+        paginationScrollListener.isLoadingPage = false
+        moodsAdapter.addNextPage(moods)
     }
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBOv2, isAddingFirstMood: Boolean) {
@@ -127,7 +130,8 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
             val comeBackLaterViewHeight = binding.comeBackLaterLayout.height
             if (timelineListHeight < 100 && counterComeBackLaterInflater < 5) {
                 counterComeBackLaterInflater += 1
-                Handler().postDelayed({ setupComeBackLaterView() }, 1000)
+                Handler(Looper.getMainLooper())
+                    .postDelayed({ setupComeBackLaterView() }, 1000)
             } else {
                 val contentSum = timelineListHeight + comeBackLaterViewHeight
                 if (timelineContentLayoutHeight > contentSum) {
@@ -158,4 +162,11 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
         binding.addEmptyViewCircle.state = CircleStateBO.ADD
     }
 
+    private fun createPaginationScrollListener(layoutManager: LinearLayoutManager) =
+        object : PaginationScrollListener(layoutManager) {
+            override fun loadMoreItems(pageIndex: Int, pageSize: Int) {
+                isLoadingPage = true
+                presenter.requestTimetableMoodsPaged(pageIndex, pageSize)
+            }
+        }
 }

@@ -1,20 +1,24 @@
 package com.jemiola.moodtimeline.base
 
-import com.jemiola.moodtimeline.views.moods.calendar.CalendarContract
-import com.jemiola.moodtimeline.views.moods.calendar.CalendarPresenter
-import com.jemiola.moodtimeline.views.moods.calendar.CalendarRepository
-import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsContract
-import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsPresenter
-import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsRepository
 import com.jemiola.moodtimeline.views.editmood.EditMoodContract
 import com.jemiola.moodtimeline.views.editmood.EditMoodPresenter
 import com.jemiola.moodtimeline.views.editmood.EditMoodRepository
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsContract
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsPresenter
+import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsRepository
 import com.jemiola.moodtimeline.views.moods.MoodsContract
 import com.jemiola.moodtimeline.views.moods.MoodsPresenter
 import com.jemiola.moodtimeline.views.moods.MoodsRepository
+import com.jemiola.moodtimeline.views.moods.calendar.CalendarContract
+import com.jemiola.moodtimeline.views.moods.calendar.CalendarPresenter
+import com.jemiola.moodtimeline.views.moods.calendar.CalendarRepository
+import com.jemiola.moodtimeline.views.moods.list.MoodsAdapterPresenter
 import com.jemiola.moodtimeline.views.moods.search.SearchContract
 import com.jemiola.moodtimeline.views.moods.search.SearchPresenter
 import com.jemiola.moodtimeline.views.moods.search.SearchRepository
+import com.jemiola.moodtimeline.views.moods.timeline.TimelineContract
+import com.jemiola.moodtimeline.views.moods.timeline.TimelinePresenter
+import com.jemiola.moodtimeline.views.moods.timeline.TimelineRepository
 import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.navigation.NavigationPresenter
 import com.jemiola.moodtimeline.views.navigation.NavigationRepository
@@ -30,10 +34,6 @@ import com.jemiola.moodtimeline.views.settings.notifications.NotificationsReposi
 import com.jemiola.moodtimeline.views.splash.SplashContract
 import com.jemiola.moodtimeline.views.splash.SplashPresenter
 import com.jemiola.moodtimeline.views.splash.SplashRepository
-import com.jemiola.moodtimeline.views.moods.timeline.TimelineAdapterPresenter
-import com.jemiola.moodtimeline.views.moods.timeline.TimelineContract
-import com.jemiola.moodtimeline.views.moods.timeline.TimelinePresenter
-import com.jemiola.moodtimeline.views.moods.timeline.TimelineRepository
 import org.koin.dsl.module
 
 val navigationModule = module {
@@ -45,7 +45,7 @@ val navigationModule = module {
 
 val timelineModule = module {
     single { TimelineRepository() }
-    single { TimelineAdapterPresenter() }
+    single { MoodsAdapterPresenter() }
     factory { (view: TimelineContract.View) ->
         TimelinePresenter(view, get())
     }

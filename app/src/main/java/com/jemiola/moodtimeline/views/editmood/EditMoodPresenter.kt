@@ -1,7 +1,8 @@
 package com.jemiola.moodtimeline.views.editmood
 
 import com.jemiola.moodtimeline.base.BasePresenter
-import com.jemiola.moodtimeline.model.data.local.CircleStateBO.*
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO.ADD
+import com.jemiola.moodtimeline.model.data.local.CircleStateBO.EDIT
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.DefaultTime
 import kotlinx.coroutines.launch

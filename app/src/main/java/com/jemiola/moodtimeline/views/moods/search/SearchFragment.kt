@@ -16,9 +16,9 @@ import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import com.jemiola.moodtimeline.utils.viewpager.ViewPagerChildFragment
 import com.jemiola.moodtimeline.views.editmood.EditMoodFragment
 import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsFragment
-import com.jemiola.moodtimeline.views.moods.MoodClickActions
+import com.jemiola.moodtimeline.views.moods.list.MoodClickActions
+import com.jemiola.moodtimeline.views.moods.list.MoodsAdapter
 import com.jemiola.moodtimeline.views.moods.timeline.EMPTY_VIEW_ANIM_DURATION
-import com.jemiola.moodtimeline.views.moods.timeline.TimelineAdapter
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
@@ -27,6 +27,11 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
     override val presenter: SearchPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentSearchBinding
     private val rangePickersUtil = RangePickersUtil()
+    private var moodsAdapter: MoodsAdapter
+        get() = binding.timelineRecyclerView.adapter as MoodsAdapter
+        set(value) {
+            binding.timelineRecyclerView.adapter = value
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +49,7 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
 
     private fun setupTimeline() {
         with(binding.timelineRecyclerView) {
-            adapter = TimelineAdapter(this@SearchFragment)
+            adapter = MoodsAdapter(this@SearchFragment)
             val recyclerViewManager = LinearLayoutManager(context)
             layoutManager = recyclerViewManager
             layoutAnimation =
@@ -142,8 +147,7 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
     }
 
     override fun setMoods(moods: List<TimelineMoodBOv2>) {
-        val adapter = binding.timelineRecyclerView.adapter
-        (adapter as TimelineAdapter).setTimelineMoods(moods)
+        moodsAdapter.setTimelineMoods(moods)
     }
 
     override fun showSearchEmptyView() {

@@ -1,9 +1,9 @@
-package com.jemiola.moodtimeline.views.moods.timeline
+package com.jemiola.moodtimeline.views.moods.list
 
 import androidx.recyclerview.widget.DiffUtil
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 
-class TimelineAdapterCallback(
+class MoodsAdapterCallback(
     private val newRows: List<TimelineMoodBOv2>,
     private val oldRows: List<TimelineMoodBOv2>
 ) : DiffUtil.Callback() {
