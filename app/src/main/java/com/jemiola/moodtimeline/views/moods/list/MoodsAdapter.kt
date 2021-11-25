@@ -104,17 +104,19 @@ class MoodsAdapter(
     }
 
     fun updateMood(mood: TimelineMoodBOv2) {
-        val containsMood = moods.any { it.id == mood.id }
+        val containsMood = moods.any { it.date == mood.date }
         if (containsMood) {
-            val indexOfMoodOnList = moods.indexOfFirst { it.id == mood.id }
+            val indexOfMoodOnList = moods.indexOfFirst { it.date == mood.date }
             val mutableMoods = moods.toMutableList()
             mutableMoods[indexOfMoodOnList] = mood
             DiffUtil.calculateDiff(
                 MoodsAdapterCallback(mutableMoods, moods), false
             ).dispatchUpdatesTo(this)
             this.moods = mutableMoods
+        } else {
+            val newMoods = listOf(mood) + this.moods
+            setTimelineMoods(newMoods)
         }
-
     }
 
     fun addNextPage(nextPageMoods: List<TimelineMoodBOv2>) {

@@ -16,7 +16,7 @@ interface TimelineMoodv2Dao {
     fun getMoodsFromTo(fromDate: LocalDate, toDate: LocalDate): List<TimelineMoodDOv2>
 
     @Query("SELECT * FROM timelinemooddov2 WHERE date IS :searchedDate")
-    fun getMoodForDate(searchedDate: LocalDate): TimelineMoodDOv2
+    fun getMoodForDate(searchedDate: LocalDate): TimelineMoodDOv2?
 
     @Query("SELECT * FROM timelinemooddov2 ORDER BY date DESC LIMIT :pageSize OFFSET :pageIndex")
     fun getMoodsPaged(pageSize: Int, pageIndex: Int): List<TimelineMoodDOv2>

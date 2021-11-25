@@ -267,8 +267,15 @@ class EditMoodFragment : BaseFragment(), EditMoodContract.View, PickPhotoFragmen
 
     private fun changeTitle(title: String) {
         if (binding.titleTextView.visibility == View.VISIBLE) {
-            AnimUtils.fadeOut(ANIM_DURATION, binding.titleTextView)
+            AnimUtils.fadeOut(ANIM_DURATION, {
+                changeTitleAndFadeIn(title)
+            }, binding.titleTextView)
+        } else {
+            changeTitleAndFadeIn(title)
         }
+    }
+
+    private fun changeTitleAndFadeIn(title: String) {
         binding.titleTextView.text = title
         AnimUtils.fadeIn(ANIM_DURATION, binding.titleTextView)
     }

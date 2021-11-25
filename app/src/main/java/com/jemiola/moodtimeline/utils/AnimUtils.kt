@@ -20,7 +20,7 @@ object AnimUtils {
     }
 
     fun animateAlpha(durationToSet: Int, to: Float, vararg views: View) {
-        views.forEach {  view ->
+        views.forEach { view ->
             view.animate().apply {
                 alpha(to)
                 duration = durationToSet.toLong()
@@ -47,31 +47,37 @@ object AnimUtils {
 
     fun fadeIn(duration: Int, doOnEnd: () -> Unit = {}, vararg views: View) {
         for (view in views) {
-            view.alpha = 0f
-            view.visibility = View.VISIBLE
-            view.animate()
-                .alpha(1f)
-                .setDuration(duration.toLong())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        doOnEnd.invoke()
-                    }
-                })
+            if (view.visibility == View.GONE || view.visibility == View.INVISIBLE) {
+                view.alpha = 0f
+                view.visibility = View.VISIBLE
+                view.animate()
+                    .alpha(1f)
+                    .setDuration(duration.toLong())
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            view.visibility = View.VISIBLE
+                            doOnEnd.invoke()
+                        }
+                    })
+            }
         }
     }
 
     fun fadeOut(duration: Int, doOnEnd: () -> Unit = {}, vararg views: View) {
         for (view in views) {
-            view.alpha = 1f
-            view.visibility = View.VISIBLE
-            view.animate()
-                .alpha(0f)
-                .setDuration(duration.toLong())
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        doOnEnd.invoke()
-                    }
-                })
+            if (view.visibility == View.VISIBLE) {
+                view.alpha = 1f
+                view.visibility = View.VISIBLE
+                view.animate()
+                    .alpha(0f)
+                    .setDuration(duration.toLong())
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator) {
+                            view.visibility = View.INVISIBLE
+                            doOnEnd.invoke()
+                        }
+                    })
+            }
         }
     }
 }

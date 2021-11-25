@@ -5,6 +5,9 @@ import com.jemiola.moodtimeline.base.BaseApplication
 import com.jemiola.moodtimeline.base.BaseRepository
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
+import com.jemiola.moodtimeline.model.data.databaseobjects.MoodDO
+import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
+import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.model.data.local.convertTimelineMoodsDOtoBO
 import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase

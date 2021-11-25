@@ -1,5 +1,6 @@
 package com.jemiola.moodtimeline.base
 
+import com.jemiola.moodtimeline.exceptions.NullResponseException
 import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import kotlin.coroutines.CoroutineContext
@@ -15,15 +16,20 @@ abstract class BaseRepository : KoinComponent, CoroutineScope {
     }
 
     fun <T : Any> launchCallbackRequest(
-        request: () -> T,
+        request: () -> T?,
         onSuccess: (T) -> Unit,
         onError: (Throwable) -> Unit
     ) {
         try {
             launch {
                 val response = request.invoke()
-                launch(Dispatchers.Main) {
-                    onSuccess.invoke(response)
+                if (response != null) {
+                    launch(Dispatchers.Main) {
+                        onSuccess.invoke(response)
+                    }
+                } else {
+                    cancel()
+                    onError.invoke(NullResponseException())
                 }
             }
         } catch (error: Throwable) {

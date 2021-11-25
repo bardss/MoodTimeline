@@ -151,24 +151,20 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
     }
 
     override fun showSearchEmptyView() {
-        hideViewWhenVisible(binding.timelineRecyclerView)
-        showViewWhenHidden(binding.searchEmptyViewLayout)
+        AnimUtils.fadeOut(
+            EMPTY_VIEW_ANIM_DURATION,
+            { binding.timelineRecyclerView.visibility = View.GONE },
+            binding.timelineRecyclerView
+        )
+        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.searchEmptyViewLayout)
     }
 
     override fun showTimelineRecyclerView() {
-        showViewWhenHidden(binding.timelineRecyclerView)
-        hideViewWhenVisible(binding.searchEmptyViewLayout)
-    }
-
-    private fun showViewWhenHidden(view: View) {
-        if (view.visibility == View.GONE || view.visibility == View.INVISIBLE) {
-            AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, { view.visibility = View.VISIBLE }, view)
-        }
-    }
-
-    private fun hideViewWhenVisible(view: View) {
-        if (view.visibility != View.GONE) {
-            AnimUtils.fadeOut(EMPTY_VIEW_ANIM_DURATION, { view.visibility = View.GONE }, view)
-        }
+        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.timelineRecyclerView)
+        AnimUtils.fadeOut(
+            EMPTY_VIEW_ANIM_DURATION,
+            { binding.searchEmptyViewLayout.visibility = View.GONE },
+            binding.searchEmptyViewLayout
+        )
     }
 }

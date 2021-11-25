@@ -56,7 +56,7 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
     override fun onStart() {
         super.onStart()
         counterComeBackLaterInflater = 0
-        if (moodsAdapter.itemCount > 0) presenter.updateTodaysMood()
+        presenter.updateTodaysMood()
     }
 
     private fun setupTimeline(recyclerView: RecyclerView) {
@@ -80,6 +80,10 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
         if (moods.isEmpty()) paginationScrollListener.isLastPage = true
         paginationScrollListener.isLoadingPage = false
         moodsAdapter.addNextPage(moods)
+    }
+
+    override fun setTimelineMoods(moods: List<TimelineMoodBOv2>) {
+        moodsAdapter.setTimelineMoods(moods)
     }
 
     override fun openEditTimelineMoodActivity(mood: TimelineMoodBOv2, isAddingFirstMood: Boolean) {
@@ -169,4 +173,13 @@ class TimelineFragment : ViewPagerChildFragment(), TimelineContract.View, MoodCl
                 presenter.requestTimetableMoodsPaged(pageIndex, pageSize)
             }
         }
+
+    override fun showTimelineRecyclerView() {
+        AnimUtils.fadeIn(EMPTY_VIEW_ANIM_DURATION, binding.timelineRecyclerView)
+        AnimUtils.fadeOut(
+            EMPTY_VIEW_ANIM_DURATION,
+            { binding.addEmptyViewLayout.visibility = View.GONE },
+            binding.addEmptyViewLayout
+        )
+    }
 }

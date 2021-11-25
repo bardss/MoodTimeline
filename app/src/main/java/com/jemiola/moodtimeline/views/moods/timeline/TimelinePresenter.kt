@@ -18,6 +18,7 @@ class TimelinePresenter(
             onSuccessAction = {
                 it.circleState = CircleStateBO.EDIT
                 view.updateTodaysMood(it)
+                view.showTimelineRecyclerView()
             },
             onErrorAction = {}
         )
@@ -33,10 +34,12 @@ class TimelinePresenter(
     }
 
     private fun onGetTimetableMoodsCountSuccess(moodsCount: Int) {
-        if (moodsCount == 0) view.showAddEmptyView()
-        else {
-            view.showBottomMenu()
-            requestTimetableMoodsPaged(0, 5)
+        when (moodsCount) {
+            0 -> view.showAddEmptyView()
+            else -> {
+                view.showBottomMenu()
+                requestTimetableMoodsPaged(0, 5)
+            }
         }
     }
 
@@ -50,7 +53,8 @@ class TimelinePresenter(
 
     private fun onGetTimetableMoodsSuccess(result: List<TimelineMoodBOv2>, pageIndex: Int) {
         val moods = if (pageIndex == 0) getMoodsWithAddEditMood(result) else result
-        view.setPagedTimelineMoods(moods)
+        if (pageIndex == 0) view.setTimelineMoods(moods)
+        else view.setPagedTimelineMoods(moods)
         if (moodsWithoutAddMoodState(moods)) {
             view.setupComeBackLaterView()
         }
