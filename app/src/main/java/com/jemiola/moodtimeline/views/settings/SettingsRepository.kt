@@ -1,10 +1,10 @@
 package com.jemiola.moodtimeline.views.settings
 
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 import com.jemiola.moodtimeline.model.localdatabase.DatabaseKeys
 import com.jemiola.moodtimeline.model.localdatabase.LocalNoSQLDatabase
 
-class SettingsRepository : BaseRepository() {
+class SettingsRepository : BaseRepositoryMVP() {
 
     private val databaseNoSQL = LocalNoSQLDatabase.getInstance()
 

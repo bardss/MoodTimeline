@@ -1,23 +1,23 @@
 package com.jemiola.moodtimeline.views.moods.search
 
-import com.jemiola.moodtimeline.base.BasePresenter
+import com.jemiola.moodtimeline.base.BasePresenterMVP
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
+import com.jemiola.moodtimeline.utils.DateFormatterUtil
 import com.jemiola.moodtimeline.utils.DefaultTime
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
 import java.util.*
 
 class SearchPresenter(
     private val view: SearchContract.View,
     override val repository: SearchRepository
-) : BasePresenter(repository), SearchContract.Presenter {
+) : BasePresenterMVP(repository), SearchContract.Presenter {
 
-    override fun searchTimelineMoods() {
-        val fromDate = getFromDateFromView()
-        val toDate = getToDateFromView()
+    private val dateFormatter = DateFormatterUtil()
+
+    override fun searchTimelineMoods(fromDate: LocalDate, toDate: LocalDate) {
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(
             onSuccessAction = { onSearchTimelineMoodsSuccess(it) },
             onErrorAction = {}
@@ -34,56 +34,53 @@ class SearchPresenter(
         }
     }
 
-    override fun getDefaultFromDate(): String {
+    override fun getDefaultFromDate(locale: Locale): String {
         val defaultFromDate = repository.defaultSearchFromDate
-        val formatter = getDefaultSearchDateFormatter()
-        return defaultFromDate.format(formatter)
+        return dateFormatter.getFormattedDate(locale, defaultFromDate)
     }
 
-    override fun getDefaultToDate(): String {
+    override fun getDefaultToDate(locale: Locale): String {
         val defaultToDate = repository.defaultSearchToDate
-        val formatter = getDefaultSearchDateFormatter()
-        return defaultToDate.format(formatter)
+        return dateFormatter.getFormattedDate(locale, defaultToDate)
     }
 
-    private fun getDefaultSearchDateFormatter() =
-        DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.ENGLISH)
-
-    override fun createDateTextFrom(dayOfMonth: Int, monthOfYear: Int, year: Int): String {
+    override fun createDateTextFrom(
+        locale: Locale,
+        dayOfMonth: Int,
+        monthOfYear: Int,
+        year: Int
+    ): String {
         val selectedDate = LocalDate.of(year, monthOfYear, dayOfMonth)
-        val formatter = getDefaultSearchDateFormatter()
-        return selectedDate.format(formatter)
+        return dateFormatter.getFormattedDate(locale, selectedDate)
     }
 
-    override fun getSearchFromDateLong(): Long {
-        val fromDate = getFromDateFromView()
-        return getMilisFromDate(fromDate)
-    }
+//    override fun getSearchFromDateLong(): Long {
+//        val fromDate = getFromDateFromView()
+//        return getMilisFromDate(fromDate)
+//    }
+//
+//    override fun getSearchToDateLong(): Long {
+//        val toDate = getToDateFromView()
+//        return getMilisFromDate(toDate)
+//    }
 
-    override fun getSearchToDateLong(): Long {
-        val toDate = getToDateFromView()
-        return getMilisFromDate(toDate)
-    }
-
-    private fun getMilisFromDate(date: LocalDate): Long {
-        return LocalDateTime
-            .of(date, LocalTime.NOON)
-            .atZone(DefaultTime.getZone())
-            .toInstant()
-            .toEpochMilli()
-    }
-
-    private fun getFromDateFromView(): LocalDate {
-        val fromDateText = view.getFromDate()
-        val formatter = getDefaultSearchDateFormatter()
-        return LocalDate.parse(fromDateText, formatter)
-    }
-
-    private fun getToDateFromView(): LocalDate {
-        val fromDateText = view.getToDate()
-        val formatter = getDefaultSearchDateFormatter()
-        return LocalDate.parse(fromDateText, formatter)
-    }
+//    private fun getMilisFromDate(date: LocalDate): Long {
+//        return LocalDateTime
+//            .of(date, LocalTime.NOON)
+//            .atZone(DefaultTime.getZone())
+//            .toInstant()
+//            .toEpochMilli()
+//    }
+//
+//    private fun getFromDateFromView(locale: Locale): LocalDate {
+//        val fromDateText = view.getFromDate()
+//        return dateFormatter.getDateFromFormattedString(locale, fromDateText)
+//    }
+//
+//    private fun getToDateFromView(locale: Locale): LocalDate {
+//        val toDateText = view.getToDate()
+//        return dateFormatter.getDateFromFormattedString(locale, toDateText)
+//    }
 
     private fun changeTodayMoodToEditableStateIfNeeded(moods: List<TimelineMoodBOv2>) {
         val moodAddedToday =

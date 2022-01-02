@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.FragmentMoodsBinding
 import com.jemiola.moodtimeline.utils.viewpager.ViewPagerParentFragment
 import com.jemiola.moodtimeline.views.moods.calendar.CalendarFragment
@@ -13,7 +13,7 @@ import com.jemiola.moodtimeline.views.moods.timeline.TimelineFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-class MoodsFragment : BaseFragment(), MoodsContract.View, ViewPagerParentFragment {
+class MoodsFragment : BaseFragmentMVP(), MoodsContract.View, ViewPagerParentFragment {
 
     override val presenter: MoodsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentMoodsBinding

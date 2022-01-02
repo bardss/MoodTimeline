@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 import org.koin.core.KoinComponent
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseRepository : KoinComponent, CoroutineScope {
+abstract class BaseRepositoryMVP : KoinComponent, CoroutineScope {
 
     private val job = Job()
     override val coroutineContext: CoroutineContext

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jemiola.moodtimeline.customviews.ComfortaBoldTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:elevation="6dp"
+    android:focusable="true"
+    android:gravity="center"
+    android:padding="6dp"
+    android:textColor="@color/colorText"
+    android:textSize="@dimen/text_size_small" />

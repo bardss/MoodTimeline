@@ -1,11 +1,11 @@
 package com.jemiola.moodtimeline.views.splash
 
 import android.util.Log
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.localdatabase.RoomMigrations
 
-class SplashRepository : BaseRepository() {
+class SplashRepository : BaseRepositoryMVP() {
 
     private val timelineMoodMigration = RoomMigrations()
 

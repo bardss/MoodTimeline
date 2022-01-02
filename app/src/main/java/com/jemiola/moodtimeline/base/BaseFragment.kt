@@ -11,17 +11,7 @@ import kotlinx.coroutines.Job
 import org.koin.core.KoinComponent
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseFragment : Fragment(), KoinComponent, CoroutineScope {
-    abstract val presenter: BasePresenter
-
-    private val job = Job()
-    override val coroutineContext: CoroutineContext
-        get() = job
-
-    override fun onDestroy() {
-        presenter.cancelCoroutines()
-        super.onDestroy()
-    }
+abstract class BaseFragment : Fragment(), KoinComponent {
 
     open fun onBackPressed(): Boolean {
         return false

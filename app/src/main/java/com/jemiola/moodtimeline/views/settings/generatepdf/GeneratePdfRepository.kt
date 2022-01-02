@@ -2,7 +2,7 @@ package com.jemiola.moodtimeline.views.settings.generatepdf
 
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
@@ -13,7 +13,7 @@ import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.utils.rangepickers.RangeFormatter
 import org.threeten.bp.LocalDate
 
-class GeneratePdfRepository : BaseRepository() {
+class GeneratePdfRepository : BaseRepositoryMVP() {
 
     private val databaseSQL = Room.databaseBuilder(
         BaseApplication.context,

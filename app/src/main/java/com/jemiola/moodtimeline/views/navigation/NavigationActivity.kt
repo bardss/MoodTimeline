@@ -7,12 +7,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseActivity
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.ActivityNavigationBinding
 import com.jemiola.moodtimeline.utils.LoadingHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.moods.MoodsFragment
 import com.jemiola.moodtimeline.views.settings.SettingsFragment
+import com.jemiola.moodtimeline.views.stats.StatsFragment
 import com.ncapdevi.fragnav.FragNavController
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -34,7 +35,7 @@ class NavigationActivity : BaseActivity(),
     override val numberOfRootFragments: Int = 3
     override fun getRootFragment(index: Int): Fragment =
         when (index) {
-            TAB_STATISTICS -> Fragment()
+            TAB_STATISTICS -> StatsFragment()
             TAB_TIMELINE -> MoodsFragment()
             TAB_SETTINGS -> SettingsFragment()
             else -> Fragment()
@@ -62,7 +63,7 @@ class NavigationActivity : BaseActivity(),
     }
 
     override fun onBackPressed() {
-        val topFragment = navigation.currentStack?.lastElement() as? BaseFragment
+        val topFragment = navigation.currentStack?.lastElement() as? BaseFragmentMVP
         if (topFragment?.onBackPressed() == false) {
             if (navigation.currentStack?.size == 1) super.onBackPressed()
             else navigation.popFragment()
@@ -80,7 +81,7 @@ class NavigationActivity : BaseActivity(),
 
     private fun setupBottomNavigationClicks() {
         with(binding.menuBottomView) {
-//            statisticsLayout.setOnClickListener { highlightStatistics() }
+            statsLayout.setOnClickListener { highlightStatistics() }
             timelineLayout.setOnClickListener {
                 highlightTimeline()
             }
@@ -90,13 +91,13 @@ class NavigationActivity : BaseActivity(),
         }
     }
 
-//    private fun highlightStatistics() {
-//        navigation.switchTab(TAB_STATISTICS)
-//        highlightNavigationOption(
-//            binding.menuBottomView.statisticsImageView,
-//            binding.menuBottomView.statisticsTextView
-//        )
-//    }
+    private fun highlightStatistics() {
+        navigation.switchTab(TAB_STATISTICS)
+        highlightNavigationOption(
+            binding.menuBottomView.statsImageView,
+            binding.menuBottomView.statsTextView
+        )
+    }
 
     private fun highlightTimeline() {
         navigation.switchTab(TAB_TIMELINE)
@@ -124,10 +125,10 @@ class NavigationActivity : BaseActivity(),
     private fun unhighlightAllNavigationOptions() {
         val inactiveColor = ResUtil.getColor(this, R.color.colorBottomMenuInactive)
         with(binding.menuBottomView) {
-//            statisticsImageView.setColorFilter(inactiveColor)
+            statsImageView.setColorFilter(inactiveColor)
             timelineImageView.setColorFilter(inactiveColor)
             settingsImageView.setColorFilter(inactiveColor)
-//            statisticsTextView.setTextColor(inactiveColor)
+            statsTextView.setTextColor(inactiveColor)
             timelineTextView.setTextColor(inactiveColor)
             settingsTextView.setTextColor(inactiveColor)
         }

@@ -2,7 +2,7 @@ package com.jemiola.moodtimeline.views.settings.generatepdf
 
 import android.content.Context
 import androidx.work.*
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import java.io.File
 
 private const val WORKER_TAG = "generate_pdf_worker_tag"
@@ -15,7 +15,7 @@ class GeneratePdfWorkManager(context: Context) {
         .build()
 
     fun runGeneratePdfRequest(
-        lifecycleOwner: BaseFragment,
+        lifecycleOwner: BaseFragmentMVP,
         fromDateString: String,
         toDateString: String,
         onGeneratePdfFinish: (File) -> Unit,

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.FragmentSettingsBinding
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.AppThemeHandler
@@ -18,7 +18,7 @@ import org.koin.core.parameter.parametersOf
 
 private const val ANIM_DURATION = 500
 
-class SettingsFragment : BaseFragment(), SettingsContract.View {
+class SettingsFragment : BaseFragmentMVP(), SettingsContract.View {
 
     override val presenter: SettingsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentSettingsBinding

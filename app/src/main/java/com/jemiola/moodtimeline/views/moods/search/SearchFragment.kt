@@ -11,6 +11,8 @@ import com.jemiola.moodtimeline.databinding.FragmentSearchBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
+import com.jemiola.moodtimeline.utils.DateFormatterUtil
+import com.jemiola.moodtimeline.utils.LocaleUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import com.jemiola.moodtimeline.utils.viewpager.ViewPagerChildFragment
@@ -68,7 +70,7 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
         setupSearchDefaultValues()
         setupSearchEditTextColors()
         setupSearchCalendars()
-        presenter.searchTimelineMoods()
+        searchTimelineMoods()
     }
 
     private fun setupSearchCalendars() {
@@ -79,14 +81,24 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
                 it,
                 fromEditText,
                 toEditText
-            ) { presenter.searchTimelineMoods() }
+            ) { searchTimelineMoods() }
         }
     }
 
+    private fun searchTimelineMoods() {
+        val fromText = binding.fromEditText.text.toString()
+        val toText = binding.toEditText.text.toString()
+        val formatter = DateFormatterUtil()
+        val locale = LocaleUtil.getSystemLocale(requireContext())
+        val fromDate = formatter.getDateFromFormattedString(locale, fromText)
+        val toDate = formatter.getDateFromFormattedString(locale, toText)
+        presenter.searchTimelineMoods(fromDate, toDate)
+    }
 
     private fun setupSearchDefaultValues() {
-        val fromDate = presenter.getDefaultFromDate()
-        val toDate = presenter.getDefaultToDate()
+        val locale = LocaleUtil.getSystemLocale(requireContext())
+        val fromDate = presenter.getDefaultFromDate(locale)
+        val toDate = presenter.getDefaultToDate(locale)
         binding.fromEditText.setText(fromDate)
         binding.toEditText.setText(toDate)
     }

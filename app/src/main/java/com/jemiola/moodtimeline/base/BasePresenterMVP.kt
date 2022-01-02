@@ -6,8 +6,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlin.coroutines.CoroutineContext
 
-abstract class BasePresenter(
-    open val repository: BaseRepository
+abstract class BasePresenterMVP(
+    open val repository: BaseRepositoryMVP
 ): CoroutineScope {
 
     private val job = Job()

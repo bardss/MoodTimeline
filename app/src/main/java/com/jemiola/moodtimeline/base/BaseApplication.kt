@@ -22,17 +22,7 @@ class BaseApplication : Application() {
             androidContext(this@BaseApplication)
             koin.loadModules(
                 listOf(
-                    timelineModule,
-                    editTimelineItemModule,
-                    splashModule,
-                    navigationModule,
-                    detailsTimelineItemModule,
-                    calendarModule,
-                    settingsModule,
-                    generatePdfModule,
-                    notificationModule,
-                    moodsModule,
-                    searchModule
+                    mvpViewsModule
                 )
             )
             koin.createRootScope()

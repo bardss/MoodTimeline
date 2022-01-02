@@ -1,8 +1,8 @@
 package com.jemiola.moodtimeline.views.navigation
 
-import com.jemiola.moodtimeline.base.BasePresenter
+import com.jemiola.moodtimeline.base.BasePresenterMVP
 
 class NavigationPresenter(
     private val view: NavigationContract.View,
     override val repository: NavigationRepository
-) : BasePresenter(repository), NavigationContract.Presenter
+) : BasePresenterMVP(repository), NavigationContract.Presenter

@@ -1,6 +1,6 @@
 package com.jemiola.moodtimeline.views.moods.calendar
 
-import com.jemiola.moodtimeline.base.BasePresenter
+import com.jemiola.moodtimeline.base.BasePresenterMVP
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import org.threeten.bp.LocalDate
 import org.threeten.bp.Month
@@ -10,7 +10,7 @@ import java.util.*
 class CalendarPresenter(
     private val view: CalendarContract.View,
     override val repository: CalendarRepository
-) : BasePresenter(repository), CalendarContract.Presenter {
+) : BasePresenterMVP(repository), CalendarContract.Presenter {
 
     override fun setupCalendar() {
         val callback = createRepositoryCallback<List<TimelineMoodBOv2>>(

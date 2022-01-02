@@ -1,6 +1,6 @@
 package com.jemiola.moodtimeline.views.moods.timeline
 
-import com.jemiola.moodtimeline.base.BasePresenter
+import com.jemiola.moodtimeline.base.BasePresenterMVP
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
@@ -10,7 +10,7 @@ import org.threeten.bp.LocalDate
 class TimelinePresenter(
     private val view: TimelineContract.View,
     override val repository: TimelineRepository
-) : BasePresenter(repository), TimelineContract.Presenter {
+) : BasePresenterMVP(repository), TimelineContract.Presenter {
 
     override fun updateTodaysMood() {
         val today = LocalDate.now(DefaultTime.getClock())

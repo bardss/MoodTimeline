@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ScrollView
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.customviews.pickphoto.PickPhotoFragment
 import com.jemiola.moodtimeline.databinding.FragmentEditTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
@@ -25,7 +25,7 @@ import org.threeten.bp.LocalDate
 
 const val ANIM_DURATION = 200
 
-class EditMoodFragment : BaseFragment(), EditMoodContract.View, PickPhotoFragment,
+class EditMoodFragment : BaseFragmentMVP(), EditMoodContract.View, PickPhotoFragment,
     SpeechToTextOutput {
 
     override val presenter: EditMoodPresenter by inject { parametersOf(this) }

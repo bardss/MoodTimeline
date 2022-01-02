@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jemiola.moodtimeline.R
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.FragmentGeneratePdfBinding
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.ResUtil
@@ -20,7 +20,7 @@ import java.io.File
 private const val FAST_ANIM_DURATION = 200
 private const val ANIM_DURATION = 500
 
-class GeneratePdfFragment : BaseFragment(), GeneratePdfContract.View {
+class GeneratePdfFragment : BaseFragmentMVP(), GeneratePdfContract.View {
 
     override val presenter: GeneratePdfPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentGeneratePdfBinding

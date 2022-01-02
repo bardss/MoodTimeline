@@ -12,34 +12,34 @@
         android:elevation="5dp"
         android:paddingTop="6dp">
 
-        <!--    <LinearLayout-->
-        <!--        android:id="@+id/statisticsLayout"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="match_parent"-->
-        <!--        android:layout_weight="1"-->
-        <!--        android:clickable="true"-->
-        <!--        android:focusable="true"-->
-        <!--        android:gravity="center"-->
-        <!--        android:orientation="vertical">-->
+        <LinearLayout
+            android:id="@+id/statsLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <!--        <ImageView-->
-        <!--            android:id="@+id/statisticsImageView"-->
-        <!--            android:layout_width="24dp"-->
-        <!--            android:layout_height="24dp"-->
-        <!--            android:layout_gravity="center_horizontal"-->
-        <!--            android:src="@drawable/ic_statistics" />-->
+            <ImageView
+                android:id="@+id/statsImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_stats" />
 
-        <!--        <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView-->
-        <!--            android:id="@+id/statisticsTextView"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_gravity="center_horizontal"-->
-        <!--            android:text="@string/statistics"-->
-        <!--            android:textAlignment="center"-->
-        <!--            android:textColor="@color/colorBottomMenuInactive"-->
-        <!--            android:textSize="12sp" />-->
+            <com.jemiola.moodtimeline.customviews.ComfortaRegularTextView
+                android:id="@+id/statsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/stats"
+                android:textAlignment="center"
+                android:textColor="@color/colorBottomMenuInactive"
+                android:textSize="12sp" />
 
-        <!--    </LinearLayout>-->
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/timelineLayout"

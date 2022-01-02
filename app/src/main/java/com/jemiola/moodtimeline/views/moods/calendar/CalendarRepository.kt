@@ -2,7 +2,7 @@ package com.jemiola.moodtimeline.views.moods.calendar
 
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
@@ -12,7 +12,7 @@ import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 import com.jemiola.moodtimeline.utils.DefaultTime
 import org.threeten.bp.LocalDate
 
-class CalendarRepository : BaseRepository() {
+class CalendarRepository : BaseRepositoryMVP() {
 
     var currentMonthDate: LocalDate = LocalDate.now(DefaultTime.getClock())
 

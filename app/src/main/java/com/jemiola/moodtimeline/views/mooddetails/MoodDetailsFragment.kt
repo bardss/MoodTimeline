@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.FragmentDetailsTimelineMoodBinding
 import com.jemiola.moodtimeline.model.data.ExtraKeys
 import com.jemiola.moodtimeline.model.data.local.CircleMoodBO
@@ -16,7 +16,7 @@ import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
-class MoodDetailsFragment : BaseFragment(), MoodDetailsContract.View {
+class MoodDetailsFragment : BaseFragmentMVP(), MoodDetailsContract.View {
 
     override val presenter: MoodDetailsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentDetailsTimelineMoodBinding

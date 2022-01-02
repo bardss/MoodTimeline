@@ -1,6 +1,6 @@
 package com.jemiola.moodtimeline.views.editmood
 
-import com.jemiola.moodtimeline.base.BasePresenter
+import com.jemiola.moodtimeline.base.BasePresenterMVP
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO.ADD
 import com.jemiola.moodtimeline.model.data.local.CircleStateBO.EDIT
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
@@ -13,7 +13,7 @@ import java.util.*
 class EditMoodPresenter(
     private val view: EditMoodContract.View,
     override val repository: EditMoodRepository
-) : BasePresenter(repository), EditMoodContract.Presenter {
+) : BasePresenterMVP(repository), EditMoodContract.Presenter {
 
     override fun saveOpenedMoodId(id: Int?) {
         repository.setOpenedMoodId(id)

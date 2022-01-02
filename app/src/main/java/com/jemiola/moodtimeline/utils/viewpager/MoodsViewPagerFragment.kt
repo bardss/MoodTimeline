@@ -1,13 +1,13 @@
 package com.jemiola.moodtimeline.utils.viewpager
 
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 
 interface ViewPagerParentFragment {
     fun swipeLeft()
     fun swipeRight()
 }
 
-abstract class ViewPagerChildFragment : BaseFragment() {
+abstract class ViewPagerChildFragment : BaseFragmentMVP() {
 
     fun swipeViewPagerLeft() {
         (parentFragment as ViewPagerParentFragment).swipeLeft()

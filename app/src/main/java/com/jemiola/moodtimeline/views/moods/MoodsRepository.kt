@@ -1,5 +1,5 @@
 package com.jemiola.moodtimeline.views.moods
 
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 
-class MoodsRepository: BaseRepository()
+class MoodsRepository: BaseRepositoryMVP()

@@ -1,5 +1,5 @@
 package com.jemiola.moodtimeline.views.navigation
 
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 
-class NavigationRepository : BaseRepository()
+class NavigationRepository : BaseRepositoryMVP()

@@ -2,7 +2,7 @@ package com.jemiola.moodtimeline.views.editmood
 
 import androidx.room.Room
 import com.jemiola.moodtimeline.base.BaseApplication
-import com.jemiola.moodtimeline.base.BaseRepository
+import com.jemiola.moodtimeline.base.BaseRepositoryMVP
 import com.jemiola.moodtimeline.base.DatabasesNames
 import com.jemiola.moodtimeline.model.data.callbacks.OnRepositoryCallback
 import com.jemiola.moodtimeline.model.data.databaseobjects.MoodDO
@@ -10,7 +10,7 @@ import com.jemiola.moodtimeline.model.data.databaseobjects.TimelineMoodDOv2
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.model.localdatabase.LocalSQLDatabase
 
-class EditMoodRepository : BaseRepository() {
+class EditMoodRepository : BaseRepositoryMVP() {
 
     private val database = Room.databaseBuilder(
         BaseApplication.context,

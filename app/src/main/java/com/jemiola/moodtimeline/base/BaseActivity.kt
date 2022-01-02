@@ -5,7 +5,7 @@ import org.koin.core.KoinComponent
 
 abstract class BaseActivity : AppCompatActivity(), KoinComponent {
 
-    abstract val presenter: BasePresenter
+    abstract val presenter: BasePresenterMVP
 
     override fun onDestroy() {
         presenter.cancelCoroutines()

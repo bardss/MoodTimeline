@@ -5,7 +5,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.FragmentNotificationsBinding
 import com.jemiola.moodtimeline.utils.*
 import org.koin.core.inject
@@ -16,7 +16,7 @@ import java.util.*
 private const val FAST_ANIM_DURATION = 200
 private const val SUCCESS_DIALOG_DURATION = 3500
 
-class NotificationsFragment : BaseFragment(), NotificationsContract.View {
+class NotificationsFragment : BaseFragmentMVP(), NotificationsContract.View {
 
     override val presenter: NotificationsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentNotificationsBinding

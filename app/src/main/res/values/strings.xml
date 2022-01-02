@@ -3,7 +3,7 @@
     <string name="timeline">Timeline</string>
     <string name="add_note">Add note</string>
     <string name="edit_note">Edit note</string>
-    <string name="statistics">Statistics</string>
+    <string name="stats">Stats</string>
     <string name="settings">Settings</string>
     <string name="note">Note</string>
     <string name="mood">Mood</string>
@@ -52,4 +52,8 @@
     <string name="app_notification">MoodTimeline Notifications</string>
     <string name="add_note_notification_title">Reminder!\nRemember to save your mood today!</string>
     <string name="reminder">Reminder</string>
+    <string name="period">Period</string>
+    <string name="month">Month</string>
+    <string name="week">Week</string>
+    <string name="year">Year</string>
 </resources>
