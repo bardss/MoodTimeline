@@ -122,4 +122,8 @@ class MultipartRadioButton : LinearLayout {
     fun setButtonClickListener(listener: (String) -> Unit) {
         this.listener = listener
     }
+
+    fun clickChildAt(position: Int) {
+        getChildAt(position).performClick()
+    }
 }

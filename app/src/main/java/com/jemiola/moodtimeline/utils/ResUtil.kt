@@ -3,8 +3,12 @@ package com.jemiola.moodtimeline.utils
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
+import androidx.core.content.res.ResourcesCompat
+import com.jemiola.moodtimeline.base.BaseApplication
+import com.jemiola.moodtimeline.customviews.Typefaces
 
 object ResUtil {
 
@@ -35,11 +39,19 @@ object ResUtil {
         return resources.getBoolean(resourceId)
     }
 
-    fun getDrawable(context: Context?, resourceId: Int): Drawable? {
-        return context!!.resources.getDrawable(resourceId, context.theme)
+    fun getDrawable(context: Context, resourceId: Int): Drawable? {
+        return ResourcesCompat.getDrawable(context.resources, resourceId, context.theme)
     }
 
     fun getDimenDp(resources: Resources, resourceId: Int): Int {
         return (resources.getDimension(resourceId) / resources.displayMetrics.density).toInt()
+    }
+
+    fun getDimenSp(resources: Resources, resourceId: Int): Float {
+        return resources.getDimension(resourceId)
+    }
+
+    fun getTypeface(typeface: Typefaces): Typeface {
+        return Typeface.createFromAsset(BaseApplication.context.assets, "fonts/${typeface.path}")
     }
 }

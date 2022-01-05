@@ -6,8 +6,6 @@ import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.DateFormatterUtil
 import com.jemiola.moodtimeline.utils.DefaultTime
 import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
 import java.util.*
 
 class SearchPresenter(

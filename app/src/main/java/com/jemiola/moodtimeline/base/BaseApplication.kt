@@ -22,7 +22,8 @@ class BaseApplication : Application() {
             androidContext(this@BaseApplication)
             koin.loadModules(
                 listOf(
-                    mvpViewsModule
+                    mvpViewsModule,
+                    mvvmViewsModule
                 )
             )
             koin.createRootScope()

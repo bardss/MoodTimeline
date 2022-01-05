@@ -58,8 +58,8 @@ class SettingsFragment : BaseFragmentMVP(), SettingsContract.View {
             else -> ""
         }
         val themeIcon = when (appTheme) {
-            AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getDrawable(context, R.drawable.ic_sun)
-            AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getDrawable(context, R.drawable.ic_moon)
+            AppCompatDelegate.MODE_NIGHT_NO -> ResUtil.getDrawable(requireContext(), R.drawable.ic_sun)
+            AppCompatDelegate.MODE_NIGHT_YES -> ResUtil.getDrawable(requireContext(), R.drawable.ic_moon)
             else -> null
         }
         binding.appThemeValueTextView.text = themeText
@@ -122,7 +122,7 @@ class SettingsFragment : BaseFragmentMVP(), SettingsContract.View {
     override fun setNotificationOff() {
         binding.notificationTimeTextView.visibility = View.GONE
         binding.notificationImageView.setImageDrawable(
-            ResUtil.getDrawable(context, R.drawable.ic_timer_off)
+            ResUtil.getDrawable(requireContext(), R.drawable.ic_timer_off)
         )
     }
 
@@ -130,7 +130,7 @@ class SettingsFragment : BaseFragmentMVP(), SettingsContract.View {
         binding.notificationTimeTextView.text = notificationTime
         binding.notificationTimeTextView.visibility = View.VISIBLE
         binding.notificationImageView.setImageDrawable(
-            ResUtil.getDrawable(context, R.drawable.ic_timer_on)
+            ResUtil.getDrawable(requireContext(), R.drawable.ic_timer_on)
         )
     }
 }

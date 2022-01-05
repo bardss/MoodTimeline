@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import com.jemiola.moodtimeline.utils.ResUtil
 
 
 class ComfortaBoldTextView : AppCompatTextView {
@@ -19,6 +20,6 @@ class ComfortaBoldTextView : AppCompatTextView {
     )
 
     init {
-        typeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
+        typeface = ResUtil.getTypeface(Typefaces.COMFORTAA_BOLD)
     }
 }

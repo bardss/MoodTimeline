@@ -1,6 +1,6 @@
 package com.jemiola.moodtimeline.views.moods
 
-class MoodsContract {
+class MainMoodsContract {
     interface Presenter
     interface View
 }

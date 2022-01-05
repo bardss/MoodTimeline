@@ -13,11 +13,11 @@ import com.jemiola.moodtimeline.views.moods.timeline.TimelineFragment
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-class MoodsFragment : BaseFragmentMVP(), MoodsContract.View, ViewPagerParentFragment {
+class MainMoodsFragment : BaseFragmentMVP(), MainMoodsContract.View, ViewPagerParentFragment {
 
-    override val presenter: MoodsPresenter by inject { parametersOf(this) }
+    override val presenter: MainMoodsPresenter by inject { parametersOf(this) }
     private lateinit var binding: FragmentMoodsBinding
-    private lateinit var pagerAdapter: MoodsPagerAdapter
+    private lateinit var pagerAdapter: MainMoodsPagerAdapter
     private val pagerFragments = listOf(
         CalendarFragment(),
         TimelineFragment(),
@@ -37,7 +37,7 @@ class MoodsFragment : BaseFragmentMVP(), MoodsContract.View, ViewPagerParentFrag
     }
 
     private fun setupViewPager() {
-        pagerAdapter = MoodsPagerAdapter(this)
+        pagerAdapter = MainMoodsPagerAdapter(this)
         pagerAdapter.setFragments(pagerFragments)
         binding.viewPager.adapter = pagerAdapter
         binding.viewPager.setCurrentItem(1, false)

@@ -11,7 +11,7 @@ import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.ActivityNavigationBinding
 import com.jemiola.moodtimeline.utils.LoadingHandler
 import com.jemiola.moodtimeline.utils.ResUtil
-import com.jemiola.moodtimeline.views.moods.MoodsFragment
+import com.jemiola.moodtimeline.views.moods.MainMoodsFragment
 import com.jemiola.moodtimeline.views.settings.SettingsFragment
 import com.jemiola.moodtimeline.views.stats.StatsFragment
 import com.ncapdevi.fragnav.FragNavController
@@ -36,7 +36,7 @@ class NavigationActivity : BaseActivity(),
     override fun getRootFragment(index: Int): Fragment =
         when (index) {
             TAB_STATISTICS -> StatsFragment()
-            TAB_TIMELINE -> MoodsFragment()
+            TAB_TIMELINE -> MainMoodsFragment()
             TAB_SETTINGS -> SettingsFragment()
             else -> Fragment()
         }

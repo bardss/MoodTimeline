@@ -1,8 +1,6 @@
 package com.jemiola.moodtimeline.views.stats
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +9,14 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseFragment
+import com.jemiola.moodtimeline.customviews.Typefaces
 import com.jemiola.moodtimeline.databinding.FragmentStatsBinding
+import com.jemiola.moodtimeline.model.data.local.MoodsCountByType
 import com.jemiola.moodtimeline.utils.DateFormatterUtil
 import com.jemiola.moodtimeline.utils.LocaleUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.stats.StatsRange.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 import org.threeten.bp.LocalDate
 
 
@@ -34,10 +33,18 @@ class StatsFragment : BaseFragment() {
     ): View {
         if (!this::binding.isInitialized) {
             binding = FragmentStatsBinding.inflate(inflater, container, false)
-            setupDummyPieChart()
+            setupPieChart()
             setupRangeMultipartButton()
         }
+        setupMoodsObserver()
+        binding.rangeMultipartButton.clickChildAt(0)
         return binding.root
+    }
+
+    private fun setupMoodsObserver() {
+        viewModel.moodsCountByType.observe(viewLifecycleOwner) { moodsCountByType ->
+            setPieChartData(moodsCountByType)
+        }
     }
 
     private fun setupRangeMultipartButton() {
@@ -52,7 +59,6 @@ class StatsFragment : BaseFragment() {
 
     private fun setChartRange(range: StatsRange) {
         val dateTo = LocalDate.now()
-        Log.e("Range", range.toString())
         val dateFrom = when (range) {
             YEAR -> dateTo.minusYears(1)
             MONTH -> dateTo.minusMonths(1)
@@ -61,34 +67,66 @@ class StatsFragment : BaseFragment() {
         val locale = LocaleUtil.getSystemLocale(requireContext())
         val dateToFormatted = dateFormatter.getFormattedDate(locale, dateTo)
         val dateFromFormatted = dateFormatter.getFormattedDate(locale, dateFrom)
-        binding.fromEditText.setText(dateFromFormatted)
-        binding.toEditText.setText(dateToFormatted)
+        val previousFromText = binding.fromEditText.text.toString()
+        if (previousFromText != dateFromFormatted) {
+            binding.fromEditText.setText(dateFromFormatted)
+            viewModel.setPieChartDateFrom(dateFrom)
+        }
+        val previousToText = binding.fromEditText.text.toString()
+        if (previousToText != dateToFormatted) {
+            binding.toEditText.setText(dateToFormatted)
+            viewModel.setPieChartDateTo(dateTo)
+        }
     }
 
-    private fun setupDummyPieChart() {
-        val label = "Label"
+    private fun setupPieChart() {
+        with (binding.chartView) {
+            isHighlightPerTapEnabled = true
+            isRotationEnabled = false
+            description.isEnabled = false
+            invalidate()
+        }
+    }
+
+    private fun setPieChartData(moodsCountByType: MoodsCountByType) {
         val entries = mutableListOf<PieEntry>()
-        entries.add(PieEntry(120f))
-        entries.add(PieEntry(100f))
-        entries.add(PieEntry(50f))
-        entries.add(PieEntry(250f))
-        entries.add(PieEntry(70f))
-        val dataSet = PieDataSet(entries, label)
-        dataSet.colors = getPieChartColors(requireContext())
+        val colors = mutableListOf<Int>()
+        if (moodsCountByType.veryGood != 0) {
+            entries.add(PieEntry(moodsCountByType.veryGood.toFloat()))
+            colors.add(ResUtil.getColor(context, R.color.colorMoodVeryGood))
+        }
+        if (moodsCountByType.good != 0) {
+            entries.add(PieEntry(moodsCountByType.good.toFloat()))
+            colors.add(ResUtil.getColor(context, R.color.colorMoodGood))
+        }
+        if (moodsCountByType.mediocre != 0) {
+            entries.add(PieEntry(moodsCountByType.mediocre.toFloat()))
+            colors.add(ResUtil.getColor(context, R.color.colorMoodMediocre))
+        }
+        if (moodsCountByType.bad != 0) {
+            entries.add(PieEntry(moodsCountByType.bad.toFloat()))
+            colors.add(ResUtil.getColor(context, R.color.colorMoodBad))
+        }
+        if (moodsCountByType.veryBad != 0) {
+            entries.add(PieEntry(moodsCountByType.veryBad.toFloat()))
+            colors.add(ResUtil.getColor(context, R.color.colorMoodVeryBad))
+        }
+        val dataSet = PieDataSet(entries, ResUtil.getString(resources, R.string.moods))
+        dataSet.colors = colors
         val data = PieData(dataSet)
-        data.setDrawValues(true)
+        prepareDataToDraw(data, moodsCountByType.getSum())
         binding.chartView.data = data
-        binding.chartView.setUsePercentValues(true)
-        binding.chartView.isHighlightPerTapEnabled = true
-        binding.chartView.isRotationEnabled = false
         binding.chartView.invalidate()
     }
 
-    private fun getPieChartColors(context: Context) = mutableListOf(
-        ResUtil.getColor(context, R.color.colorMoodVeryGood),
-        ResUtil.getColor(context, R.color.colorMoodGood),
-        ResUtil.getColor(context, R.color.colorMoodMediocre),
-        ResUtil.getColor(context, R.color.colorMoodBad),
-        ResUtil.getColor(context, R.color.colorMoodVeryBad)
-    )
+    private fun prepareDataToDraw(data: PieData, allValuesSum: Int) {
+        data.setDrawValues(true)
+        data.setValueFormatter(PieDataFormatter(allValuesSum))
+        data.setValueTextColor(ResUtil.getColor(requireContext(), R.color.colorTextWhite))
+        val textSize = ResUtil.getDimenDp(resources, R.dimen.text_size_medium).toFloat()
+        data.setValueTextSize(textSize)
+        data.setValueTypeface(ResUtil.getTypeface(Typefaces.COMFORTAA_BOLD))
+    }
 }
+
+

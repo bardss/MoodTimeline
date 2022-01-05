@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
+import com.jemiola.moodtimeline.utils.ResUtil
 
 class RalewayRegularTextView : AppCompatTextView {
 
@@ -18,6 +19,6 @@ class RalewayRegularTextView : AppCompatTextView {
     )
 
     init {
-        typeface = Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
+        typeface = ResUtil.getTypeface(Typefaces.RALEWAY_REGULAR)
     }
 }

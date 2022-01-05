@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.pdf.PdfDocument
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.base.BaseApplication.Companion.context
+import com.jemiola.moodtimeline.customviews.Typefaces
 import com.jemiola.moodtimeline.model.data.local.MoodPdfPageInfo
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.ImageUtils
@@ -40,9 +41,8 @@ private const val SPACE_BETWEEN_PICTURES = 12f
 class MoodsPdfGenerator {
 
     private val pdfGeneratorFileManager = PdfGeneratorFileManager()
-    private val defaultTypeface =
-        Typeface.createFromAsset(context.assets, "fonts/Raleway-Regular.ttf")
-    private val boldTypeface = Typeface.createFromAsset(context.assets, "fonts/Comfortaa-Bold.ttf")
+    private val defaultTypeface = ResUtil.getTypeface(Typefaces.RALEWAY_REGULAR)
+    private val boldTypeface = ResUtil.getTypeface(Typefaces.COMFORTAA_BOLD)
 
     fun generatePdf(context: Context, moods: List<TimelineMoodBOv2>): File {
         val moodsFromOldestToNewest = moods.reversed()

@@ -3,7 +3,7 @@ package com.jemiola.moodtimeline.views.moods
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class MoodsPagerAdapter(parent: Fragment) : FragmentStateAdapter(parent) {
+class MainMoodsPagerAdapter(parent: Fragment) : FragmentStateAdapter(parent) {
 
     private val pagerFragments = mutableListOf<Fragment>()
 

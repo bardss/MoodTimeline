@@ -1,14 +1,15 @@
 package com.jemiola.moodtimeline.base
 
+import com.jemiola.moodtimeline.repositorymvvm.MoodsRepository
 import com.jemiola.moodtimeline.views.editmood.EditMoodContract
 import com.jemiola.moodtimeline.views.editmood.EditMoodPresenter
 import com.jemiola.moodtimeline.views.editmood.EditMoodRepository
 import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsContract
 import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsPresenter
 import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsRepository
-import com.jemiola.moodtimeline.views.moods.MoodsContract
-import com.jemiola.moodtimeline.views.moods.MoodsPresenter
-import com.jemiola.moodtimeline.views.moods.MoodsRepository
+import com.jemiola.moodtimeline.views.moods.MainMoodsContract
+import com.jemiola.moodtimeline.views.moods.MainMoodsPresenter
+import com.jemiola.moodtimeline.views.moods.MainMoodsRepository
 import com.jemiola.moodtimeline.views.moods.calendar.CalendarContract
 import com.jemiola.moodtimeline.views.moods.calendar.CalendarPresenter
 import com.jemiola.moodtimeline.views.moods.calendar.CalendarRepository
@@ -34,6 +35,8 @@ import com.jemiola.moodtimeline.views.settings.notifications.NotificationsReposi
 import com.jemiola.moodtimeline.views.splash.SplashContract
 import com.jemiola.moodtimeline.views.splash.SplashPresenter
 import com.jemiola.moodtimeline.views.splash.SplashRepository
+import com.jemiola.moodtimeline.views.stats.StatsViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val mvpViewsModule = module {
@@ -83,13 +86,21 @@ val mvpViewsModule = module {
         NotificationsPresenter(view, get())
     }
 
-    single { MoodsRepository() }
-    factory { (view: MoodsContract.View) ->
-        MoodsPresenter(view, get())
+    single { MainMoodsRepository() }
+    factory { (view: MainMoodsContract.View) ->
+        MainMoodsPresenter(view, get())
     }
 
     single { SearchRepository() }
     factory { (view: SearchContract.View) ->
         SearchPresenter(view, get())
     }
+}
+
+val mvvmViewsModule = module {
+    single {
+        MoodsRepository()
+    }
+
+    viewModel { StatsViewModel(get()) }
 }
