@@ -6,8 +6,8 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.jemiola.moodtimeline.utils.pdfgenerator.MoodsPdfGenerator
 import com.jemiola.moodtimeline.utils.rangepickers.RangeFormatter
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.threeten.bp.LocalDate
 
 const val INPUT_FROM_KEY = "from"

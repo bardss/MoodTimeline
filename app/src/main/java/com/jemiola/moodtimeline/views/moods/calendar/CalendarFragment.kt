@@ -19,7 +19,7 @@ import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.disableFor
 import com.jemiola.moodtimeline.utils.viewpager.ViewPagerChildFragment
 import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsFragment
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class CalendarFragment : ViewPagerChildFragment(), CalendarContract.View {

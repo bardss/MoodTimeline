@@ -6,13 +6,19 @@ import java.util.*
 
 class DateFormatterUtil {
 
-    private fun getDateFormat(locale: Locale) = when (locale) {
-        Locale.US, Locale.CANADA -> DateTimeFormatter.ofPattern("MM.dd.yyyy")
+    fun getDateFormat(locale: Locale): DateTimeFormatter = when (locale) {
+        Locale.US, Locale.CANADA -> DateTimeFormatter.ofPattern("MM-dd-yyyy")
         else -> DateTimeFormatter.ofPattern("dd.MM.yyyy")
     }
 
-    fun getFormattedDate(locale: Locale, date: LocalDate) = getDateFormat(locale).format(date)
+    fun getFormattedDate(locale: Locale, date: LocalDate): String = getDateFormat(locale).format(date)
 
-    fun getDateFromFormattedString(locale: Locale, date: String) =
+    fun getDateFromFormattedString(locale: Locale, date: String): LocalDate =
         LocalDate.parse(date, getDateFormat(locale))
+
+    fun createDateTextFrom(locale: Locale, dayOfMonth: Int, monthOfYear: Int, year: Int): String {
+        val selectedDate = LocalDate.of(year, monthOfYear, dayOfMonth)
+        val formatter = getDateFormat(locale)
+        return selectedDate.format(formatter)
+    }
 }

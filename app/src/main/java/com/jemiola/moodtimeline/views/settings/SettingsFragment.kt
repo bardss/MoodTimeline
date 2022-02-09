@@ -13,7 +13,7 @@ import com.jemiola.moodtimeline.utils.AppThemeHandler
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.views.settings.generatepdf.GeneratePdfFragment
 import com.jemiola.moodtimeline.views.settings.notifications.NotificationsFragment
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 private const val ANIM_DURATION = 500

@@ -16,8 +16,8 @@ import com.jemiola.moodtimeline.utils.ImageUtils
 import com.jemiola.moodtimeline.utils.PermissionsUtil
 import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.SizeUtils
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class MoodsAdapter(
     private val clickActions: MoodClickActions

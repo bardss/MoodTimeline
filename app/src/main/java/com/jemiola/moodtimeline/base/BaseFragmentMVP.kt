@@ -8,7 +8,7 @@ import com.jemiola.moodtimeline.views.navigation.NavigationContract
 import com.jemiola.moodtimeline.views.splash.SplashActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseFragmentMVP : BaseFragment(), KoinComponent, CoroutineScope {

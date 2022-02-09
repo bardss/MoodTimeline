@@ -8,8 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.forEach
+import androidx.core.view.forEachIndexed
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.utils.disableFor
+import com.jemiola.moodtimeline.utils.setOnClickListenerWithDebounce
 
 class MultipartRadioButton : LinearLayout {
 
@@ -68,7 +72,7 @@ class MultipartRadioButton : LinearLayout {
                     .inflate(R.layout.layout_multipart_button_divider, this)
             }
             (button.layoutParams as LayoutParams).weight = 1f
-            button.setOnClickListener {
+            button.setOnClickListenerWithDebounce {
                 changeBackgroundOnClick(button)
                 invokeCurrentListener(buttonValues[i])
             }
@@ -125,5 +129,12 @@ class MultipartRadioButton : LinearLayout {
 
     fun clickChildAt(position: Int) {
         getChildAt(position).performClick()
+    }
+
+    fun unselectAll() {
+        forEachIndexed { i, view ->
+            val background = getButtonBackgroundUnselected(i)
+            view.background = background
+        }
     }
 }

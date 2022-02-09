@@ -13,7 +13,7 @@ import com.jemiola.moodtimeline.utils.ResUtil
 import com.jemiola.moodtimeline.utils.pdfgenerator.PDF_GENERATOR_ENVIRONMENT_DIR
 import com.jemiola.moodtimeline.utils.pdfgenerator.PdfGeneratorFileManager
 import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.io.File
 

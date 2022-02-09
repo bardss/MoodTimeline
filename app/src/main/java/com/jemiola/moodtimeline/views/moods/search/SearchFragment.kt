@@ -21,7 +21,7 @@ import com.jemiola.moodtimeline.views.mooddetails.MoodDetailsFragment
 import com.jemiola.moodtimeline.views.moods.list.MoodClickActions
 import com.jemiola.moodtimeline.views.moods.list.MoodsAdapter
 import com.jemiola.moodtimeline.views.moods.timeline.EMPTY_VIEW_ANIM_DURATION
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickActions {
@@ -74,15 +74,14 @@ class SearchFragment : ViewPagerChildFragment(), SearchContract.View, MoodClickA
     }
 
     private fun setupSearchCalendars() {
-        context?.let {
-            val fromEditText = binding.fromEditText
-            val toEditText = binding.toEditText
-            rangePickersUtil.setupRangeCalendars(
-                it,
-                fromEditText,
-                toEditText
-            ) { searchTimelineMoods() }
-        }
+        val fromEditText = binding.fromEditText
+        val toEditText = binding.toEditText
+        rangePickersUtil.setupRangeCalendars(
+            requireContext(),
+            fromEditText,
+            toEditText,
+            onChangeValueAction = { searchTimelineMoods() }
+        )
     }
 
     private fun searchTimelineMoods() {

@@ -14,8 +14,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.jemiola.moodtimeline.R
 import com.jemiola.moodtimeline.views.navigation.NavigationActivity
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.android.ext.android.inject
+import org.koin.core.component.inject
 import org.threeten.bp.LocalDate
 import java.util.concurrent.atomic.AtomicInteger
 

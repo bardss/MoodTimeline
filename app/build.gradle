@@ -48,12 +48,11 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
-    implementation "org.koin:koin-android:2.1.3"
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.jakewharton.threetenabp:threetenabp:1.3.1'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
@@ -62,21 +61,19 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.airbnb.android:lottie:3.6.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    kapt "androidx.room:room-compiler:2.3.0"
+    kapt "androidx.room:room-compiler:2.4.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
 
     // koin
-    implementation "org.koin:koin-android:2.1.3"
-    implementation "org.koin:koin-androidx-scope:2.1.3"
-    implementation "org.koin:koin-androidx-viewmodel:2.1.3"
+    implementation "io.insert-koin:koin-android:3.1.5"
 
     // room
-    implementation "androidx.room:room-runtime:2.3.0"
-    implementation "androidx.room:room-ktx:2.3.0"
+    implementation "androidx.room:room-runtime:2.4.1"
+    implementation "androidx.room:room-ktx:2.4.1"
 
     // crashlytics
-    implementation 'com.google.firebase:firebase-analytics:20.0.0'
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.5'
+    implementation 'com.google.firebase:firebase-analytics:20.0.2'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.7'
 
     // mvvm
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0"
@@ -90,6 +87,6 @@ dependencies {
     testImplementation "org.koin:koin-test:2.1.3"
 
     // ui tests
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.jemiola.moodtimeline.base.BaseFragmentMVP
 import com.jemiola.moodtimeline.databinding.FragmentNotificationsBinding
 import com.jemiola.moodtimeline.utils.*
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalTime
 import java.util.*

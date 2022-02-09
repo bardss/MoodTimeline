@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -15,6 +16,7 @@ import com.jemiola.moodtimeline.model.data.local.MoodsCountByType
 import com.jemiola.moodtimeline.utils.DateFormatterUtil
 import com.jemiola.moodtimeline.utils.LocaleUtil
 import com.jemiola.moodtimeline.utils.ResUtil
+import com.jemiola.moodtimeline.utils.rangepickers.RangePickersUtil
 import com.jemiola.moodtimeline.views.stats.StatsRange.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.LocalDate
@@ -25,6 +27,7 @@ class StatsFragment : BaseFragment() {
     private lateinit var binding: FragmentStatsBinding
     private val viewModel by viewModel<StatsViewModel>()
     private val dateFormatter = DateFormatterUtil()
+    private val rangePickersUtil = RangePickersUtil()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +38,12 @@ class StatsFragment : BaseFragment() {
             binding = FragmentStatsBinding.inflate(inflater, container, false)
             setupPieChart()
             setupRangeMultipartButton()
+            setupRangeEditTexts()
+            setupRangeOnTextChange()
+            observeChartRange()
+            binding.rangeMultipartButton.clickChildAt(0)
         }
         setupMoodsObserver()
-        binding.rangeMultipartButton.clickChildAt(0)
         return binding.root
     }
 
@@ -49,38 +55,33 @@ class StatsFragment : BaseFragment() {
 
     private fun setupRangeMultipartButton() {
         binding.rangeMultipartButton.setButtonClickListener {
+            val timeNow = LocalDate.now()
             when (it) {
-                ResUtil.getString(resources, R.string.year) -> setChartRange(YEAR)
-                ResUtil.getString(resources, R.string.month) -> setChartRange(MONTH)
-                ResUtil.getString(resources, R.string.week) -> setChartRange(WEEK)
+                ResUtil.getString(resources, R.string.all) ->
+                    viewModel.setChartRange(ALL, timeNow)
+                ResUtil.getString(resources, R.string.year) ->
+                    viewModel.setChartRange(YEAR, timeNow)
+                ResUtil.getString(resources, R.string.month) ->
+                    viewModel.setChartRange(MONTH, timeNow)
+                ResUtil.getString(resources, R.string.week) ->
+                    viewModel.setChartRange(WEEK, timeNow)
             }
         }
     }
 
-    private fun setChartRange(range: StatsRange) {
-        val dateTo = LocalDate.now()
-        val dateFrom = when (range) {
-            YEAR -> dateTo.minusYears(1)
-            MONTH -> dateTo.minusMonths(1)
-            WEEK -> dateTo.minusDays(7)
-        }
-        val locale = LocaleUtil.getSystemLocale(requireContext())
-        val dateToFormatted = dateFormatter.getFormattedDate(locale, dateTo)
-        val dateFromFormatted = dateFormatter.getFormattedDate(locale, dateFrom)
-        val previousFromText = binding.fromEditText.text.toString()
-        if (previousFromText != dateFromFormatted) {
+    private fun observeChartRange() {
+        viewModel.pieChartRange.observe(viewLifecycleOwner) { pieChartRange ->
+            val locale = LocaleUtil.getSystemLocale(requireContext())
+            val dateFromFormatted = dateFormatter.getFormattedDate(locale, pieChartRange.from)
+            val dateToFormatted = dateFormatter.getFormattedDate(locale, pieChartRange.to)
             binding.fromEditText.setText(dateFromFormatted)
-            viewModel.setPieChartDateFrom(dateFrom)
-        }
-        val previousToText = binding.fromEditText.text.toString()
-        if (previousToText != dateToFormatted) {
             binding.toEditText.setText(dateToFormatted)
-            viewModel.setPieChartDateTo(dateTo)
+            viewModel.onPieChartRangeChange()
         }
     }
 
     private fun setupPieChart() {
-        with (binding.chartView) {
+        with(binding.chartView) {
             isHighlightPerTapEnabled = true
             isRotationEnabled = false
             description.isEnabled = false
@@ -126,6 +127,29 @@ class StatsFragment : BaseFragment() {
         val textSize = ResUtil.getDimenDp(resources, R.dimen.text_size_medium).toFloat()
         data.setValueTextSize(textSize)
         data.setValueTypeface(ResUtil.getTypeface(Typefaces.COMFORTAA_BOLD))
+    }
+
+    private fun setupRangeEditTexts() {
+        val fromEditText = binding.fromEditText
+        val toEditText = binding.toEditText
+        rangePickersUtil.setupRangeCalendars(
+            requireContext(),
+            fromEditText,
+            toEditText,
+            onEditTextClick = { binding.rangeMultipartButton.unselectAll() }
+        )
+    }
+
+    private fun setupRangeOnTextChange() {
+        val locale = LocaleUtil.getSystemLocale(requireContext())
+        binding.fromEditText.doAfterTextChanged { text ->
+            val dateFrom = dateFormatter.getDateFromFormattedString(locale, text.toString())
+            viewModel.setPieChartRangeDates(fromDate = dateFrom)
+        }
+        binding.toEditText.doAfterTextChanged { text ->
+            val dateTo = dateFormatter.getDateFromFormattedString(locale, text.toString())
+            viewModel.setPieChartRangeDates(toDate = dateTo)
+        }
     }
 }
 

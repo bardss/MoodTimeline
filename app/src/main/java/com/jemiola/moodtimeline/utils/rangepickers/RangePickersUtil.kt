@@ -5,7 +5,9 @@ import android.content.Context
 import android.text.Editable
 import android.widget.EditText
 import androidx.core.widget.doAfterTextChanged
+import com.jemiola.moodtimeline.utils.DateFormatterUtil
 import com.jemiola.moodtimeline.utils.DefaultTime
+import com.jemiola.moodtimeline.utils.LocaleUtil
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
@@ -13,25 +15,34 @@ import java.util.*
 
 class RangePickersUtil {
 
-    private val rangeFormatter = RangeFormatter()
+    private val dateFormatter = DateFormatterUtil()
 
     fun setupRangeCalendars(
         context: Context,
         fromEditText: EditText,
         toEditText: EditText,
-        onChangeValueAction: (() -> Unit)? = null
+        onChangeValueAction: (() -> Unit)? = null,
+        onEditTextClick: (() -> Unit)? = null
     ) {
         val pickerFrom = createDatePicker(context, fromEditText)
-        fromEditText.setOnClickListener { pickerFrom.show() }
+        fromEditText.setOnClickListener {
+            onEditTextClick?.invoke()
+            pickerFrom.show()
+        }
         val pickerTo = createDatePicker(context, toEditText)
-        toEditText.setOnClickListener { pickerTo.show() }
+        toEditText.setOnClickListener {
+            onEditTextClick?.invoke()
+            pickerTo.show()
+        }
         setupDatePickerBlockades(pickerFrom, pickerTo, fromEditText, toEditText)
         setupSearchTextWatchers(pickerFrom, pickerTo, fromEditText, toEditText, onChangeValueAction)
     }
 
     private fun createOnDatePickedListener(editText: EditText) =
         DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val dateText = rangeFormatter.createDateTextFrom(dayOfMonth, monthOfYear + 1, year)
+            val locale = LocaleUtil.getSystemLocale(editText.context)
+            val dateText =
+                dateFormatter.createDateTextFrom(locale, dayOfMonth, monthOfYear + 1, year)
             editText.setText(dateText)
         }
 
@@ -70,19 +81,20 @@ class RangePickersUtil {
         fromEditText: EditText,
         toEditText: EditText
     ) {
-        if (fromEditText.text?.isNotEmpty() == true) {
+        if (toEditText.text?.isNotEmpty() == true) {
             val toDate = getDateFromView(toEditText)
             fromDatePicker.datePicker.maxDate = getMilisFromDate(toDate)
         }
-        if (toEditText.text?.isNotEmpty() == true) {
+        if (fromEditText.text?.isNotEmpty() == true) {
             val fromDate = getDateFromView(fromEditText)
             toDatePicker.datePicker.minDate = getMilisFromDate(fromDate)
         }
     }
 
     private fun getDateFromView(editText: EditText): LocalDate {
+        val locale = LocaleUtil.getSystemLocale(editText.context)
         val fromDateText = editText.text.toString()
-        val formatter = rangeFormatter.getDefaultSearchDateFormatter()
+        val formatter = dateFormatter.getDateFormat(locale)
         return LocalDate.parse(fromDateText, formatter)
     }
 

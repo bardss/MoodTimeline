@@ -15,7 +15,7 @@ import com.jemiola.moodtimeline.views.moods.MainMoodsFragment
 import com.jemiola.moodtimeline.views.settings.SettingsFragment
 import com.jemiola.moodtimeline.views.stats.StatsFragment
 import com.ncapdevi.fragnav.FragNavController
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 private const val TAB_STATISTICS = FragNavController.TAB1

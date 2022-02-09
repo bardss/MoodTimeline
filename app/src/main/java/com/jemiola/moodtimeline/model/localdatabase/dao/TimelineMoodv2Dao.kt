@@ -24,6 +24,12 @@ interface TimelineMoodv2Dao {
     @Query("SELECT COUNT(*) FROM timelinemooddov2")
     fun getMoodsCount(): Int
 
+    @Query("SELECT date FROM timelinemooddov2 ORDER BY date ASC LIMIT 1")
+    fun getFirstMoodDate(): LocalDate
+
+    @Query("SELECT date FROM timelinemooddov2 ORDER BY date DESC LIMIT 1")
+    fun getLastMoodDate(): LocalDate
+
     @Insert
     fun insert(timelineMood: TimelineMoodDOv2)
 

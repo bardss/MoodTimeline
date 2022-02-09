@@ -2,7 +2,7 @@ package com.jemiola.moodtimeline.base
 
 import com.jemiola.moodtimeline.exceptions.NullResponseException
 import kotlinx.coroutines.*
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseRepositoryMVP : KoinComponent, CoroutineScope {

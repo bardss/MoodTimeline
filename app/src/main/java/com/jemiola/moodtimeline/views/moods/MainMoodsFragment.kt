@@ -10,7 +10,7 @@ import com.jemiola.moodtimeline.utils.viewpager.ViewPagerParentFragment
 import com.jemiola.moodtimeline.views.moods.calendar.CalendarFragment
 import com.jemiola.moodtimeline.views.moods.search.SearchFragment
 import com.jemiola.moodtimeline.views.moods.timeline.TimelineFragment
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class MainMoodsFragment : BaseFragmentMVP(), MainMoodsContract.View, ViewPagerParentFragment {

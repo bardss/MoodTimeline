@@ -26,7 +26,6 @@ class BaseApplication : Application() {
                     mvvmViewsModule
                 )
             )
-            koin.createRootScope()
         }
         applyTheme()
     }

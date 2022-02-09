@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimaryBackground"
     android:orientation="vertical"
     android:padding="18dp">
@@ -33,79 +33,100 @@
         android:translationY="2dp"
         app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
-    <LinearLayout
-        android:id="@+id/pieChartPeriodLayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         app:layout_constraintTop_toBottomOf="@id/titleDividerView">
 
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:text="@string/period"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/text_size_small" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/from_with_semicolon"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/text_size_small" />
+            <LinearLayout
+                android:id="@+id/pieChartPeriodLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.jemiola.moodtimeline.customviews.RalewayEditText
-            android:id="@+id/fromEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:layout_weight="2"
-            android:focusable="false"
-            android:gravity="center"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/text_size_search" />
+                <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/period"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/text_size_small" />
 
-        <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/to_with_semicolon"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/text_size_small" />
+                <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/from_with_semicolon"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/text_size_small" />
 
-        <com.jemiola.moodtimeline.customviews.RalewayEditText
-            android:id="@+id/toEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_weight="2"
-            android:focusable="false"
-            android:gravity="center"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/text_size_search" />
+                <com.jemiola.moodtimeline.customviews.RalewayEditText
+                    android:id="@+id/fromEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="2"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/text_size_search" />
 
-    </LinearLayout>
+                <com.jemiola.moodtimeline.customviews.RalewayRegularTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/to_with_semicolon"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/text_size_small" />
 
-    <com.jemiola.moodtimeline.customviews.MultipartRadioButton
-        android:id="@+id/rangeMultipartButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="3dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="3dp"
-        android:paddingBottom="6dp"
-        app:layout_constraintTop_toBottomOf="@id/pieChartPeriodLayout"
-        app:value1="@string/year"
-        app:value2="@string/month"
-        app:value3="@string/week" />
+                <com.jemiola.moodtimeline.customviews.RalewayEditText
+                    android:id="@+id/toEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="2"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/text_size_search" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chartView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/rangeMultipartButton" />
+            </LinearLayout>
+
+            <com.jemiola.moodtimeline.customviews.MultipartRadioButton
+                android:id="@+id/rangeMultipartButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="3dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="6dp"
+                app:layout_constraintTop_toBottomOf="@id/pieChartPeriodLayout"
+                app:value1="All"
+                app:value2="@string/year"
+                app:value3="@string/month"
+                app:value4="@string/week" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chartView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/rangeMultipartButton" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toBottomOf="@id/chartView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

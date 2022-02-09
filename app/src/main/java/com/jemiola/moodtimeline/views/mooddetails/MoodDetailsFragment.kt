@@ -12,7 +12,7 @@ import com.jemiola.moodtimeline.model.data.local.CircleStateBO
 import com.jemiola.moodtimeline.model.data.local.TimelineMoodBOv2
 import com.jemiola.moodtimeline.utils.AnimUtils
 import com.jemiola.moodtimeline.utils.disableFor
-import org.koin.core.inject
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import org.threeten.bp.LocalDate
 
